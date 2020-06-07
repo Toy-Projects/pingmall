@@ -1,4 +1,4 @@
-# #pinmall
+# #pingmall
 쇼핑몰의 전반적인 시스템을 구현해보기 위한 토이 프로젝트
 
 ## [TABLE](https://www.notion.so/yks095/TABLE-cb15f18742df4ee5a6ac0a45edce3cdc)
