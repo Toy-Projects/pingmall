@@ -1,11 +1,13 @@
 package com.kiseok.pingmall.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
+import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,16 +15,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.stream.Stream;
+import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,16 +39,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class AccountControllerTests {
 
-    private final String ACCOUNT_URL = "/api/accounts/";
-
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
     private AccountRepository accountRepository;
+
+    private final String ACCOUNT_URL = "/api/accounts/";
 
     @AfterEach
     void deleteAll()    {
@@ -159,7 +170,7 @@ class AccountControllerTests {
                 .address("testAddress")
                 .build();
 
-        this.mockMvc.perform(post(ACCOUNT_URL)
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
@@ -170,12 +181,14 @@ class AccountControllerTests {
                 .andExpect(jsonPath("password").doesNotExist())
                 .andExpect(jsonPath("address").exists())
                 .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists())
-        ;
+                .andExpect(jsonPath("createdAt").exists());
+
+        String token = generateToken(actions);
 
         this.mockMvc.perform(get(ACCOUNT_URL + "-1")
                 .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
         ;
@@ -206,10 +219,12 @@ class AccountControllerTests {
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        String token = generateToken(actions);
 
         this.mockMvc.perform(get(ACCOUNT_URL + responseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
@@ -248,6 +263,7 @@ class AccountControllerTests {
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        String token = generateToken(actions);
 
         AccountModifyRequestDto modifyRequestDto = AccountModifyRequestDto.builder()
                 .password(password)
@@ -258,7 +274,8 @@ class AccountControllerTests {
         this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(modifyRequestDto)))
+                .content(objectMapper.writeValueAsString(modifyRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("[*].code").exists())
@@ -279,7 +296,7 @@ class AccountControllerTests {
                 .address("testAddress")
                 .build();
 
-        this.mockMvc.perform(post(ACCOUNT_URL)
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
@@ -292,6 +309,7 @@ class AccountControllerTests {
                 .andExpect(jsonPath("accountRole").exists())
                 .andExpect(jsonPath("createdAt").exists());
 
+        String token = generateToken(actions);
         AccountModifyRequestDto modifyRequestDto = AccountModifyRequestDto.builder()
                 .password("modifiedPassword")
                 .name("modifiedName")
@@ -301,7 +319,8 @@ class AccountControllerTests {
         this.mockMvc.perform(put(ACCOUNT_URL + "-1")
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(modifyRequestDto)))
+                .content(objectMapper.writeValueAsString(modifyRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
         ;
@@ -333,6 +352,7 @@ class AccountControllerTests {
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        String token = generateToken(actions);
 
         String modifiedPassword = "modifiedPassword";
         String modifiedName = "modifiedName";
@@ -347,7 +367,8 @@ class AccountControllerTests {
         this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(modifyRequestDto)))
+                .content(objectMapper.writeValueAsString(modifyRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
@@ -375,7 +396,7 @@ class AccountControllerTests {
                 .address("testAddress")
                 .build();
 
-        this.mockMvc.perform(post(ACCOUNT_URL)
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
@@ -388,9 +409,12 @@ class AccountControllerTests {
                 .andExpect(jsonPath("accountRole").exists())
                 .andExpect(jsonPath("createdAt").exists());
 
+        String token = generateToken(actions);
+
         this.mockMvc.perform(delete(ACCOUNT_URL + "-1")
                 .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
         ;
@@ -421,10 +445,12 @@ class AccountControllerTests {
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        String token = generateToken(actions);
 
         this.mockMvc.perform(delete(ACCOUNT_URL + responseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isOk())
         ;
@@ -453,4 +479,13 @@ class AccountControllerTests {
                 Arguments.of("modifiedTestPassword", "modifiedTestName", " ")
         );
     }
+
+    private String generateToken(ResultActions actions) throws Exception {
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        JwtRequestDto jwtRequestDto = modelMapper.map(responseDto, JwtRequestDto.class);
+
+        return PREFIX + jwtProvider.generateToken(jwtRequestDto);
+    }
+
 }

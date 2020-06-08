@@ -7,7 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Getter @Builder
+@Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class AccountRequestDto {
 

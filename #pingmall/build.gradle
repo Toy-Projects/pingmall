@@ -21,13 +21,17 @@ repositories {
 dependencies {
     // Libraries
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.7'
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.7'
+    // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
 
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
