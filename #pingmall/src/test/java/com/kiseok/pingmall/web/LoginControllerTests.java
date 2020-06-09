@@ -1,55 +1,28 @@
 package com.kiseok.pingmall.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiseok.pingmall.common.domain.account.AccountRepository;
+import com.kiseok.pingmall.web.common.BaseControllerTest;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-public class LoginControllerTests {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    private final String ACCOUNT_URL = "/api/accounts/";
-    private final String LOGIN_URL = "/api/login";
+class LoginControllerTests extends BaseControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -109,10 +82,7 @@ public class LoginControllerTests {
     @DisplayName("정상적으로 로그인 -> 200 OK")
     @Test
     void login_account() throws Exception   {
-        LoginRequestDto requestDto = LoginRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .build();
+        LoginRequestDto requestDto = createLoginRequestDto();
 
         this.mockMvc.perform(post(LOGIN_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -130,7 +100,7 @@ public class LoginControllerTests {
                 Arguments.of(" ", "testPW123!", true),
                 Arguments.of("test@email.com", "", true),
                 Arguments.of("test@email.com", " ", true)
-                );
+        );
     }
 
     private static Stream<Arguments> failedLoginAccount() {
@@ -139,4 +109,5 @@ public class LoginControllerTests {
                 Arguments.of("test@email.com", "kiseokPW123!", true)
         );
     }
+
 }

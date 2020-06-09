@@ -10,3 +10,13 @@ spring:
   h2:
     console:
       enabled: true
+
+app-property:
+  test-email: test@email.com
+  test-password: testPW123!
+  test-modified-password: modifiedPW123!
+  test-name: testName
+  test-modified-name: modifiedName
+  test-address: testAddress
+  test-modified-address: modifiedAddress
+

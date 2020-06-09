@@ -1,60 +1,29 @@
 package com.kiseok.pingmall.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.Account;
-import com.kiseok.pingmall.common.domain.account.AccountRepository;
+import com.kiseok.pingmall.web.common.BaseControllerTest;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
-import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.stream.Stream;
-import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-class AccountControllerTests {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private JwtProvider jwtProvider;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
-    private AccountRepository accountRepository;
-
-    private final String ACCOUNT_URL = "/api/accounts/";
+class AccountControllerTests extends BaseControllerTest {
 
     @AfterEach
     void deleteAll()    {
@@ -90,17 +59,7 @@ class AccountControllerTests {
     @DisplayName("유저 생성 시 중복 -> 400 BAD_REQUEST")
     @Test
     void save_account_duplicate_400() throws Exception  {
-        String email = "test@email.com";
-        String password = "testPassword";
-        String name = "testName";
-        String address = "testAddress";
-
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .address(address)
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -128,17 +87,7 @@ class AccountControllerTests {
     @DisplayName("정상적으로 유저 생성 -> 201 CREATED")
     @Test
     void save_account_201() throws Exception  {
-        String email = "test@email.com";
-        String password = "testPassword";
-        String name = "testName";
-        String address = "testAddress";
-
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email(email)
-                .password(password)
-                .name(name)
-                .address(address)
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -155,20 +104,15 @@ class AccountControllerTests {
         ;
 
         List<Account> accountList = accountRepository.findAll();
-        assertEquals(email, accountList.get(0).getEmail());
-        assertEquals(name, accountList.get(0).getName());
-        assertEquals(address, accountList.get(0).getAddress());
+        assertEquals(appProperties.getTestEmail(), accountList.get(0).getEmail());
+        assertEquals(appProperties.getTestName(), accountList.get(0).getName());
+        assertEquals(appProperties.getTestAddress(), accountList.get(0).getAddress());
     }
 
     @DisplayName("디비에 없는 유저 불러오기 -> 404 NOT_FOUND")
     @Test
     void loadAccount_not_exist_404() throws Exception {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -197,12 +141,7 @@ class AccountControllerTests {
     @DisplayName("정상적으로 유저 불러오기 -> 200 OK")
     @Test
     void load_account_200() throws Exception {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -241,12 +180,7 @@ class AccountControllerTests {
     @ParameterizedTest(name = "{index} {displayName} message={0}")
     @MethodSource("validModifyAccount")
     void modify_account_invalid_400(String password, String name, String address) throws Exception  {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -289,12 +223,7 @@ class AccountControllerTests {
     @DisplayName("디비에 없는 유저 수정 -> 404 NOT_FOUND")
     @Test
     void modify_account_not_exist_404() throws Exception    {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -310,11 +239,7 @@ class AccountControllerTests {
                 .andExpect(jsonPath("createdAt").exists());
 
         String token = generateToken(actions);
-        AccountModifyRequestDto modifyRequestDto = AccountModifyRequestDto.builder()
-                .password("modifiedPassword")
-                .name("modifiedName")
-                .address("modifiedAddress")
-                .build();
+        AccountModifyRequestDto modifyRequestDto = createAccountModifyRequestDto();
 
         this.mockMvc.perform(put(ACCOUNT_URL + "-1")
                 .accept(MediaTypes.HAL_JSON)
@@ -330,12 +255,7 @@ class AccountControllerTests {
     @DisplayName("정상적으로 유저 수정 -> 200 OK")
     @Test
     void modify_account_200() throws Exception  {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -353,16 +273,7 @@ class AccountControllerTests {
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
         String token = generateToken(actions);
-
-        String modifiedPassword = "modifiedPassword";
-        String modifiedName = "modifiedName";
-        String modifiedAddress = "modifiedAddress";
-
-        AccountModifyRequestDto modifyRequestDto = AccountModifyRequestDto.builder()
-                .password(modifiedPassword)
-                .name(modifiedName)
-                .address(modifiedAddress)
-                .build();
+        AccountModifyRequestDto modifyRequestDto = createAccountModifyRequestDto();
 
         this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
@@ -382,19 +293,14 @@ class AccountControllerTests {
 
         List<Account> accountList = accountRepository.findAll();
         assertEquals(requestDto.getEmail(), accountList.get(0).getEmail());
-        assertEquals(modifiedName, accountList.get(0).getName());
-        assertEquals(modifiedAddress, accountList.get(0).getAddress());
+        assertEquals(modifyRequestDto.getName(), accountList.get(0).getName());
+        assertEquals(modifyRequestDto.getAddress(), accountList.get(0).getAddress());
     }
 
     @DisplayName("디비에 없는 유저 삭제 -> 404 NOT_FOUND")
     @Test
     void remove_account_not_exist_404() throws Exception    {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -423,12 +329,7 @@ class AccountControllerTests {
     @DisplayName("정상적으로 유저 삭제")
     @Test
     void remove_account_200() throws Exception  {
-        AccountRequestDto requestDto = AccountRequestDto.builder()
-                .email("test@email.com")
-                .password("testPW123!")
-                .name("testName")
-                .address("testAddress")
-                .build();
+        AccountRequestDto requestDto = createAccountRequestDto();
 
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -479,13 +380,4 @@ class AccountControllerTests {
                 Arguments.of("modifiedTestPassword", "modifiedTestName", " ")
         );
     }
-
-    private String generateToken(ResultActions actions) throws Exception {
-        String contentAsString = actions.andReturn().getResponse().getContentAsString();
-        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
-        JwtRequestDto jwtRequestDto = modelMapper.map(responseDto, JwtRequestDto.class);
-
-        return PREFIX + jwtProvider.generateToken(jwtRequestDto);
-    }
-
 }
