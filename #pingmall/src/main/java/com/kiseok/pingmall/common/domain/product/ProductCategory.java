@@ -1,5 +1,5 @@
 package com.kiseok.pingmall.common.domain.product;
 
 public enum ProductCategory {
-    TOP, BOTTOMS, SHOES
+    TOP, BOTTOMS, SHOES, ACCESSORY
 }

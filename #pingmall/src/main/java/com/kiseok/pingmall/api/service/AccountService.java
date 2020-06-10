@@ -25,8 +25,8 @@ public class AccountService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
-    public ResponseEntity<?> loadAccount(Long id) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
+    public ResponseEntity<?> loadAccount(Long accountId) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if(!optionalAccount.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -48,8 +48,8 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> modifyAccount(Long id, AccountModifyRequestDto requestDto) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
+    public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if(!optionalAccount.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -61,8 +61,8 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> removeAccount(Long id) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
+    public ResponseEntity<?> removeAccount(Long accountId) {
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if(!optionalAccount.isPresent())    {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

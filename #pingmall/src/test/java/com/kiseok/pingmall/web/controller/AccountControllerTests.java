@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.web;
+package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.web.common.BaseControllerTest;
@@ -27,7 +27,7 @@ class AccountControllerTests extends BaseControllerTest {
 
     @AfterEach
     void deleteAll()    {
-        this.accountRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @DisplayName("유저 생성 시 유효성 검사 실패 -> 400 BAD_REQUEST")

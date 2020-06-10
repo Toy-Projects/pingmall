@@ -1,12 +1,14 @@
 package com.kiseok.pingmall.common.domain.product;
 
+import com.kiseok.pingmall.common.domain.account.Account;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter @Setter @Builder
+@Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Entity @Builder
 public class Product {
 
     @Id
@@ -17,7 +19,7 @@ public class Product {
     private String name;
 
     @Column(nullable = false)
-    private int size;
+    private String size;
 
     @Column
     private String image;
@@ -28,4 +30,10 @@ public class Product {
 
     @Column
     private LocalDateTime registeredAt;
+
+    @ManyToOne
+    private Account buyer;
+
+    @ManyToOne
+    private Account seller;
 }

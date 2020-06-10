@@ -1,6 +1,8 @@
-package com.kiseok.pingmall.web;
+package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.AccountService;
+import com.kiseok.pingmall.common.domain.account.Account;
+import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,9 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/{id}")
-    ResponseEntity<?> loadAccount(@PathVariable Long id)    {
-        return accountService.loadAccount(id);
+    @GetMapping("/{accountId}")
+    ResponseEntity<?> loadAccount(@PathVariable Long accountId, @CurrentUser Account currentUser)    {
+        return accountService.loadAccount(accountId);
     }
 
     @PostMapping
@@ -32,18 +34,18 @@ public class AccountController {
         return accountService.saveAccount(requestDto);
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<?> modifyAccount(@PathVariable Long id, @RequestBody @Valid AccountModifyRequestDto requestDto, Errors errors)   {
+    @PutMapping("/{accountId}")
+    ResponseEntity<?> modifyAccount(@PathVariable Long accountId, @RequestBody @Valid AccountModifyRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
         if(errors.hasErrors())  {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        return accountService.modifyAccount(id, requestDto);
+        return accountService.modifyAccount(accountId, requestDto);
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<?> removeAccount(@PathVariable Long id)  {
-        return accountService.removeAccount(id);
+    @DeleteMapping("/{accountId}")
+    ResponseEntity<?> removeAccount(@PathVariable Long accountId, @CurrentUser Account currentUser)  {
+        return accountService.removeAccount(accountId);
     }
 
 }

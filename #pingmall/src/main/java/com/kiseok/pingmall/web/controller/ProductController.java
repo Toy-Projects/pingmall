@@ -1,7 +1,9 @@
-package com.kiseok.pingmall.web;
+package com.kiseok.pingmall.web.controller;
 
-import com.kiseok.pingmall.api.service.LoginService;
-import com.kiseok.pingmall.web.dto.LoginRequestDto;
+import com.kiseok.pingmall.api.service.ProductService;
+import com.kiseok.pingmall.common.domain.account.Account;
+import com.kiseok.pingmall.common.domain.account.CurrentUser;
+import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
@@ -15,17 +17,18 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/login", produces = MediaTypes.HAL_JSON_VALUE)
-public class LoginController {
+@RequestMapping(value = "/api/products", produces = MediaTypes.HAL_JSON_VALUE)
+public class ProductController {
 
-    private final LoginService loginService;
+    private final ProductService productService;
 
     @PostMapping
-    ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto, Errors errors)   {
+    ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
         if(errors.hasErrors())  {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        return loginService.loginAccount(requestDto);
+        return productService.saveProduct(requestDto, currentUser);
     }
+
 }

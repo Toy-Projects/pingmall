@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.web;
+package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.web.common.BaseControllerTest;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;

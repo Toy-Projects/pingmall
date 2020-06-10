@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiseok.pingmall.common.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
+import com.kiseok.pingmall.common.domain.product.ProductRepository;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
@@ -31,6 +32,9 @@ public class BaseControllerTest {
     protected AccountRepository accountRepository;
 
     @Autowired
+    protected ProductRepository productRepository;
+
+    @Autowired
     protected JwtProvider jwtProvider;
 
     @Autowired
@@ -44,6 +48,7 @@ public class BaseControllerTest {
 
     protected final String ACCOUNT_URL = "/api/accounts/";
     protected final String LOGIN_URL = "/api/login";
+    protected final String PRODUCT_URL = "/api/products/";
 
     protected String generateToken(ResultActions actions) throws Exception {
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -54,7 +59,6 @@ public class BaseControllerTest {
     }
 
     protected AccountRequestDto createAccountRequestDto()   {
-        System.out.println(appProperties.getTestAddress());
         return AccountRequestDto.builder()
                 .email(appProperties.getTestEmail())
                 .password(appProperties.getTestPassword())

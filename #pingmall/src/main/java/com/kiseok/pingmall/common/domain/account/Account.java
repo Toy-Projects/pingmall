@@ -1,13 +1,15 @@
 package com.kiseok.pingmall.common.domain.account;
 
+import com.kiseok.pingmall.common.domain.product.Product;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder @EqualsAndHashCode(of = "id")
-@Entity
+@Entity @Table
 public class Account {
 
     @Id
@@ -33,4 +35,9 @@ public class Account {
     @Column
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
+    private Set<Product> buyProducts;
+
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
+    private Set<Product> sellProducts;
 }
