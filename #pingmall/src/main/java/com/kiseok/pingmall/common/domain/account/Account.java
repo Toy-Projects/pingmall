@@ -1,5 +1,7 @@
 package com.kiseok.pingmall.common.domain.account;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.common.domain.product.Product;
 import lombok.*;
 import javax.persistence.*;
@@ -10,6 +12,12 @@ import java.util.Set;
 @NoArgsConstructor @AllArgsConstructor
 @Builder @EqualsAndHashCode(of = "id")
 @Entity @Table
+@JsonIdentityInfo(
+        scope = Account.class,
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
+
 public class Account {
 
     @Id

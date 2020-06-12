@@ -22,6 +22,16 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final AccountRepository accountRepository;
 
+    public ResponseEntity<?> loadProduct(Long productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(!optionalProduct.isPresent())    {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        ProductResponseDto responseDto = modelMapper.map(optionalProduct.get(), ProductResponseDto.class);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, @CurrentUser Account currentUser) {
         Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
         if(!optionalAccount.isPresent())    {

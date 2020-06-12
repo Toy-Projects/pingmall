@@ -9,10 +9,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
@@ -21,6 +18,11 @@ import javax.validation.Valid;
 public class ProductController {
 
     private final ProductService productService;
+
+    @GetMapping("/{productId}")
+    ResponseEntity<?> loadProduct(@PathVariable Long productId)  {
+        return productService.loadProduct(productId);
+    }
 
     @PostMapping
     ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {

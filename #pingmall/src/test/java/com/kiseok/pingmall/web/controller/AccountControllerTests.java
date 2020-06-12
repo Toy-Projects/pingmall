@@ -359,25 +359,25 @@ class AccountControllerTests extends BaseControllerTest {
 
     private static Stream<Arguments> validSaveAccount()   {
         return Stream.of(
-                Arguments.of("", "testPassword", "testName", "testAddress"),
-                Arguments.of(" ", "testPassword", "testName", "testAddress"),
-                Arguments.of("test@email.com", "", "testName", "testAddress"),
-                Arguments.of("test@email.com", " ", "testName", "testAddress"),
-                Arguments.of("test@email.com", "testPassword", "", "testAddress"),
-                Arguments.of("test@email.com", "testPassword", " ", "testAddress"),
-                Arguments.of("test@email.com", "testPassword", "testName", ""),
-                Arguments.of("test@email.com", "testPassword", "testNAme", " ")
+                Arguments.of("", "testPassword", "testName", "testAddress", true),
+                Arguments.of(" ", "testPassword", "testName", "testAddress", true),
+                Arguments.of("test@email.com", "", "testName", "testAddress", true),
+                Arguments.of("test@email.com", " ", "testName", "testAddress", true),
+                Arguments.of("test@email.com", "testPassword", "", "testAddress", true),
+                Arguments.of("test@email.com", "testPassword", " ", "testAddress", true),
+                Arguments.of("test@email.com", "testPassword", "testName", "", true),
+                Arguments.of("test@email.com", "testPassword", "testNAme", " ", true)
         );
     }
 
     private static Stream<Arguments> validModifyAccount()   {
         return Stream.of(
-                Arguments.of("", "modifiedTestName", "modifiedTestAddress"),
-                Arguments.of(" ", "modifiedTestName", "modifiedTestAddress"),
-                Arguments.of("modifiedTestPassword", "", "modifiedTestAddress"),
-                Arguments.of("modifiedTestPassword", " ", "modifiedTestAddress"),
-                Arguments.of("modifiedTestPassword", "modifiedTestName", ""),
-                Arguments.of("modifiedTestPassword", "modifiedTestName", " ")
+                Arguments.of("", "modifiedTestName", "modifiedTestAddress", true),
+                Arguments.of(" ", "modifiedTestName", "modifiedTestAddress", true),
+                Arguments.of("modifiedTestPassword", "", "modifiedTestAddress", true),
+                Arguments.of("modifiedTestPassword", " ", "modifiedTestAddress", true),
+                Arguments.of("modifiedTestPassword", "modifiedTestName", "", true),
+                Arguments.of("modifiedTestPassword", "modifiedTestName", " ", true)
         );
     }
 }
