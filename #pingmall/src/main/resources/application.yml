@@ -17,6 +17,7 @@ app-property:
   test-password: testPW123!
   test-modified-password: modifiedPW123!
   test-name: testName
+  test-balance: 200
   test-modified-name: modifiedName
   test-address: testAddress
   test-modified-address: modifiedAddress

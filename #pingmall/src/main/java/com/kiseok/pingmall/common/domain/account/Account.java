@@ -3,6 +3,7 @@ package com.kiseok.pingmall.common.domain.account;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.common.domain.product.Product;
+import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,6 +38,9 @@ public class Account {
     private String address;
 
     @Column
+    private Long balance;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private AccountRole accountRole;
 
@@ -48,4 +52,8 @@ public class Account {
 
     @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
     private Set<Product> sellProducts;
+
+    public void addBalance(AccountDepositRequestDto requestDto) {
+        this.balance += requestDto.getBalance();
+    }
 }

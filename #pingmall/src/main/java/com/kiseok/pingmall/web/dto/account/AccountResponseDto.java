@@ -12,6 +12,7 @@ public class AccountResponseDto {
     private String email;
     private String name;
     private String address;
+    private Long balance;
     private AccountRole accountRole;
     private LocalDateTime createdAt;
 }

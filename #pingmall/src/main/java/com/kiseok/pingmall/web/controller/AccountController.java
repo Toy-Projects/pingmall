@@ -3,6 +3,7 @@ package com.kiseok.pingmall.web.controller;
 import com.kiseok.pingmall.api.service.AccountService;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
+import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,15 @@ public class AccountController {
         }
 
         return accountService.saveAccount(requestDto);
+    }
+
+    @PutMapping("/{id}/balance")
+    ResponseEntity<?> depositAccount(@PathVariable Long id, @RequestBody @Valid AccountDepositRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
+        if(errors.hasErrors())  {
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        return accountService.depositAccount(id, requestDto);
     }
 
     @PutMapping("/{accountId}")

@@ -15,6 +15,7 @@ public class AppProperties {
     private String testPassword;
     private String testModifiedPassword;
     private String testName;
+    private Long testBalance;
     private String testModifiedName;
     private String testAddress;
     private String testModifiedAddress;

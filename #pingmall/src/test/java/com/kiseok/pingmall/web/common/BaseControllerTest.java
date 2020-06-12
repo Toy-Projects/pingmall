@@ -64,6 +64,7 @@ public class BaseControllerTest {
                 .password(appProperties.getTestPassword())
                 .name(appProperties.getTestName())
                 .address(appProperties.getTestAddress())
+                .balance(appProperties.getTestBalance())
                 .build();
     }
 
