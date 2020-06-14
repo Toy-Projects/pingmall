@@ -33,4 +33,13 @@ public class ProductController {
         return productService.saveProduct(requestDto, currentUser);
     }
 
+    @PutMapping("/{productId}")
+    ResponseEntity<?> modifyProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)    {
+        if(errors.hasErrors())  {
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        return productService.modifyProduct(productId, requestDto, currentUser);
+    }
+
 }

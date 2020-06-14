@@ -45,4 +45,25 @@ public class ProductService {
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
+
+    public ResponseEntity<?> modifyProduct(Long productId, ProductRequestDto requestDto, Account currentUser) {
+        Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(!optionalAccount.isPresent() || !optionalProduct.isPresent())    {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Account account = optionalAccount.get();
+        Product product = optionalProduct.get();
+        if(!product.getSeller().getId().equals(account.getId()))  {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        account.getSellProducts().remove(product);
+        product = requestDto.toEntity(currentUser);
+        account.getSellProducts().add(product);
+        accountRepository.save(account);
+        product = productRepository.save(product);
+        ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
 }

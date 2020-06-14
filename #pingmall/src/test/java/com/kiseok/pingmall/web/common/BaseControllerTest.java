@@ -51,6 +51,7 @@ public class BaseControllerTest {
     protected final String ACCOUNT_URL = "/api/accounts/";
     protected final String LOGIN_URL = "/api/login";
     protected final String PRODUCT_URL = "/api/products/";
+    private final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -66,6 +67,16 @@ public class BaseControllerTest {
                 .password(appProperties.getTestPassword())
                 .name(appProperties.getTestName())
                 .address(appProperties.getTestAddress())
+                .balance(appProperties.getTestBalance())
+                .build();
+    }
+
+    protected AccountRequestDto createAnotherAccountRequestDto()   {
+        return AccountRequestDto.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .password(ANOTHER + appProperties.getTestPassword())
+                .name(ANOTHER + appProperties.getTestName())
+                .address(ANOTHER + appProperties.getTestAddress())
                 .balance(appProperties.getTestBalance())
                 .build();
     }
@@ -93,6 +104,17 @@ public class BaseControllerTest {
                 .price(appProperties.getTestPrice())
                 .stock(appProperties.getTestStock())
                 .category(ProductCategory.ACCESSORY)
+                .build();
+    }
+
+    protected ProductRequestDto createProductModifyRequestDto() {
+        return ProductRequestDto.builder()
+                .name(appProperties.getTestModifiedProductName())
+                .size(appProperties.getTestModifiedSize())
+                .image(appProperties.getTestModifiedImage())
+                .price(appProperties.getTestModifiedPrice())
+                .stock(appProperties.getTestModifiedStock())
+                .category(ProductCategory.TOP)
                 .build();
     }
 

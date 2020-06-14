@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,23 +26,15 @@ class ProductControllerTests extends BaseControllerTest {
 
     @AfterEach
     void deleteAll()    {
-//        productRepository.deleteAll();
-//        accountRepository.deleteAll();
+        productRepository.deleteAll();
+        accountRepository.deleteAll();
     }
 
     @DisplayName("제품 등록 시 유효성 실패 -> 400 BAD_REQUEST")
     @ParameterizedTest(name = "{index} {displayName} message={0}")
-    @MethodSource("validSaveProduct")
+    @MethodSource("validProduct")
     void save_product_invalid_400(String name, String size, Long price, Long stock, ProductCategory category) throws Exception  {
-        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
-                .andDo(print())
-                .andExpect(status().isCreated())
-        ;
-
-        String token = generateToken(actions);
+        String token = createAccountAndToken();
 
         ProductRequestDto requestDto = ProductRequestDto.builder()
                 .name(name)
@@ -85,15 +76,7 @@ class ProductControllerTests extends BaseControllerTest {
     @DisplayName("제품 등록 성공 -> 201 CREATED")
     @Test
     void save_product_201() throws Exception    {
-        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
-                .andDo(print())
-                .andExpect(status().isCreated())
-        ;
-
-        String token = generateToken(actions);
+        String token = createAccountAndToken();
         ProductRequestDto requestDto = createProductRequestDto();
 
         this.mockMvc.perform(post(PRODUCT_URL)
@@ -126,18 +109,10 @@ class ProductControllerTests extends BaseControllerTest {
     @DisplayName("정상적으로 제품 불러오기 -> 200 OK")
     @Test
     void load_product_200() throws Exception    {
-        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
-                .andDo(print())
-                .andExpect(status().isCreated())
-        ;
-
-        String token = generateToken(actions);
+        String token = createAccountAndToken();
         ProductRequestDto requestDto = createProductRequestDto();
 
-        ResultActions actions2 = this.mockMvc.perform(post(PRODUCT_URL)
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto))
@@ -146,7 +121,7 @@ class ProductControllerTests extends BaseControllerTest {
                 .andExpect(status().isCreated())
         ;
 
-        String contentAsString = actions2.andReturn().getResponse().getContentAsString();
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
 
         this.mockMvc.perform(get(PRODUCT_URL + responseDto.getId())
@@ -164,7 +139,163 @@ class ProductControllerTests extends BaseControllerTest {
         ;
     }
 
-    private static Stream<Arguments> validSaveProduct() {
+    @DisplayName("제품 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST")
+    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @MethodSource("validProduct")
+    void modify_product_invalid_400(String name, String size, Long price, Long stock, ProductCategory category) throws Exception {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+
+        requestDto = ProductRequestDto.builder()
+                .name(name)
+                .size(size)
+                .image(appProperties.getTestImage())
+                .price(price)
+                .stock(stock)
+                .category(category)
+                .build();
+
+        this.mockMvc.perform(put(PRODUCT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("[*].code").exists())
+                .andExpect(jsonPath("[*].defaultMessage").exists())
+                .andExpect(jsonPath("[*].field").exists())
+                .andExpect(jsonPath("[*].objectName").exists())
+        ;
+    }
+
+    @DisplayName("DB에 없는 제품 수정 시 -> 404 NOT_FOUND")
+    @Test
+    void modify_product_id_null() throws Exception  {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        requestDto = createProductModifyRequestDto();
+
+        this.mockMvc.perform(put(PRODUCT_URL + "-1")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+        ;
+    }
+
+    @DisplayName("제품 수정한 유저 ID와 제품 Seller의 ID가 다를 시 -> 400 BAD_REQUEST")
+    @Test
+    void modify_product_accountId_not_match_400() throws Exception {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+        String anotherToken = createAnotherAccountAndToken();
+        requestDto = createProductModifyRequestDto();
+
+        this.mockMvc.perform(put(PRODUCT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, anotherToken))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
+
+    @DisplayName("정상적으로 제품 수정 -> 200 OK")
+    @Test
+    void modify_product_200() throws Exception  {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+        requestDto = createProductModifyRequestDto();
+
+        this.mockMvc.perform(put(PRODUCT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestModifiedProductName()))
+                .andExpect(jsonPath("size").value(appProperties.getTestModifiedSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestModifiedPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestModifiedStock()))
+                .andExpect(jsonPath("category").value(ProductCategory.TOP.name()))
+        ;
+    }
+
+    private String createAccountAndToken() throws Exception {
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        return generateToken(actions);
+    }
+
+    private String createAnotherAccountAndToken() throws Exception {
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAnotherAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        return generateToken(actions);
+    }
+
+    private static Stream<Arguments> validProduct() {
         return Stream.of(
                 Arguments.of("", "265", 100L, 1L, ProductCategory.TOP, true),
                 Arguments.of(" ", "265", 100L, 1L, ProductCategory.BOTTOMS, true),

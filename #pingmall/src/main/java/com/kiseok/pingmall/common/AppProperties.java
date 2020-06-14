@@ -26,4 +26,9 @@ public class AppProperties {
     private String testImage;
     private Long testPrice;
     private Long testStock;
+    private String testModifiedProductName;
+    private String testModifiedSize;
+    private String testModifiedImage;
+    private Long testModifiedPrice;
+    private Long testModifiedStock;
 }
