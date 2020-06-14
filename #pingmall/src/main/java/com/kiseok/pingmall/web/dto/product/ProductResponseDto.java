@@ -13,8 +13,10 @@ public class ProductResponseDto {
     private String name;
     private String size;
     private String image;
+    private Long price;
+    private Long stock;
     private ProductCategory category;
     private LocalDateTime registeredAt;
     private Account seller;
-//    private Account buyer
+    private Account buyer;
 }

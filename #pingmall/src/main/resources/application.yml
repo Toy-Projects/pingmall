@@ -21,4 +21,9 @@ app-property:
   test-modified-name: modifiedName
   test-address: testAddress
   test-modified-address: modifiedAddress
+  test-product-name: testProductName
+  test-size: 265
+  test-image: testImage
+  test-price: 10000
+  test_stock: 10
 

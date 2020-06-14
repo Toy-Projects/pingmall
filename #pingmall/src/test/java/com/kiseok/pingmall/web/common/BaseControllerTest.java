@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiseok.pingmall.common.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
+import com.kiseok.pingmall.common.domain.product.ProductCategory;
 import com.kiseok.pingmall.common.domain.product.ProductRepository;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
+import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +82,17 @@ public class BaseControllerTest {
         return LoginRequestDto.builder()
                 .email(appProperties.getTestEmail())
                 .password(appProperties.getTestPassword())
+                .build();
+    }
+
+    protected ProductRequestDto createProductRequestDto() {
+        return ProductRequestDto.builder()
+                .name(appProperties.getTestProductName())
+                .size(appProperties.getTestSize())
+                .image(appProperties.getTestImage())
+                .price(appProperties.getTestPrice())
+                .stock(appProperties.getTestStock())
+                .category(ProductCategory.ACCESSORY)
                 .build();
     }
 

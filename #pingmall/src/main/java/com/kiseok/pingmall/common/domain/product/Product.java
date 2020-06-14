@@ -33,6 +33,12 @@ public class Product {
     private String image;
 
     @Column(nullable = false)
+    private Long price;
+
+    @Column(nullable = false)
+    private Long stock;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Getter @Setter
 public class AppProperties {
 
-    // Account & Login에 필요한 properties
+    // Account & Login
     private String testEmail;
     private String testPassword;
     private String testModifiedPassword;
@@ -20,4 +20,10 @@ public class AppProperties {
     private String testAddress;
     private String testModifiedAddress;
 
+    // Product
+    private String testProductName;
+    private String testSize;
+    private String testImage;
+    private Long testPrice;
+    private Long testStock;
 }

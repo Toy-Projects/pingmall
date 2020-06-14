@@ -27,32 +27,30 @@ class ProductControllerTests extends BaseControllerTest {
 
     @AfterEach
     void deleteAll()    {
-        productRepository.deleteAll();
-        accountRepository.deleteAll();
+//        productRepository.deleteAll();
+//        accountRepository.deleteAll();
     }
 
     @DisplayName("제품 등록 시 유효성 실패 -> 400 BAD_REQUEST")
     @ParameterizedTest(name = "{index} {displayName} message={0}")
     @MethodSource("validSaveProduct")
-    void save_product_invalid_400(String name, String size, ProductCategory category) throws Exception  {
+    void save_product_invalid_400(String name, String size, Long price, Long stock, ProductCategory category) throws Exception  {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(createAccountRequestDto().getEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+        ;
 
         String token = generateToken(actions);
 
         ProductRequestDto requestDto = ProductRequestDto.builder()
                 .name(name)
                 .size(size)
+                .image(appProperties.getTestImage())
+                .price(price)
+                .stock(stock)
                 .category(category)
                 .build();
 
@@ -65,7 +63,6 @@ class ProductControllerTests extends BaseControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("[*].code").exists())
                 .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].rejectedValue").exists())
                 .andExpect(jsonPath("[*].field").exists())
                 .andExpect(jsonPath("[*].objectName").exists())
         ;
@@ -74,11 +71,7 @@ class ProductControllerTests extends BaseControllerTest {
     @DisplayName("제품 등록 시 유저가 null -> 400 BAD_REQUEST")
     @Test
     void save_product_user_null_400() throws Exception  {
-        ProductRequestDto requestDto = ProductRequestDto.builder()
-                .name("롤렉스 서브마리너")
-                .size("XL")
-                .category(ProductCategory.ACCESSORY)
-                .build();
+        ProductRequestDto requestDto = createProductRequestDto();
 
         this.mockMvc.perform(post(PRODUCT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -98,20 +91,10 @@ class ProductControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(createAccountRequestDto().getEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+        ;
 
         String token = generateToken(actions);
-
-        ProductRequestDto requestDto = ProductRequestDto.builder()
-                .name("롤렉스 서브마리너")
-                .size("XL")
-                .category(ProductCategory.ACCESSORY)
-                .build();
+        ProductRequestDto requestDto = createProductRequestDto();
 
         this.mockMvc.perform(post(PRODUCT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -121,8 +104,10 @@ class ProductControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("name").value("롤렉스 서브마리너"))
-                .andExpect(jsonPath("size").value("XL"))
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
         ;
     }
@@ -150,11 +135,7 @@ class ProductControllerTests extends BaseControllerTest {
         ;
 
         String token = generateToken(actions);
-        ProductRequestDto requestDto = ProductRequestDto.builder()
-                .name("롤렉스 서브마리너")
-                .size("XL")
-                .category(ProductCategory.ACCESSORY)
-                .build();
+        ProductRequestDto requestDto = createProductRequestDto();
 
         ResultActions actions2 = this.mockMvc.perform(post(PRODUCT_URL)
                 .accept(MediaTypes.HAL_JSON)
@@ -174,20 +155,24 @@ class ProductControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("name").value("롤렉스 서브마리너"))
-                .andExpect(jsonPath("size").value("XL"))
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("registeredAt").exists())
-//                .andExpect(jsonPath("seller").exists())
         ;
     }
 
     private static Stream<Arguments> validSaveProduct() {
         return Stream.of(
-                Arguments.of("", "265", ProductCategory.TOP, true),
-                Arguments.of(" ", "265", ProductCategory.BOTTOMS, true),
-                Arguments.of("testName", "", ProductCategory.SHOES, true),
-                Arguments.of("testName", " ", ProductCategory.ACCESSORY, true)
+                Arguments.of("", "265", 100L, 1L, ProductCategory.TOP, true),
+                Arguments.of(" ", "265", 100L, 1L, ProductCategory.BOTTOMS, true),
+                Arguments.of("testName", "", 100L, 1L, ProductCategory.SHOES, true),
+                Arguments.of("testName", " ", 100L, 1L, ProductCategory.ACCESSORY, true),
+                Arguments.of("testName", "265", 0L, 1L, ProductCategory.ACCESSORY, true),
+                Arguments.of("testName", "265", null, 1L, ProductCategory.ACCESSORY, true),
+                Arguments.of("testName", "265", 100L, null, ProductCategory.ACCESSORY, true)
         );
     }
 }

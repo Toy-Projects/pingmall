@@ -2,7 +2,6 @@ package com.kiseok.pingmall.api.service;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
-import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.product.ProductRepository;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
@@ -32,7 +31,7 @@ public class ProductService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, @CurrentUser Account currentUser) {
+    public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
         Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
         if(!optionalAccount.isPresent())    {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
