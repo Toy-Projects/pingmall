@@ -66,4 +66,21 @@ public class ProductService {
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
+
+    public ResponseEntity<?> deleteProduct(Long productId, Account currentUser) {
+        Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+        if(!optionalAccount.isPresent() || !optionalProduct.isPresent())    {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Account account = optionalAccount.get();
+        Product product = optionalProduct.get();
+        if(!product.getSeller().getId().equals(account.getId()))  {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        productRepository.delete(product);
+        account.getSellProducts().remove(product);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

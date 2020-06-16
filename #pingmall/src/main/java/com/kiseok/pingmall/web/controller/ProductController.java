@@ -42,4 +42,9 @@ public class ProductController {
         return productService.modifyProduct(productId, requestDto, currentUser);
     }
 
+    @DeleteMapping("/{productId}")
+    ResponseEntity<?> deleteProduct(@PathVariable Long productId, @CurrentUser Account currentUser)    {
+        return productService.deleteProduct(productId, currentUser);
+    }
+
 }

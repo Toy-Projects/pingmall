@@ -15,9 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -270,6 +268,79 @@ class ProductControllerTests extends BaseControllerTest {
                 .andExpect(jsonPath("price").value(appProperties.getTestModifiedPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestModifiedStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.TOP.name()))
+        ;
+    }
+
+    @DisplayName("DB에 없는 제품 삭제시 -> 404 NOT_FOUND")
+    @Test
+    void delete_product_id_null_404() throws Exception  {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        this.mockMvc.perform(delete(PRODUCT_URL + "-1")
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+        ;
+    }
+
+    @DisplayName("제품 삭제한 유저 ID와 제품 Seller의 ID가 다를 시 -> 400 BAD_REQUEST")
+    @Test
+    void delete_product_accountId_not_match_400() throws Exception  {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+        String anotherToken = createAnotherAccountAndToken();
+
+        this.mockMvc.perform(delete(PRODUCT_URL + responseDto.getId())
+                .header(HttpHeaders.AUTHORIZATION, anotherToken))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
+
+    @DisplayName("정상적으로 제품 삭제 -> 200 OK")
+    @Test
+    void delete_product_200() throws Exception  {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+
+        this.mockMvc.perform(delete(PRODUCT_URL + responseDto.getId())
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isOk())
         ;
     }
 
