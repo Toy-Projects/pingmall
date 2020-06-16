@@ -68,6 +68,7 @@ public class AccountService implements UserDetailsService {
         }
 
         Account account = optionalAccount.get();
+        requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         modelMapper.map(requestDto, account);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 

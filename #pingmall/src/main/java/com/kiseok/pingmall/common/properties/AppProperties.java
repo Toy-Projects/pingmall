@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.common;
+package com.kiseok.pingmall.common.properties;
 
 import lombok.Getter;
 import lombok.Setter;

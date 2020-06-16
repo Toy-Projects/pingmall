@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiseok.pingmall.common.AppProperties;
+import com.kiseok.pingmall.common.properties.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;

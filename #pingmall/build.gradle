@@ -24,6 +24,9 @@ dependencies {
     compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.7'
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+
 
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

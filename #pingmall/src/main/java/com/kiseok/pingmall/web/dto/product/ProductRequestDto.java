@@ -3,16 +3,13 @@ package com.kiseok.pingmall.web.dto.product;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Getter @Builder
+@Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class ProductRequestDto {
 

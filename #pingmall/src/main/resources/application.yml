@@ -11,6 +11,11 @@ spring:
   h2:
     console:
       enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      max-request-size: 215MB
 
 app-property:
   test-email: test@email.com
@@ -32,3 +37,5 @@ app-property:
   test-stock: 10
   test-modified-stock: 5
 
+image:
+  location: ./images

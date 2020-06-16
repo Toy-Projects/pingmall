@@ -58,7 +58,7 @@ public class ProductService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         account.getSellProducts().remove(product);
-        product = requestDto.toEntity(currentUser);
+        modelMapper.map(requestDto, product);
         account.getSellProducts().add(product);
         accountRepository.save(account);
         product = productRepository.save(product);
@@ -81,6 +81,6 @@ public class ProductService {
         productRepository.delete(product);
         account.getSellProducts().remove(product);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(accountRepository.save(account), HttpStatus.OK);
     }
 }

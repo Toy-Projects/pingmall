@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-
 public class Product {
 
     @Id

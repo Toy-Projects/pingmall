@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.common.domain.account;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
@@ -18,7 +19,6 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-
 public class Account {
 
     @Id
@@ -28,6 +28,7 @@ public class Account {
     @Column(nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

@@ -1,12 +1,9 @@
 package com.kiseok.pingmall.web.dto.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import javax.validation.constraints.NotBlank;
 
-@Getter @Builder
+@Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class AccountModifyRequestDto {
 
