@@ -51,6 +51,7 @@ public class BaseControllerTest {
     protected final String ACCOUNT_URL = "/api/accounts/";
     protected final String LOGIN_URL = "/api/login";
     protected final String PRODUCT_URL = "/api/products/";
+    protected final String IMAGE_URL = "/api/images/";
     private final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {

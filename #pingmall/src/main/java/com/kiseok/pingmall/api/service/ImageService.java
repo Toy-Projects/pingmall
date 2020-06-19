@@ -108,7 +108,7 @@ public class ImageService {
         product.setImage(imagePath);
         ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> saveDefaultProductImage(Long productId, HttpServletRequest request, Account currentUser) {
@@ -127,6 +127,6 @@ public class ImageService {
         product.setImage(imagePath);
         ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 }

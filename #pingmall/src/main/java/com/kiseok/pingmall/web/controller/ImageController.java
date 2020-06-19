@@ -22,7 +22,7 @@ public class ImageController {
         return imageService.loadImage(imagePath, request);
     }
 
-    @PutMapping("/products/{productId}")
+    @PostMapping("/products/{productId}")
     ResponseEntity<?> saveProductImage(@PathVariable Long productId, @RequestParam(name = "file", required = false) MultipartFile file,
                                        HttpServletRequest request, @CurrentUser Account currentUser) throws IOException {
         if(file == null)    {
