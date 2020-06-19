@@ -25,7 +25,7 @@ public class ProductController {
     }
 
     @PostMapping
-    ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
+    ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)  {
         if(errors.hasErrors()) {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
