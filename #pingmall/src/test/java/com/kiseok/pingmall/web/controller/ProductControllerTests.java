@@ -344,6 +344,34 @@ class ProductControllerTests extends BaseControllerTest {
         ;
     }
 
+    @DisplayName("cascade test")
+    @Test
+    void test_cascade_all() throws Exception    {
+        String token = createAccountAndToken();
+        ProductRequestDto requestDto = createProductRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
+        Long accountId =  responseDto.getSeller().getId();
+
+        this.mockMvc.perform(delete(ACCOUNT_URL + accountId)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+    }
+
     private String createAccountAndToken() throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)

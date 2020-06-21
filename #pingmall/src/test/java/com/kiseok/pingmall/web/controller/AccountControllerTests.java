@@ -261,6 +261,46 @@ class AccountControllerTests extends BaseControllerTest {
         ;
     }
 
+    @DisplayName("예금할 유저 ID와 시도한 유저 ID가 다를 경우 -> 400 BAD_REQUEST")
+    @Test
+    void deposit_account_id_not_match_400() throws Exception    {
+        AccountRequestDto requestDto = createAccountRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        AccountDepositRequestDto depositRequestDto = AccountDepositRequestDto.builder()
+                .balance(10000L)
+                .build();
+
+        AccountRequestDto requestDto2 = createAnotherAccountRequestDto();
+
+        ResultActions actions2 = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto2)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+        String jwt = generateToken(actions2);
+
+        this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId() + "/balance")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(depositRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
+
     @DisplayName("인증 없이 예금 시 -> 401 UNATHORIZED")
     @Test
     void deposit_account_unauthoized_401() throws Exception   {
@@ -416,6 +456,44 @@ class AccountControllerTests extends BaseControllerTest {
         ;
     }
 
+    @DisplayName("수정할 유저 ID와 시도한 유저 ID가 다를 경우 -> 400 BAD_REQUEST")
+    @Test
+    void modify_account_id_not_match_400() throws Exception {
+        AccountRequestDto requestDto = createAccountRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        AccountModifyRequestDto modifyRequestDto = createAccountModifyRequestDto();
+        AccountRequestDto requestDto2 = createAnotherAccountRequestDto();
+
+        ResultActions actions2 = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto2)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String token = generateToken(actions2);
+
+        this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(modifyRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+        ;
+    }
+
     @DisplayName("정상적으로 유저 수정 -> 200 OK")
     @Test
     void modify_account_200() throws Exception  {
@@ -490,6 +568,42 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+        ;
+    }
+
+    @DisplayName("삭제할 유저 ID와 시도한 유저ID가 다를 경우 -> 400 BAD_REQUEST")
+    @Test
+    void delete_account_id_not_match_400() throws Exception {
+        AccountRequestDto requestDto = createAccountRequestDto();
+
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+        AccountRequestDto requestDto2 = createAnotherAccountRequestDto();
+
+        ResultActions actions2 = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto2)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        String token = generateToken(actions2);
+
+        this.mockMvc.perform(delete(ACCOUNT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, token))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
         ;
     }
 

@@ -49,25 +49,30 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> depositAccount(Long id, AccountDepositRequestDto requestDto) {
+    public ResponseEntity<?> depositAccount(Long id, AccountDepositRequestDto requestDto, Account currentUser) {
         Optional<Account> optionalAccount = accountRepository.findById(id);
         if(!optionalAccount.isPresent())    {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Account account = optionalAccount.get();
+        if(!account.getId().equals(currentUser.getId()))    {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         account.addBalance(requestDto);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto) {
+    public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto, Account currentUser) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if(!optionalAccount.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         Account account = optionalAccount.get();
+        if(!account.getId().equals(currentUser.getId()))    {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         modelMapper.map(requestDto, account);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
@@ -75,12 +80,15 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<?> removeAccount(Long accountId) {
+    public ResponseEntity<?> removeAccount(Long accountId, Account currentUser) {
         Optional<Account> optionalAccount = accountRepository.findById(accountId);
         if(!optionalAccount.isPresent())    {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
+        Account account = optionalAccount.get();
+        if(!account.getId().equals(currentUser.getId()))    {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         accountRepository.delete(optionalAccount.get());
 
         return new ResponseEntity<>(HttpStatus.OK);

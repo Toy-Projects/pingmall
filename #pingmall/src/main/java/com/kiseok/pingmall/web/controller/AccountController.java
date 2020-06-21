@@ -22,7 +22,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/{accountId}")
-    ResponseEntity<?> loadAccount(@PathVariable Long accountId, @CurrentUser Account currentUser)    {
+    ResponseEntity<?> loadAccount(@PathVariable Long accountId)    {
         return accountService.loadAccount(accountId);
     }
 
@@ -41,7 +41,7 @@ public class AccountController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        return accountService.depositAccount(id, requestDto);
+        return accountService.depositAccount(id, requestDto, currentUser);
     }
 
     @PutMapping("/{accountId}")
@@ -50,12 +50,12 @@ public class AccountController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        return accountService.modifyAccount(accountId, requestDto);
+        return accountService.modifyAccount(accountId, requestDto, currentUser);
     }
 
     @DeleteMapping("/{accountId}")
     ResponseEntity<?> removeAccount(@PathVariable Long accountId, @CurrentUser Account currentUser)  {
-        return accountService.removeAccount(accountId);
+        return accountService.removeAccount(accountId, currentUser);
     }
 
 }

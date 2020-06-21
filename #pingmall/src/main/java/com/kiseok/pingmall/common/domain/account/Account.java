@@ -51,7 +51,7 @@ public class Account {
     @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
     private Set<Product> buyProducts;
 
-    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Product> sellProducts;
 
     public void addBalance(AccountDepositRequestDto requestDto) {
