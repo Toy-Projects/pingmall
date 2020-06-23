@@ -4,9 +4,7 @@ import com.kiseok.pingmall.api.service.LoginService;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +19,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping
-    ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto, Errors errors)   {
-        if(errors.hasErrors())  {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto)   {
         return loginService.loginAccount(requestDto);
     }
 }

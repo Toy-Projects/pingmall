@@ -1,5 +1,7 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.image.*;
+import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.product.ProductRepository;
@@ -26,7 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -59,8 +60,7 @@ public class ImageService {
                 try {
                     contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
                 } catch (IOException ex) {
-//                logger.info("Could not determine file type.");
-                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                    throw new FileInvalidException();
                 }
                 if(contentType == null) {
                     contentType = "application/octet-stream";
@@ -72,27 +72,23 @@ public class ImageService {
                         .body(resource);
             }
             else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                throw new FileNotFoundException();
             }
         }
         catch(MalformedURLException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new FilePathInvalidException();
         }
     }
 
     public ResponseEntity<?> saveProductImage(Long productId, MultipartFile file, HttpServletRequest request, Account currentUser) throws IOException {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if(!optionalProduct.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Product product = optionalProduct.get();
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String extension = FilenameUtils.getExtension(fileName);
         if(fileName.contains("..")) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new FileNameInvalidException();
         }
         else if(!"png".equals(extension) && !"jpg".equals(extension) && !"jpeg".equals(extension))  {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new FileExtensionInvalidException();
         }
 
         String requestUri = request.getRequestURI() + "/";
@@ -112,11 +108,7 @@ public class ImageService {
     }
 
     public ResponseEntity<?> saveDefaultProductImage(Long productId, HttpServletRequest request, Account currentUser) {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if(!optionalProduct.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        Product product = optionalProduct.get();
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         String imagePrefix = currentUser.getEmail() + "_" + product.getName();
         String fileName = UUID.randomUUID().toString() + "_" + imagePrefix + "_" + DEFAULT_IMAGE;
         String requestUri = request.getRequestURI() + "/";

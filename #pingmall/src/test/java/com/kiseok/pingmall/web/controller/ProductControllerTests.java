@@ -50,14 +50,16 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
         ;
     }
 
-    @DisplayName("제품 등록 시 유저가 null -> 400 BAD_REQUEST")
+    @DisplayName("제품 등록 시 유저가 null -> 401 UNAUTHORIZED")
     @Test
     void save_product_user_null_400() throws Exception  {
         ProductRequestDto requestDto = createProductRequestDto();
@@ -101,6 +103,9 @@ class ProductControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
         ;
     }
 
@@ -172,10 +177,12 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
         ;
     }
 
@@ -203,6 +210,9 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
         ;
     }
 
@@ -233,6 +243,9 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, anotherToken))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
         ;
     }
 
@@ -290,6 +303,9 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
         ;
     }
 
@@ -316,6 +332,9 @@ class ProductControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, anotherToken))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
         ;
     }
 

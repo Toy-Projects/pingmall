@@ -6,9 +6,7 @@ import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -25,20 +23,12 @@ public class ProductController {
     }
 
     @PostMapping
-    ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)  {
-        if(errors.hasErrors()) {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, @CurrentUser Account currentUser)  {
         return productService.saveProduct(requestDto, currentUser);
     }
 
     @PutMapping("/{productId}")
-    ResponseEntity<?> modifyProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)    {
-        if(errors.hasErrors())  {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> modifyProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequestDto requestDto, @CurrentUser Account currentUser)    {
         return productService.modifyProduct(productId, requestDto, currentUser);
     }
 

@@ -1,5 +1,8 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.account.UserDuplicatedException;
+import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
+import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountAdapter;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
@@ -27,11 +30,7 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
 
     public ResponseEntity<?> loadAccount(Long accountId) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if(!optionalAccount.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
+        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
         AccountResponseDto responseDto = modelMapper.map(account, AccountResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
@@ -40,8 +39,9 @@ public class AccountService implements UserDetailsService {
     public ResponseEntity<?> saveAccount(AccountRequestDto requestDto) {
         Optional<Account> optionalAccount = accountRepository.findByEmail(requestDto.getEmail());
         if(optionalAccount.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserDuplicatedException();
         }
+
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Account savedAccount = accountRepository.save(requestDto.toEntity());
         AccountResponseDto responseDto = modelMapper.map(savedAccount, AccountResponseDto.class);
@@ -49,15 +49,12 @@ public class AccountService implements UserDetailsService {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> depositAccount(Long id, AccountDepositRequestDto requestDto, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
-        if(!optionalAccount.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
+    public ResponseEntity<?> depositAccount(Long accountId, AccountDepositRequestDto requestDto, Account currentUser) {
+        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
         if(!account.getId().equals(currentUser.getId()))    {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserIdNotMatchException();
         }
+
         account.addBalance(requestDto);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
@@ -65,14 +62,11 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if(!optionalAccount.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
+        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
         if(!account.getId().equals(currentUser.getId()))    {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserIdNotMatchException();
         }
+
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         modelMapper.map(requestDto, account);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
@@ -81,15 +75,12 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity<?> removeAccount(Long accountId, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(accountId);
-        if(!optionalAccount.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
+        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
         if(!account.getId().equals(currentUser.getId()))    {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserIdNotMatchException();
         }
-        accountRepository.delete(optionalAccount.get());
+
+        accountRepository.delete(account);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

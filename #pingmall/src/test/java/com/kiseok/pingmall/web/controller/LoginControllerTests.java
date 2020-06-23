@@ -53,11 +53,12 @@ class LoginControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].rejectedValue").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
         ;
     }
 

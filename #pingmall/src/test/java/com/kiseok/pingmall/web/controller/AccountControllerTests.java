@@ -50,11 +50,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].rejectedValue").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
 
         ;
     }
@@ -85,6 +86,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -142,6 +147,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -219,11 +228,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, jwt))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].rejectedValue").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
         ;
     }
 
@@ -258,6 +268,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, jwt))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -298,15 +312,19 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, jwt))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
-    @DisplayName("인증 없이 예금 시 -> 401 UNATHORIZED")
+    @DisplayName("인증 없이 예금 시 -> 401 UNAUTHORIZED")
     @Test
-    void deposit_account_unauthoized_401() throws Exception   {
+    void deposit_account_unauthorized_401() throws Exception   {
         AccountRequestDto requestDto = createAccountRequestDto();
 
-        this.mockMvc.perform(post(ACCOUNT_URL)
+        ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDto)))
@@ -321,11 +339,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andExpect(jsonPath("createdAt").exists())
         ;
 
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
+
         AccountDepositRequestDto depositRequestDto = AccountDepositRequestDto.builder()
                 .balance(100L)
                 .build();
 
-        this.mockMvc.perform(put(ACCOUNT_URL + "-1/balance")
+        this.mockMvc.perform(put(ACCOUNT_URL + responseDto.getId() + "/balance")
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(depositRequestDto)))
@@ -416,11 +437,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("[*].code").exists())
-                .andExpect(jsonPath("[*].defaultMessage").exists())
-                .andExpect(jsonPath("[*].rejectedValue").exists())
-                .andExpect(jsonPath("[*].field").exists())
-                .andExpect(jsonPath("[*].objectName").exists())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
         ;
     }
 
@@ -453,6 +475,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -491,6 +517,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -568,6 +598,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -604,6 +638,10 @@ class AccountControllerTests extends BaseControllerTest {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 

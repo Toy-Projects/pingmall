@@ -1,5 +1,8 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
+import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
+import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
 import com.kiseok.pingmall.common.domain.product.Product;
@@ -11,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,21 +24,14 @@ public class ProductService {
     private final AccountRepository accountRepository;
 
     public ResponseEntity<?> loadProduct(Long productId) {
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if(!optionalProduct.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        ProductResponseDto responseDto = modelMapper.map(optionalProduct.get(), ProductResponseDto.class);
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
-        if(!optionalAccount.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
+        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);
         accountRepository.save(account);
@@ -47,15 +42,10 @@ public class ProductService {
     }
 
     public ResponseEntity<?> modifyProduct(Long productId, ProductRequestDto requestDto, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if(!optionalAccount.isPresent() || !optionalProduct.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
-        Product product = optionalProduct.get();
+        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         if(!product.getSeller().getId().equals(account.getId()))  {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserIdNotMatchException();
         }
         account.getSellProducts().remove(product);
         modelMapper.map(requestDto, product);
@@ -68,15 +58,10 @@ public class ProductService {
     }
 
     public ResponseEntity<?> deleteProduct(Long productId, Account currentUser) {
-        Optional<Account> optionalAccount = accountRepository.findById(currentUser.getId());
-        Optional<Product> optionalProduct = productRepository.findById(productId);
-        if(!optionalAccount.isPresent() || !optionalProduct.isPresent())    {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Account account = optionalAccount.get();
-        Product product = optionalProduct.get();
+        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
+        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
         if(!product.getSeller().getId().equals(account.getId()))  {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new UserIdNotMatchException();
         }
         productRepository.delete(product);
         account.getSellProducts().remove(product);

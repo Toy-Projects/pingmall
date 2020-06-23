@@ -39,10 +39,14 @@ class ImageControllerTests extends BaseControllerTest {
 
         String token = generateToken(actions);
 
-        this.mockMvc.perform(multipart(IMAGE_URL + "product/-1")
+        this.mockMvc.perform(multipart(IMAGE_URL + "products/-1")
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+        ;
     }
 
     @DisplayName("정상적으로 디폴트 이미지 저장 -> 200 OK")
@@ -103,11 +107,15 @@ class ImageControllerTests extends BaseControllerTest {
         MockMultipartFile file =
                 new MockMultipartFile("file","test.png" , MediaType.IMAGE_PNG_VALUE, "test image".getBytes());
 
-        this.mockMvc.perform(multipart(IMAGE_URL + "product/-1")
+        this.mockMvc.perform(multipart(IMAGE_URL + "products/-1")
                 .file(file)
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+        ;
     }
 
     @DisplayName("파일 이름에 '..' 이 있을 경우 -> 400 BAD_REQUEST")
@@ -139,7 +147,11 @@ class ImageControllerTests extends BaseControllerTest {
                 .file(file)
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+        ;
     }
 
     @DisplayName("이미지가 아닌 파일 저장 시 -> 400 BAD_REQUEST")
@@ -172,7 +184,11 @@ class ImageControllerTests extends BaseControllerTest {
                 .file(file)
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+        ;
     }
 
     @DisplayName("정상적으로 이미지 저장 -> 200 OK")

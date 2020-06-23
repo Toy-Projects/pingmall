@@ -8,9 +8,7 @@ import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
@@ -22,34 +20,22 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/{accountId}")
-    ResponseEntity<?> loadAccount(@PathVariable Long accountId)    {
+    ResponseEntity<?> loadAccount(@PathVariable Long accountId)   {
         return accountService.loadAccount(accountId);
     }
 
     @PostMapping
-    ResponseEntity<?> saveAccount(@RequestBody @Valid AccountRequestDto requestDto, Errors errors) {
-        if(errors.hasErrors())  {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> saveAccount(@RequestBody @Valid AccountRequestDto requestDto) {
         return accountService.saveAccount(requestDto);
     }
 
     @PutMapping("/{id}/balance")
-    ResponseEntity<?> depositAccount(@PathVariable Long id, @RequestBody @Valid AccountDepositRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
-        if(errors.hasErrors())  {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> depositAccount(@PathVariable Long id, @RequestBody @Valid AccountDepositRequestDto requestDto, @CurrentUser Account currentUser)   {
         return accountService.depositAccount(id, requestDto, currentUser);
     }
 
     @PutMapping("/{accountId}")
-    ResponseEntity<?> modifyAccount(@PathVariable Long accountId, @RequestBody @Valid AccountModifyRequestDto requestDto, Errors errors, @CurrentUser Account currentUser)   {
-        if(errors.hasErrors())  {
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
+    ResponseEntity<?> modifyAccount(@PathVariable Long accountId, @RequestBody @Valid AccountModifyRequestDto requestDto, @CurrentUser Account currentUser)   {
         return accountService.modifyAccount(accountId, requestDto, currentUser);
     }
 

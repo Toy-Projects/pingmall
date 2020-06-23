@@ -1,5 +1,6 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,12 +28,9 @@ public class LoginService {
         if(!authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword()))    {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        Optional<Account> optionalAccount = accountRepository.findByEmail(loginRequestDto.getEmail());
-        if(!optionalAccount.isPresent())  {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        String jwt = jwtProvider.generateToken(new JwtRequestDto(
-                optionalAccount.get().getId(), loginRequestDto.getEmail()));
+
+        Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(UserNotFoundException::new);
+        String jwt = jwtProvider.generateToken(new JwtRequestDto(account.getId(), loginRequestDto.getEmail()));
 
         return new ResponseEntity<>(new JwtResponseDto(jwt), HttpStatus.OK);
     }
