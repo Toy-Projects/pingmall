@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.web.common;
+package com.kiseok.pingmall.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiseok.pingmall.common.properties.AppProperties;
@@ -25,7 +25,7 @@ import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class BaseControllerTest {
+public class BaseControllerTests {
 
     @Autowired
     protected MockMvc mockMvc;
@@ -52,7 +52,7 @@ public class BaseControllerTest {
     protected final String LOGIN_URL = "/api/login";
     protected final String PRODUCT_URL = "/api/products/";
     protected final String IMAGE_URL = "/api/images/";
-    private final String ANOTHER = "another_";
+    protected final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
         String contentAsString = actions.andReturn().getResponse().getContentAsString();

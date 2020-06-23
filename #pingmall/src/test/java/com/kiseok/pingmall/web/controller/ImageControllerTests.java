@@ -1,7 +1,8 @@
 package com.kiseok.pingmall.web.controller;
 
+import com.kiseok.pingmall.common.domain.account.AccountRole;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
-import com.kiseok.pingmall.web.common.BaseControllerTest;
+import com.kiseok.pingmall.web.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ImageControllerTests extends BaseControllerTest {
+class ImageControllerTests extends BaseControllerTests {
 
     @AfterEach
-    void deleteAll()    {
+    void tearDown()    {
         productRepository.deleteAll();
         accountRepository.deleteAll();
     }
@@ -35,7 +36,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(actions);
 
@@ -57,7 +67,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(accountActions);
 
@@ -67,7 +86,17 @@ class ImageControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(createProductRequestDto()))
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
+        ;
 
         String productAsString = productActions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto = objectMapper.readValue(productAsString, ProductResponseDto.class);
@@ -78,11 +107,13 @@ class ImageControllerTests extends BaseControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
-                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
                 .andExpect(jsonPath("image").exists())
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
                 ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();
@@ -101,7 +132,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(actions);
         MockMultipartFile file =
@@ -126,7 +166,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(accountActions);
 
@@ -136,7 +185,17 @@ class ImageControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(createProductRequestDto()))
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
+        ;
 
         String contentAsString = productActions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
@@ -163,7 +222,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(accountActions);
 
@@ -173,7 +241,17 @@ class ImageControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(createProductRequestDto()))
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
+        ;
 
         String contentAsString = productActions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
@@ -200,7 +278,16 @@ class ImageControllerTests extends BaseControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createAccountRequestDto())))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(accountActions);
 
@@ -210,7 +297,17 @@ class ImageControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(createProductRequestDto()))
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
+        ;
 
         String productAsString = productActions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto = objectMapper.readValue(productAsString, ProductResponseDto.class);
@@ -224,11 +321,13 @@ class ImageControllerTests extends BaseControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
-                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
                 .andExpect(jsonPath("image").exists())
+                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                .andExpect(jsonPath("registeredAt").exists())
+                .andExpect(jsonPath("seller").exists())
         ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();

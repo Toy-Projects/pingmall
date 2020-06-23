@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
-import com.kiseok.pingmall.web.common.BaseControllerTest;
+import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.web.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class LoginControllerTests extends BaseControllerTest {
+class LoginControllerTests extends BaseControllerTests {
 
     @BeforeEach
     void setUp() throws Exception {
@@ -30,11 +31,19 @@ class LoginControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
     }
 
     @AfterEach
-    void deleteAll()    {
+    void tearDown()    {
         this.accountRepository.deleteAll();
     }
 

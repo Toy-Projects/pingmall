@@ -81,7 +81,7 @@ public class ImageService {
     }
 
     public ResponseEntity<?> saveProductImage(Long productId, MultipartFile file, HttpServletRequest request, Account currentUser) throws IOException {
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        Product product = isProductExist(productId);
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String extension = FilenameUtils.getExtension(fileName);
         if(fileName.contains("..")) {
@@ -108,7 +108,7 @@ public class ImageService {
     }
 
     public ResponseEntity<?> saveDefaultProductImage(Long productId, HttpServletRequest request, Account currentUser) {
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        Product product = isProductExist(productId);
         String imagePrefix = currentUser.getEmail() + "_" + product.getName();
         String fileName = UUID.randomUUID().toString() + "_" + imagePrefix + "_" + DEFAULT_IMAGE;
         String requestUri = request.getRequestURI() + "/";
@@ -120,5 +120,9 @@ public class ImageService {
         ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+    }
+
+    private Product isProductExist(Long productId) {
+        return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
     }
 }

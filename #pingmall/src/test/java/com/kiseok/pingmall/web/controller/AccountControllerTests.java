@@ -1,7 +1,8 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
-import com.kiseok.pingmall.web.common.BaseControllerTest;
+import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.web.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
@@ -25,10 +26,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class AccountControllerTests extends BaseControllerTest {
+class AccountControllerTests extends BaseControllerTests {
 
     @AfterEach
-    void deleteAll()    {
+    void tearDown()    {
         accountRepository.deleteAll();
     }
 
@@ -56,7 +57,6 @@ class AccountControllerTests extends BaseControllerTest {
                 .andExpect(jsonPath("errors.[*].field").exists())
                 .andExpect(jsonPath("errors.[*].value").exists())
                 .andExpect(jsonPath("errors.[*].reason").exists())
-
         ;
     }
 
@@ -72,11 +72,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("createdAt").exists())
         ;
 
@@ -105,11 +106,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("createdAt").exists())
         ;
 
@@ -118,6 +120,7 @@ class AccountControllerTests extends BaseControllerTest {
         assertEquals(appProperties.getTestName(), accountList.get(0).getName());
         assertEquals(appProperties.getTestAddress(), accountList.get(0).getAddress());
         assertEquals(appProperties.getTestBalance(), accountList.get(0).getBalance());
+        assertEquals(AccountRole.USER.name(), accountList.get(0).getAccountRole().name());
     }
 
     @DisplayName("디비에 없는 유저 불러오기 -> 404 NOT_FOUND")
@@ -132,12 +135,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(actions);
 
@@ -166,12 +171,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
@@ -207,12 +214,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String jwt = generateToken(actions);
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -249,12 +258,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String jwt = generateToken(actions);
         AccountDepositRequestDto depositRequestDto = AccountDepositRequestDto.builder()
@@ -286,6 +297,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -302,6 +321,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto2)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(ANOTHER + appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(ANOTHER + appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
         String jwt = generateToken(actions2);
 
@@ -331,11 +358,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("createdAt").exists())
         ;
 
@@ -367,12 +395,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String jwt = generateToken(actions);
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -389,11 +419,12 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(300L))
-                .andExpect(jsonPath("accountRole").exists())
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("createdAt").exists())
         ;
     }
@@ -413,12 +444,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
@@ -458,12 +491,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(actions);
         AccountModifyRequestDto modifyRequestDto = createAccountModifyRequestDto();
@@ -493,6 +528,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -506,6 +549,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto2)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(ANOTHER + appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(ANOTHER + appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions2);
@@ -536,12 +587,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);
@@ -583,12 +636,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String token = generateToken(actions);
 
@@ -616,6 +671,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -628,6 +691,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .content(objectMapper.writeValueAsString(requestDto2)))
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(ANOTHER + appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(ANOTHER + appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions2);
@@ -657,12 +728,14 @@ class AccountControllerTests extends BaseControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(requestDto.getEmail()))
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
                 .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("address").exists())
-                .andExpect(jsonPath("balance").exists())
-                .andExpect(jsonPath("accountRole").exists())
-                .andExpect(jsonPath("createdAt").exists());
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("createdAt").exists())
+        ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         AccountResponseDto responseDto = objectMapper.readValue(contentAsString, AccountResponseDto.class);

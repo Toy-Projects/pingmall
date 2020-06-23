@@ -29,7 +29,7 @@ public class LoginService {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Account account = accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(UserNotFoundException::new);
+        Account account = isUserExist(loginRequestDto);
         String jwt = jwtProvider.generateToken(new JwtRequestDto(account.getId(), loginRequestDto.getEmail()));
 
         return new ResponseEntity<>(new JwtResponseDto(jwt), HttpStatus.OK);
@@ -42,5 +42,9 @@ public class LoginService {
         } catch (DisabledException | BadCredentialsException e) {
             return false;
         }
+    }
+
+    private Account isUserExist(LoginRequestDto loginRequestDto) {
+        return accountRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(UserNotFoundException::new);
     }
 }

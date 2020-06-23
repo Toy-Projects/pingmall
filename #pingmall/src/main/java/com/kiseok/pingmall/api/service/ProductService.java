@@ -24,14 +24,14 @@ public class ProductService {
     private final AccountRepository accountRepository;
 
     public ResponseEntity<?> loadProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+        Product product = isProductExist(productId);
         ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
-        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
+        Account account = isUserExist(currentUser);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);
         accountRepository.save(account);
@@ -42,11 +42,9 @@ public class ProductService {
     }
 
     public ResponseEntity<?> modifyProduct(Long productId, ProductRequestDto requestDto, Account currentUser) {
-        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
-        if(!product.getSeller().getId().equals(account.getId()))  {
-            throw new UserIdNotMatchException();
-        }
+        Account account = isUserExist(currentUser);
+        Product product = isProductExist(productId);
+        isUserIdMatch(account, product);
         account.getSellProducts().remove(product);
         modelMapper.map(requestDto, product);
         account.getSellProducts().add(product);
@@ -58,14 +56,26 @@ public class ProductService {
     }
 
     public ResponseEntity<?> deleteProduct(Long productId, Account currentUser) {
-        Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
-        Product product = productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
-        if(!product.getSeller().getId().equals(account.getId()))  {
-            throw new UserIdNotMatchException();
-        }
+        Account account = isUserExist(currentUser);
+        Product product = isProductExist(productId);
+        isUserIdMatch(account, product);
         productRepository.delete(product);
         account.getSellProducts().remove(product);
 
         return new ResponseEntity<>(accountRepository.save(account), HttpStatus.OK);
+    }
+
+    private Account isUserExist(Account currentUser) {
+        return accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
+    }
+
+    private Product isProductExist(Long productId) {
+        return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
+    }
+
+    private void isUserIdMatch(Account account, Product product) {
+        if (!product.getSeller().getId().equals(account.getId())) {
+            throw new UserIdNotMatchException();
+        }
     }
 }

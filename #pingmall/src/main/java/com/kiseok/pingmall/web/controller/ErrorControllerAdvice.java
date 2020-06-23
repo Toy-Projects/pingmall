@@ -94,12 +94,14 @@ public class ErrorControllerAdvice {
 
     private static List<ErrorResponseDto.ExtractFieldError> getExtractFieldErrors(BindingResult bindingResult) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        return fieldErrors.parallelStream().map(error ->
-                ErrorResponseDto.ExtractFieldError.builder()
-                        .field(error.getField())
-                        .value(String.valueOf(error.getRejectedValue()))
-                        .reason(error.getDefaultMessage())
-                        .build()
-        ).collect(Collectors.toList());
+        return fieldErrors
+                .parallelStream()
+                .map(error ->
+                        ErrorResponseDto.ExtractFieldError.builder()
+                                .field(error.getField())
+                                .value(String.valueOf(error.getRejectedValue()))
+                                .reason(error.getDefaultMessage())
+                                .build())
+                .collect(Collectors.toList());
     }
 }

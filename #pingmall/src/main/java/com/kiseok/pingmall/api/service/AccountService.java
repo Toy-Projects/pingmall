@@ -30,18 +30,14 @@ public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
 
     public ResponseEntity<?> loadAccount(Long accountId) {
-        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
+        Account account = isUserExist(accountId);
         AccountResponseDto responseDto = modelMapper.map(account, AccountResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     public ResponseEntity<?> saveAccount(AccountRequestDto requestDto) {
-        Optional<Account> optionalAccount = accountRepository.findByEmail(requestDto.getEmail());
-        if(optionalAccount.isPresent()) {
-            throw new UserDuplicatedException();
-        }
-
+        isUserDuplicated(requestDto);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Account savedAccount = accountRepository.save(requestDto.toEntity());
         AccountResponseDto responseDto = modelMapper.map(savedAccount, AccountResponseDto.class);
@@ -50,11 +46,8 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity<?> depositAccount(Long accountId, AccountDepositRequestDto requestDto, Account currentUser) {
-        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
-        if(!account.getId().equals(currentUser.getId()))    {
-            throw new UserIdNotMatchException();
-        }
-
+        Account account = isUserExist(accountId);
+        isUserIdMatch(currentUser, account);
         account.addBalance(requestDto);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
@@ -62,11 +55,8 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto, Account currentUser) {
-        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
-        if(!account.getId().equals(currentUser.getId()))    {
-            throw new UserIdNotMatchException();
-        }
-
+        Account account = isUserExist(accountId);
+        isUserIdMatch(currentUser, account);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         modelMapper.map(requestDto, account);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
@@ -75,11 +65,8 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity<?> removeAccount(Long accountId, Account currentUser) {
-        Account account = accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
-        if(!account.getId().equals(currentUser.getId()))    {
-            throw new UserIdNotMatchException();
-        }
-
+        Account account = isUserExist(accountId);
+        isUserIdMatch(currentUser, account);
         accountRepository.delete(account);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -87,9 +74,25 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException(email));
+        Account account = accountRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
 
         return new AccountAdapter(account);
+    }
+
+    private Account isUserExist(Long accountId) {
+        return accountRepository.findById(accountId).orElseThrow(UserNotFoundException::new);
+    }
+
+    private void isUserIdMatch(Account currentUser, Account account) {
+        if (!account.getId().equals(currentUser.getId())) {
+            throw new UserIdNotMatchException();
+        }
+    }
+
+    private void isUserDuplicated(AccountRequestDto requestDto) {
+        Optional<Account> optionalAccount = accountRepository.findByEmail(requestDto.getEmail());
+        if(optionalAccount.isPresent()) {
+            throw new UserDuplicatedException();
+        }
     }
 }

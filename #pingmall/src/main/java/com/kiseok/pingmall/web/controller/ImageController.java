@@ -23,8 +23,10 @@ public class ImageController {
     }
 
     @PostMapping("/products/{productId}")
-    ResponseEntity<?> saveProductImage(@PathVariable Long productId, @RequestParam(name = "file", required = false) MultipartFile file,
-                                       HttpServletRequest request, @CurrentUser Account currentUser) throws IOException {
+    ResponseEntity<?> saveProductImage(@PathVariable Long productId,
+                                       @RequestParam(name = "file", required = false) MultipartFile file,
+                                       HttpServletRequest request,
+                                       @CurrentUser Account currentUser) throws IOException {
         if(file == null)    {
             return imageService.saveDefaultProductImage(productId, request,  currentUser);
         }
