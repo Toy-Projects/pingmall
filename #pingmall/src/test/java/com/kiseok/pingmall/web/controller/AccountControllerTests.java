@@ -429,7 +429,7 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("password").doesNotExist())
                 .andExpect(jsonPath("name").value(appProperties.getTestName()))
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
-                .andExpect(jsonPath("balance").value(300L))
+                .andExpect(jsonPath("balance").value(10000099L))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("createdAt").exists())
         ;

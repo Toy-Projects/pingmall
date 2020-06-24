@@ -34,7 +34,6 @@ public class ProductService {
         Account account = isUserExist(currentUser);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);
-        accountRepository.save(account);
         product = productRepository.save(product);
         ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
@@ -48,7 +47,6 @@ public class ProductService {
         account.getSellProducts().remove(product);
         modelMapper.map(requestDto, product);
         account.getSellProducts().add(product);
-        accountRepository.save(account);
         product = productRepository.save(product);
         ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 

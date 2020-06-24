@@ -3,8 +3,11 @@ package com.kiseok.pingmall.common.domain.account;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
+import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
+import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -49,12 +52,20 @@ public class Account {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
-    private Set<Product> buyProducts;
+    private Set<Orders> orders;
 
     @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Product> sellProducts;
 
     public void addBalance(AccountDepositRequestDto requestDto) {
         this.balance += requestDto.getBalance();
+    }
+
+    public void reduceBalance(OrdersRequestDto requestDto, Long price) {
+        long payment = requestDto.getAmount() * price;
+        if(this.balance < payment)    {
+            throw new BalanceShortageException();
+        }
+        this.balance -= payment;
     }
 }

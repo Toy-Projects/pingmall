@@ -22,5 +22,7 @@ public class ErrorsConstantsTests {
         assertEquals(NOT_FOUND_FILE, "File is not exist!");
         assertEquals(INVALID_FILE, "The file unfit for use!");
         assertEquals(INVALID_FILE_PATH, "The file path is invalid!");
+        assertEquals(SHORTAGE_BALANCE, "You have shortage of balance to buy the product!");
+        assertEquals(SHORTAGE_STOCK, "The product has shortage of stock to fulfill the amount you want!");
     }
 }

@@ -2,10 +2,14 @@ package com.kiseok.pingmall.common.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.kiseok.pingmall.api.exception.product.StockShortageException;
 import com.kiseok.pingmall.common.domain.account.Account;
+import com.kiseok.pingmall.common.domain.order.Orders;
+import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
@@ -44,9 +48,16 @@ public class Product {
     @Column
     private LocalDateTime registeredAt;
 
-    @ManyToOne
-    private Account buyer;
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Orders> orders;
 
     @ManyToOne
     private Account seller;
+
+    public void reduceStock(OrdersRequestDto requestDto) {
+        if(this.stock < requestDto.getAmount()) {
+            throw new StockShortageException();
+        }
+        this.stock -= requestDto.getAmount();
+    }
 }

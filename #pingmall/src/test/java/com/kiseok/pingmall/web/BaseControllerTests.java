@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiseok.pingmall.common.domain.order.OrdersRepository;
 import com.kiseok.pingmall.common.properties.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
@@ -11,6 +12,7 @@ import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
+import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
@@ -37,6 +39,9 @@ public class BaseControllerTests {
     protected ProductRepository productRepository;
 
     @Autowired
+    protected OrdersRepository ordersRepository;
+
+    @Autowired
     protected JwtProvider jwtProvider;
 
     @Autowired
@@ -52,6 +57,7 @@ public class BaseControllerTests {
     protected final String LOGIN_URL = "/api/login";
     protected final String PRODUCT_URL = "/api/products/";
     protected final String IMAGE_URL = "/api/images/";
+    protected final String ORDERS_URL = "/api/orders/";
     protected final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
@@ -116,6 +122,13 @@ public class BaseControllerTests {
                 .price(appProperties.getTestModifiedPrice())
                 .stock(appProperties.getTestModifiedStock())
                 .category(ProductCategory.TOP)
+                .build();
+    }
+
+    protected OrdersRequestDto createOrdersRequestDto(Long productId) {
+        return OrdersRequestDto.builder()
+                .amount(appProperties.getTestAmount())
+                .productId(productId)
                 .build();
     }
 

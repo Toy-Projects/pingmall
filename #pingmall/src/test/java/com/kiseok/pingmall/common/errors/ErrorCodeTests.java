@@ -53,5 +53,14 @@ public class ErrorCodeTests {
         assertEquals(INVALID_FILE_PATH_ERROR.getCode(), "i005");
         assertEquals(INVALID_FILE_PATH_ERROR.getStatus(), "400 BAD_REQUEST");
         assertEquals(INVALID_FILE_PATH_ERROR.getMessage(), "The file path is invalid!");
+
+        // Orders
+        assertEquals(SHORTAGE_BALANCE_ERROR.getCode(), "o001");
+        assertEquals(SHORTAGE_BALANCE_ERROR.getStatus(), "400 BAD_REQUEST");
+        assertEquals(SHORTAGE_BALANCE_ERROR.getMessage(), "You have shortage of balance to buy the product!");
+
+        assertEquals(SHORTAGE_STOCK_ERROR.getCode(), "o002");
+        assertEquals(SHORTAGE_STOCK_ERROR.getStatus(), "400 BAD_REQUEST");
+        assertEquals(SHORTAGE_STOCK_ERROR.getMessage(), "The product has shortage of stock to fulfill the amount you want!");
     }
 }

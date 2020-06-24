@@ -19,7 +19,7 @@ public class AppPropertiesTests extends BaseCommonTests {
         assertEquals(appProperties.getTestModifiedName(), "modifiedName");
         assertEquals(appProperties.getTestAddress(), "testAddress");
         assertEquals(appProperties.getTestModifiedAddress(), "modifiedAddress");
-        assertEquals(appProperties.getTestBalance(), 200L);
+        assertEquals(appProperties.getTestBalance(), 9999999L);
 
         // Product
         assertEquals(appProperties.getTestProductName(), "testProductName");
@@ -28,9 +28,12 @@ public class AppPropertiesTests extends BaseCommonTests {
         assertEquals(appProperties.getTestModifiedSize(), "270");
         assertEquals(appProperties.getTestImage(), "testImage");
         assertEquals(appProperties.getTestModifiedImage(), "modifiedImage");
-        assertEquals(appProperties.getTestPrice(), 10000L);
-        assertEquals(appProperties.getTestModifiedPrice(), 20000L);
+        assertEquals(appProperties.getTestPrice(), 20000L);
+        assertEquals(appProperties.getTestModifiedPrice(), 10000L);
         assertEquals(appProperties.getTestStock(), 10L);
         assertEquals(appProperties.getTestModifiedStock(), 5L);
+
+        // Orders
+        assertEquals(appProperties.getTestAmount(), 2L);
     }
 }

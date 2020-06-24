@@ -31,4 +31,7 @@ public class AppProperties {
     private String testModifiedImage;
     private Long testModifiedPrice;
     private Long testModifiedStock;
+
+    // Orders
+    private Long testAmount;
 }

@@ -13,4 +13,6 @@ public class ErrorsConstants {
     public static final String NOT_FOUND_FILE = "File is not exist!";
     public static final String INVALID_FILE = "The file unfit for use!";
     public static final String INVALID_FILE_PATH = "The file path is invalid!";
+    public static final String SHORTAGE_BALANCE = "You have shortage of balance to buy the product!";
+    public static final String SHORTAGE_STOCK = "The product has shortage of stock to fulfill the amount you want!";
 }

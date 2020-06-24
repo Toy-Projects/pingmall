@@ -1,10 +1,12 @@
 package com.kiseok.pingmall.web.controller;
 
+import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
 import com.kiseok.pingmall.api.exception.account.UserDuplicatedException;
 import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
 import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
 import com.kiseok.pingmall.api.exception.image.*;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
+import com.kiseok.pingmall.api.exception.product.StockShortageException;
 import com.kiseok.pingmall.common.errors.ErrorCode;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
@@ -89,6 +91,20 @@ public class ErrorControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleFilePathInvalidException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_FILE_PATH_ERROR, new ArrayList<>());
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BalanceShortageException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleBalanceShortageException()   {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.SHORTAGE_BALANCE_ERROR, new ArrayList<>());
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(StockShortageException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleStockShortageException() {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.SHORTAGE_STOCK_ERROR, new ArrayList<>());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 

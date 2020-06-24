@@ -22,7 +22,7 @@ app-property:
   test-password: testPW123!
   test-modified-password: modifiedPW123!
   test-name: testName
-  test-balance: 200
+  test-balance: 9999999
   test-modified-name: modifiedName
   test-address: testAddress
   test-modified-address: modifiedAddress
@@ -32,10 +32,11 @@ app-property:
   test-modified-size: 270
   test-image: testImage
   test-modified-image: modifiedImage
-  test-price: 10000
-  test-modified-price: 20000
+  test-price: 20000
+  test-modified-price: 10000
   test-stock: 10
   test-modified-stock: 5
+  test-amount: 2
 
 image:
   location: ./images
