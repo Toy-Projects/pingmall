@@ -56,6 +56,8 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("status").exists())
                 .andExpect(jsonPath("message").exists())
                 .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -155,6 +157,8 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("status").exists())
                 .andExpect(jsonPath("message").exists())
                 .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -210,6 +214,8 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("status").exists())
                 .andExpect(jsonPath("message").exists())
                 .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
@@ -266,6 +272,8 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("status").exists())
                 .andExpect(jsonPath("message").exists())
                 .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
         ;
     }
 
