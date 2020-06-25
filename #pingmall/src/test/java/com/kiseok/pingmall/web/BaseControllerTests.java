@@ -22,7 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 
 @ExtendWith(SpringExtension.class)

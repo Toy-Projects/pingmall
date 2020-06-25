@@ -31,7 +31,7 @@ public class OrdersController {
         return ordersService.saveOrders(requestDtoList, currentUser);
     }
 
-    private void validateOrdersList(@RequestBody @Valid List<OrdersRequestDto> requestDtoList, BindingResult bindingResult) throws BindException {
+    private void validateOrdersList(List<OrdersRequestDto> requestDtoList, BindingResult bindingResult) throws BindException {
         ordersValidator.validate(requestDtoList, bindingResult);
         if(bindingResult.hasErrors())   {
             throw new BindException(bindingResult);

@@ -32,7 +32,7 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleBindException(BindException e)   {
-        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_INPUT_ERROR, getExtractFieldErrors(e));
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_INPUT_ERROR, getExtractFieldErrors(e.getBindingResult()));
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
