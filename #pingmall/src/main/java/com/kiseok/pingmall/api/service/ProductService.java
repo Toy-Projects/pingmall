@@ -1,5 +1,6 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.account.UserUnauthorizedException;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
 import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
@@ -31,6 +32,9 @@ public class ProductService {
     }
 
     public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
+        if(currentUser == null) {
+            throw new UserUnauthorizedException();
+        }
         Account account = isUserExist(currentUser);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);

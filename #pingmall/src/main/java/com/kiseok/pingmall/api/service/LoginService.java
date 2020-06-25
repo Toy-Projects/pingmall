@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.api.service;
 
 import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
+import com.kiseok.pingmall.api.exception.account.UserUnauthorizedException;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
@@ -26,7 +27,7 @@ public class LoginService {
 
     public ResponseEntity<?> loginAccount(LoginRequestDto loginRequestDto) {
         if(!authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword()))    {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            throw new UserUnauthorizedException();
         }
 
         Account account = isUserExist(loginRequestDto);

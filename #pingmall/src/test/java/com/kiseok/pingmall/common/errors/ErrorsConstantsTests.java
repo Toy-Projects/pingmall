@@ -12,6 +12,8 @@ public class ErrorsConstantsTests {
     void test_error_constants() {
         assertEquals(NOT_FOUND_404, "404 NOT_FOUND");
         assertEquals(BAD_REQUEST_400, "400 BAD_REQUEST");
+        assertEquals(UNAUTHORIZED_401, "401 UNAUTHORIZED");
+        assertEquals(UNAUTHORIZED_ACCOUNT, "Login failed!");
         assertEquals(INVALID_INPUT, "Entered values are invalid!");
         assertEquals(DUPLICATED_ACCOUNT, "Entered email is already exist!");
         assertEquals(NOT_FOUND_ACCOUNT, "AccountId is not exist!");

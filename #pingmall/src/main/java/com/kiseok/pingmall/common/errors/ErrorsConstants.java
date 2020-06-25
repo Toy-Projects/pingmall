@@ -3,6 +3,8 @@ package com.kiseok.pingmall.common.errors;
 public class ErrorsConstants {
     public static final String NOT_FOUND_404 = "404 NOT_FOUND";
     public static final String BAD_REQUEST_400 = "400 BAD_REQUEST";
+    public static final String UNAUTHORIZED_401 = "401 UNAUTHORIZED";
+    public static final String UNAUTHORIZED_ACCOUNT = "Login failed!";
     public static final String INVALID_INPUT = "Entered values are invalid!";
     public static final String DUPLICATED_ACCOUNT = "Entered email is already exist!";
     public static final String NOT_FOUND_ACCOUNT = "AccountId is not exist!";

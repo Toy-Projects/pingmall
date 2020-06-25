@@ -32,6 +32,10 @@ public class ErrorCodeTests {
         assertEquals(EQUAL_ACCOUNT_ID_ERROR.getStatus(), "400 BAD_REQUEST");
         assertEquals(EQUAL_ACCOUNT_ID_ERROR.getMessage(), "AccountId is equals to seller's ID!");
 
+        assertEquals(UNAUTHORIZED_ACCOUNT_ERROR.getCode(), "a006");
+        assertEquals(UNAUTHORIZED_ACCOUNT_ERROR.getStatus(), "401 UNAUTHORIZED");
+        assertEquals(UNAUTHORIZED_ACCOUNT_ERROR.getMessage(), "Login failed!");
+
         // Product
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getCode(), "p001");
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getStatus(), "404 NOT_FOUND");

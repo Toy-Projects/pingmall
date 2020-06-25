@@ -2,10 +2,7 @@ package com.kiseok.pingmall.web.dto;
 
 import com.kiseok.pingmall.common.errors.ErrorCode;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @Builder
@@ -14,7 +11,7 @@ public class ErrorResponseDto {
 
     private String status;
     private String message;
-    private List<ExtractFieldError> errors = new ArrayList<>();
+    private List<ExtractFieldError> errors;
     private String code;
     private LocalDateTime erroredAt;
 

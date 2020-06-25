@@ -64,6 +64,13 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserUnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<?> handleUserUnauthorizedException()  {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.UNAUTHORIZED_ACCOUNT_ERROR, new ArrayList<>());
+        return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<?> handleProductNotFoundException() {

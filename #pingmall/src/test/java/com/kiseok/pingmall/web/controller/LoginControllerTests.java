@@ -87,6 +87,11 @@ class LoginControllerTests extends BaseControllerTests {
                 .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("erroredAt").exists())
         ;
     }
 
