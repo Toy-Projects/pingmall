@@ -55,7 +55,7 @@ public class Product {
     private Account seller;
 
     public void reduceStock(OrdersRequestDto requestDto) {
-        if(this.stock < requestDto.getAmount()) {
+        if(this.stock < requestDto.getAmount() || this.stock <= 0L) {
             throw new StockShortageException();
         }
         this.stock -= requestDto.getAmount();

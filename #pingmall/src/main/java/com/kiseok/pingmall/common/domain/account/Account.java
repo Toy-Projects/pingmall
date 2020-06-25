@@ -51,9 +51,11 @@ public class Account {
     @Column
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
     private Set<Orders> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Product> sellProducts;
 
@@ -63,7 +65,7 @@ public class Account {
 
     public void reduceBalance(OrdersRequestDto requestDto, Long price) {
         long payment = requestDto.getAmount() * price;
-        if(this.balance < payment)    {
+        if(this.balance < payment || this.balance <= 0L)    {
             throw new BalanceShortageException();
         }
         this.balance -= payment;

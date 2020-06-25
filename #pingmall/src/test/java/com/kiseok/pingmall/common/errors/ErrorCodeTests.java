@@ -28,6 +28,10 @@ public class ErrorCodeTests {
         assertEquals(NOT_MATCH_ACCOUNT_ID_ERROR.getStatus(), "400 BAD_REQUEST");
         assertEquals(NOT_MATCH_ACCOUNT_ID_ERROR.getMessage(), "AccountIds are not match!");
 
+        assertEquals(EQUAL_ACCOUNT_ID_ERROR.getCode(), "a005");
+        assertEquals(EQUAL_ACCOUNT_ID_ERROR.getStatus(), "400 BAD_REQUEST");
+        assertEquals(EQUAL_ACCOUNT_ID_ERROR.getMessage(), "AccountId is equals to seller's ID!");
+
         // Product
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getCode(), "p001");
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getStatus(), "404 NOT_FOUND");

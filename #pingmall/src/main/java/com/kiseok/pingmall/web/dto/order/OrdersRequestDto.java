@@ -13,8 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor @AllArgsConstructor
 public class OrdersRequestDto {
 
+    @Min(value = 1, message = "1개 부터 수량을 선택할 수 있습니다.")
     @NotNull(message = "제품의 수량은 반드시 입력해야 합니다.")
-    @Min(value = 1L, message = "1개 부터 수량을 선택할 수 있습니다.")
     private Long amount;
 
     @NotNull(message = "제품을 반드시 선택해야 합니다.")

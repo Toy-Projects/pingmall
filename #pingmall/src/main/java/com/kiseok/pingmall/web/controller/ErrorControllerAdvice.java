@@ -1,9 +1,6 @@
 package com.kiseok.pingmall.web.controller;
 
-import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
-import com.kiseok.pingmall.api.exception.account.UserDuplicatedException;
-import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
-import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
+import com.kiseok.pingmall.api.exception.account.*;
 import com.kiseok.pingmall.api.exception.image.*;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
@@ -11,6 +8,7 @@ import com.kiseok.pingmall.common.errors.ErrorCode;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,6 +26,13 @@ public class ErrorControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleInvalidInputException(MethodArgumentNotValidException e)    {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_INPUT_ERROR, getExtractFieldErrors(e.getBindingResult()));
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleBindException(BindException e)   {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_INPUT_ERROR, getExtractFieldErrors(e));
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 
@@ -49,6 +54,13 @@ public class ErrorControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<?> handleUserIdNotMatchException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_MATCH_ACCOUNT_ID_ERROR, new ArrayList<>());
+        return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserIdEqualsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleUserIdEqualException()   {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.EQUAL_ACCOUNT_ID_ERROR, new ArrayList<>());
         return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
     }
 

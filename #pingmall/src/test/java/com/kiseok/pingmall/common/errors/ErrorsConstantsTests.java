@@ -16,6 +16,7 @@ public class ErrorsConstantsTests {
         assertEquals(DUPLICATED_ACCOUNT, "Entered email is already exist!");
         assertEquals(NOT_FOUND_ACCOUNT, "AccountId is not exist!");
         assertEquals(NOT_MATCH_ACCOUNT_ID, "AccountIds are not match!");
+        assertEquals(EQUAL_ACCOUNT_ID, "AccountId is equals to seller's ID!");
         assertEquals(NOT_FOUND_PRODUCT, "ProductId is not exist!");
         assertEquals(INVALID_FILE_NAME, "Filename is invalid value!");
         assertEquals(INVALID_FILE_EXTENSION, "File extension is invalid!");

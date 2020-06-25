@@ -7,6 +7,7 @@ public class ErrorsConstants {
     public static final String DUPLICATED_ACCOUNT = "Entered email is already exist!";
     public static final String NOT_FOUND_ACCOUNT = "AccountId is not exist!";
     public static final String NOT_MATCH_ACCOUNT_ID = "AccountIds are not match!";
+    public static final String EQUAL_ACCOUNT_ID = "AccountId is equals to seller's ID!";
     public static final String NOT_FOUND_PRODUCT = "ProductId is not exist!";
     public static final String INVALID_FILE_NAME = "Filename is invalid value!";
     public static final String INVALID_FILE_EXTENSION = "File extension is invalid!";

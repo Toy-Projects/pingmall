@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 
 @ExtendWith(SpringExtension.class)
@@ -128,6 +129,13 @@ public class BaseControllerTests {
     protected OrdersRequestDto createOrdersRequestDto(Long productId) {
         return OrdersRequestDto.builder()
                 .amount(appProperties.getTestAmount())
+                .productId(productId)
+                .build();
+    }
+
+    protected OrdersRequestDto createOrdersRequestWithParam(Long amount, Long productId) {
+        return OrdersRequestDto.builder()
+                .amount(amount)
                 .productId(productId)
                 .build();
     }

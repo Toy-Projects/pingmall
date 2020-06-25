@@ -1,5 +1,6 @@
 package com.kiseok.pingmall.api.service;
 
+import com.kiseok.pingmall.api.exception.account.UserIdEqualsException;
 import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.common.domain.account.Account;
@@ -27,23 +28,29 @@ public class OrdersService {
     private final AccountRepository accountRepository;
     private final OrdersRepository ordersRepository;
 
-    // TODO 1. ResponseDto로 매핑 안되는 문제
-    // TODO 2. 다양한 예외 처리
-    // TODO 3. DELETE 구현
-
     public ResponseEntity<?> saveOrders(List<OrdersRequestDto> requestDtoList, Account currentUser)    {
         List<OrdersResponseDto> responseDtoList = new LinkedList<>();
         Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
         requestDtoList.forEach(requestDto -> {
             Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(ProductNotFoundException::new);
+            isEqualsToUserId(account, product);
             account.reduceBalance(requestDto, product.getPrice());
             product.reduceStock(requestDto);
-            Orders orders = ordersRepository.save(requestDto.toEntity(account, product));
+            Orders orders = requestDto.toEntity(account, product);
+            account.getOrders().add(orders);
+            product.getOrders().add(orders);
+            orders = ordersRepository.save(orders);
             OrdersResponseDto responseDto = modelMapper.map(orders, OrdersResponseDto.class);
             responseDtoList.add(responseDto);
         });
 
         return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
+    }
+
+    private void isEqualsToUserId(Account account, Product product) {
+        if(product.getSeller().getId().equals(account.getId())) {
+            throw new UserIdEqualsException();
+        }
     }
 
 }
