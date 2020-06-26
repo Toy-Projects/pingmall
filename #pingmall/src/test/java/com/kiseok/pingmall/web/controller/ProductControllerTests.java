@@ -15,6 +15,8 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -63,7 +65,7 @@ class ProductControllerTests extends BaseControllerTests {
 
     @DisplayName("제품 등록 시 유저가 null -> 401 UNAUTHORIZED")
     @Test
-    void save_product_user_null_400() throws Exception  {
+    void save_product_user_null_401() throws Exception  {
         ProductRequestDto requestDto = createProductRequestDto();
 
         this.mockMvc.perform(post(PRODUCT_URL)
@@ -113,6 +115,45 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+        ;
+    }
+
+    @DisplayName("정상적으로 모든 제품 불러오기 -> 200 OK")
+    @Test
+    void load_all_products_200() throws Exception   {
+        String token = createAccountAndToken();
+
+        IntStream.rangeClosed(1, 10).forEach(i -> {
+            ProductRequestDto requestDto = createProductRequestDto();
+
+            try {
+                this.mockMvc.perform(post(PRODUCT_URL)
+                        .accept(MediaTypes.HAL_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto))
+                        .header(HttpHeaders.AUTHORIZATION, token))
+                        .andDo(print())
+                        .andExpect(status().isCreated())
+                        .andExpect(jsonPath("id").exists())
+                        .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
+                        .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                        .andExpect(jsonPath("size").value(appProperties.getTestSize()))
+                        .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
+                        .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                        .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
+                        .andExpect(jsonPath("registeredAt").exists())
+                        .andExpect(jsonPath("seller").exists())
+                ;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        this.mockMvc.perform(get(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
         ;
     }
 

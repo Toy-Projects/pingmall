@@ -1,6 +1,5 @@
 package com.kiseok.pingmall.api.service;
 
-import com.kiseok.pingmall.api.exception.account.UserUnauthorizedException;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.account.UserIdNotMatchException;
 import com.kiseok.pingmall.api.exception.account.UserNotFoundException;
@@ -12,9 +11,14 @@ import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +28,15 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final AccountRepository accountRepository;
 
+    public ResponseEntity<?> loadAllProducts() {
+        List<ProductResponseDto> responseDtoList = new ArrayList<>();
+        productRepository.findAll().forEach(product -> {
+            responseDtoList.add(modelMapper.map(product, ProductResponseDto.class));
+        });
+
+        return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+    }
+
     public ResponseEntity<?> loadProduct(Long productId) {
         Product product = isProductExist(productId);
         ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
@@ -32,9 +45,6 @@ public class ProductService {
     }
 
     public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
-        if(currentUser == null) {
-            throw new UserUnauthorizedException();
-        }
         Account account = isUserExist(currentUser);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);

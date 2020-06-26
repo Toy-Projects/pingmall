@@ -3,8 +3,11 @@ package com.kiseok.pingmall.web.controller;
 import com.kiseok.pingmall.api.service.ProductService;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
+import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,11 @@ import javax.validation.Valid;
 public class ProductController {
 
     private final ProductService productService;
+
+    @GetMapping
+    ResponseEntity<?> loadAllProducts() {
+        return productService.loadAllProducts();
+    }
 
     @GetMapping("/{productId}")
     ResponseEntity<?> loadProduct(@PathVariable Long productId)  {

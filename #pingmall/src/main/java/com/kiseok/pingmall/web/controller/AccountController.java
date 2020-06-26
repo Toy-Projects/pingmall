@@ -29,9 +29,9 @@ public class AccountController {
         return accountService.saveAccount(requestDto);
     }
 
-    @PutMapping("/{id}/balance")
-    ResponseEntity<?> depositAccount(@PathVariable Long id, @RequestBody @Valid AccountDepositRequestDto requestDto, @CurrentUser Account currentUser)   {
-        return accountService.depositAccount(id, requestDto, currentUser);
+    @PutMapping("/{accountId}/balance")
+    ResponseEntity<?> depositAccount(@PathVariable Long accountId, @RequestBody @Valid AccountDepositRequestDto requestDto, @CurrentUser Account currentUser)   {
+        return accountService.depositAccount(accountId, requestDto, currentUser);
     }
 
     @PutMapping("/{accountId}")
