@@ -3,6 +3,8 @@
 
 ## [TABLE](https://www.notion.so/yks095/TABLE-cb15f18742df4ee5a6ac0a45edce3cdc)
 
+## [API SPEC](https://www.notion.so/yks095/API-SPEC-3ea457e5507145719f3159a2525f6895)
+
 ## 개발환경
 |도구|버전|
 |:---:|:---:|
