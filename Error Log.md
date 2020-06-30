@@ -12,3 +12,10 @@
 3. 주문 목록 저장 시 `Java`에서 제공하는 `@Valid` 로는 `Collection` 타입을 검증할 수 없음
   - `Spring`의 `Validator`를 상속받아 `Collection` 타입을 검증하도록 `OrdersValidator(CumsomValidator) 구현`
   - 검증 시 에러가 검출되면 `BindResults`를 파라미터로 넣고 `BindException`를 발생시켜 오류 처리
+
+4. 사용하지 않는 컬럼 삭제 시 연관관계 문제로 denied 됨
+  - `mysql -u root -p`로 `MySQL` 접속
+  - `use information_scheme;` -> `select * from table_constraints;` -> 해당 `제약조건명` 확인
+  - `alter table 테이블명 drop constraint 제약조건명;`
+  - `alter table 테이블명 drop 컬럼;`
+  - 위의 순서대로 쿼리를 날려 사용하지 않는 컬럼 삭제
