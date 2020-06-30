@@ -38,7 +38,6 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
     }
 

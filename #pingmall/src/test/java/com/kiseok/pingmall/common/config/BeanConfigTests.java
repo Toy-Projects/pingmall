@@ -1,7 +1,6 @@
 package com.kiseok.pingmall.common.config;
 
 import com.kiseok.pingmall.common.BaseCommonTests;
-import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
 import org.junit.jupiter.api.DisplayName;

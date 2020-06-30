@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
+import com.kiseok.pingmall.common.domain.BaseTimeEntity;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
@@ -11,7 +12,6 @@ import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter @Builder
@@ -23,7 +23,7 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Account {
+public class Account extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +48,6 @@ public class Account {
     @Column
     @Enumerated(EnumType.STRING)
     private AccountRole accountRole;
-
-    @Column
-    private LocalDateTime createdAt;
 
     @JsonIgnore
     @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)

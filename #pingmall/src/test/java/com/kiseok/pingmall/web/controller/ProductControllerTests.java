@@ -15,7 +15,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -97,7 +96,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
     }
@@ -141,7 +139,6 @@ class ProductControllerTests extends BaseControllerTests {
                         .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                         .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                         .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                        .andExpect(jsonPath("registeredAt").exists())
                         .andExpect(jsonPath("seller").exists())
                 ;
             } catch (Exception e) {
@@ -177,7 +174,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -196,7 +192,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(responseDto.getPrice()))
                 .andExpect(jsonPath("stock").value(responseDto.getStock()))
                 .andExpect(jsonPath("category").value(responseDto.getCategory().name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
     }
@@ -222,7 +217,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -275,7 +269,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -315,7 +308,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -359,7 +351,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -381,7 +372,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestModifiedPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestModifiedStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.TOP.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
     }
@@ -406,7 +396,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -442,7 +431,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -482,7 +470,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -516,7 +503,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -547,7 +533,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         return generateToken(actions);
@@ -567,7 +552,6 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         return generateToken(actions);

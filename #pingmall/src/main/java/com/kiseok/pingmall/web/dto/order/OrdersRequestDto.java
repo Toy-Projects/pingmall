@@ -6,7 +6,6 @@ import com.kiseok.pingmall.common.domain.product.Product;
 import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter @Setter @Builder
@@ -24,7 +23,6 @@ public class OrdersRequestDto {
         return Orders.builder()
                 .number(UUID.randomUUID().toString())
                 .amount(amount)
-                .orderedAt(LocalDateTime.now())
                 .buyer(account)
                 .product(product)
                 .build();

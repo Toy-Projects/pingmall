@@ -175,7 +175,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("[*].id").exists())
                 .andExpect(jsonPath("[*].number").exists())
                 .andExpect(jsonPath("[*].amount").exists())
-                .andExpect(jsonPath("[*].orderedAt").exists())
                 .andExpect(jsonPath("[*].buyer").exists())
                 .andExpect(jsonPath("[*].product").exists())
         ;
@@ -270,7 +269,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("[*].id").exists())
                 .andExpect(jsonPath("[*].number").exists())
                 .andExpect(jsonPath("[*].amount").exists())
-                .andExpect(jsonPath("[*].orderedAt").exists())
                 .andExpect(jsonPath("[*].buyer").exists())
                 .andExpect(jsonPath("[*].product").exists())
         ;
@@ -290,7 +288,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         return generateToken(actions);
@@ -310,7 +307,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
                 ;
 
         return generateToken(actions);
@@ -332,7 +328,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(balance))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
                 ;
 
         return generateToken(actions);
@@ -369,7 +364,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -394,7 +388,6 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(stock))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
                 ;
 

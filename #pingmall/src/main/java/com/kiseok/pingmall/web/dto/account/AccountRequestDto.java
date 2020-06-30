@@ -7,7 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 @Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
@@ -38,7 +37,6 @@ public class AccountRequestDto {
                 .address(address)
                 .balance(balance)
                 .accountRole(AccountRole.USER)
-                .createdAt(LocalDateTime.now())
                 .build();
     }
 }

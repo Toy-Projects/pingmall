@@ -3,13 +3,13 @@ package com.kiseok.pingmall.common.domain.product;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
+import com.kiseok.pingmall.common.domain.BaseTimeEntity;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import lombok.*;
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter @Builder
@@ -21,7 +21,7 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Product {
+public class Product extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,9 +45,6 @@ public class Product {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
-
-    @Column
-    private LocalDateTime registeredAt;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Orders> orders;

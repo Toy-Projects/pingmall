@@ -44,7 +44,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions);
@@ -77,7 +76,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -96,7 +94,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -114,7 +111,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
                 ;
 
@@ -142,7 +138,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions);
@@ -178,7 +173,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -197,7 +191,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -236,7 +229,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -255,7 +247,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -294,7 +285,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -313,7 +303,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 
@@ -334,7 +323,6 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("registeredAt").exists())
                 .andExpect(jsonPath("seller").exists())
         ;
 

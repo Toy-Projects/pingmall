@@ -79,7 +79,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         this.mockMvc.perform(post(ACCOUNT_URL)
@@ -114,7 +113,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         List<Account> accountList = accountRepository.findAll();
@@ -143,7 +141,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions);
@@ -180,7 +177,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -200,7 +196,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(responseDto.getAddress()))
                 .andExpect(jsonPath("balance").value(responseDto.getBalance()))
                 .andExpect(jsonPath("accountRole").value(responseDto.getAccountRole().name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
     }
 
@@ -223,7 +218,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String jwt = generateToken(actions);
@@ -268,7 +262,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String jwt = generateToken(actions);
@@ -309,7 +302,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -333,7 +325,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
         String jwt = generateToken(actions2);
 
@@ -370,7 +361,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -407,7 +397,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String jwt = generateToken(actions);
@@ -431,7 +420,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(10000099L))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
     }
 
@@ -456,7 +444,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -504,7 +491,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions);
@@ -543,7 +529,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -564,7 +549,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions2);
@@ -602,7 +586,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -624,7 +607,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(modifyRequestDto.getAddress()))
                 .andExpect(jsonPath("balance").value(responseDto.getBalance()))
                 .andExpect(jsonPath("accountRole").value(responseDto.getAccountRole().name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         List<Account> accountList = accountRepository.findAll();
@@ -651,7 +633,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions);
@@ -688,7 +669,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -708,7 +688,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String token = generateToken(actions2);
@@ -745,7 +724,6 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("createdAt").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
