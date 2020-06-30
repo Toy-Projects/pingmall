@@ -6,15 +6,16 @@ import com.kiseok.pingmall.api.exception.product.StockShortageException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
+import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Getter @Setter
+@Getter @Builder
 @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Entity @Builder
+@Entity @Table
 @JsonIdentityInfo(
         scope = Product.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,
@@ -59,5 +60,18 @@ public class Product {
             throw new StockShortageException();
         }
         this.stock -= requestDto.getAmount();
+    }
+
+    public void uploadImage(String imagePath) {
+        this.image = imagePath;
+    }
+
+    public void updateProduct(ProductRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.size = requestDto.getSize();
+        this.image = requestDto.getImage();
+        this.price = requestDto.getPrice();
+        this.stock = requestDto.getStock();
+        this.category = requestDto.getCategory();
     }
 }

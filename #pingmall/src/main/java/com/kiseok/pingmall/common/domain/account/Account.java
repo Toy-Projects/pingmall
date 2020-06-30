@@ -7,15 +7,16 @@ import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
+import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Getter @Setter
+@Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Builder @EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id")
 @Entity @Table
 @JsonIdentityInfo(
         scope = Account.class,
@@ -69,5 +70,11 @@ public class Account {
             throw new BalanceShortageException();
         }
         this.balance -= payment;
+    }
+
+    public void updateAccount(AccountModifyRequestDto requestDto) {
+        this.password = requestDto.getPassword();
+        this.name = requestDto.getName();
+        this.address = requestDto.getAddress();
     }
 }

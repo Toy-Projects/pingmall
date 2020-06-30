@@ -58,7 +58,7 @@ public class AccountService implements UserDetailsService {
         Account account = isUserExist(accountId);
         isUserIdMatch(currentUser, account);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-        modelMapper.map(requestDto, account);
+        account.updateAccount(requestDto);
         AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);

@@ -8,7 +8,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter @Setter @Builder
+@Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
 @Entity @Table
 @EqualsAndHashCode(of = "id")

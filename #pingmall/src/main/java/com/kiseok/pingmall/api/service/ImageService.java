@@ -101,7 +101,7 @@ public class ImageService {
                 .path(requestUri)
                 .path(fileName)
                 .toUriString();
-        product.setImage(imagePath);
+        product.uploadImage(imagePath);
         ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
@@ -116,7 +116,7 @@ public class ImageService {
                 .path(requestUri)
                 .pathSegment(fileName)
                 .toUriString();
-        product.setImage(imagePath);
+        product.uploadImage(imagePath);
         ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);

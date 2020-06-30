@@ -22,20 +22,12 @@ public class BeanConfigTests extends BaseCommonTests {
                 .balance(appProperties.getTestBalance())
                 .build();
 
-        Account account = modelMapper.map(requestDto, Account.class);
+        AccountResponseDto responseDto = modelMapper.map(requestDto, AccountResponseDto.class);
 
-        assertEquals(account.getEmail(), requestDto.getEmail());
-        assertEquals(account.getPassword(), requestDto.getPassword());
-        assertEquals(account.getName(), requestDto.getName());
-        assertEquals(account.getAddress(), requestDto.getAddress());
-        assertEquals(account.getBalance(), requestDto.getBalance());
-
-        AccountResponseDto responseDto = modelMapper.map(account, AccountResponseDto.class);
-
-        assertEquals(responseDto.getEmail(), account.getEmail());
-        assertEquals(responseDto.getName(), account.getName());
-        assertEquals(responseDto.getAddress(), account.getAddress());
-        assertEquals(responseDto.getBalance(), account.getBalance());
+        assertEquals(responseDto.getEmail(), requestDto.getEmail());
+        assertEquals(responseDto.getName(), requestDto.getName());
+        assertEquals(responseDto.getAddress(), requestDto.getAddress());
+        assertEquals(responseDto.getBalance(), requestDto.getBalance());
     }
 
     @DisplayName("PasswordEncoder 테스트")

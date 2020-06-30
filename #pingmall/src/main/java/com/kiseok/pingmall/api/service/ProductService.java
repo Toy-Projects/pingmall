@@ -11,9 +11,6 @@ import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -59,7 +56,7 @@ public class ProductService {
         Product product = isProductExist(productId);
         isUserIdMatch(account, product);
         account.getSellProducts().remove(product);
-        modelMapper.map(requestDto, product);
+        product.updateProduct(requestDto);
         account.getSellProducts().add(product);
         product = productRepository.save(product);
         ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
