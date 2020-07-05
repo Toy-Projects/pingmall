@@ -2,17 +2,38 @@ plugins {
     id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id "org.asciidoctor.convert" version "1.5.9.2"
 }
 
 group = 'com.kiseok'
 version = '0.0.1-SNAPSHOT-' + new Date().format("yyyy-MM-dd_HH-mm-ss")
 sourceCompatibility = '1.8'
 
+apply plugin: 'org.asciidoctor.convert'
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
+
+
 
 repositories {
     mavenCentral()
@@ -40,6 +61,8 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
@@ -47,4 +70,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    outputs.dir snippetsDir
 }

@@ -29,47 +29,43 @@ public class AccountService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final AccountRepository accountRepository;
 
-    public ResponseEntity<?> loadAccount(Long accountId) {
+    public AccountResponseDto loadAccount(Long accountId) {
         Account account = isUserExist(accountId);
-        AccountResponseDto responseDto = modelMapper.map(account, AccountResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(account, AccountResponseDto.class);
     }
 
-    public ResponseEntity<?> saveAccount(AccountRequestDto requestDto) {
+    public AccountResponseDto saveAccount(AccountRequestDto requestDto) {
         isUserDuplicated(requestDto);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Account savedAccount = accountRepository.save(requestDto.toEntity());
-        AccountResponseDto responseDto = modelMapper.map(savedAccount, AccountResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(savedAccount, AccountResponseDto.class);
     }
 
-    public ResponseEntity<?> depositAccount(Long accountId, AccountDepositRequestDto requestDto, Account currentUser) {
+    public AccountResponseDto depositAccount(Long accountId, AccountDepositRequestDto requestDto, Account currentUser) {
         Account account = isUserExist(accountId);
         isUserIdMatch(currentUser, account);
         account.addBalance(requestDto);
-        AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
     }
 
-    public ResponseEntity<?> modifyAccount(Long accountId, AccountModifyRequestDto requestDto, Account currentUser) {
+    public AccountResponseDto modifyAccount(Long accountId, AccountModifyRequestDto requestDto, Account currentUser) {
         Account account = isUserExist(accountId);
         isUserIdMatch(currentUser, account);
         requestDto.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         account.updateAccount(requestDto);
-        AccountResponseDto responseDto = modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(accountRepository.save(account), AccountResponseDto.class);
     }
 
-    public ResponseEntity<?> removeAccount(Long accountId, Account currentUser) {
+    public AccountResponseDto removeAccount(Long accountId, Account currentUser) {
         Account account = isUserExist(accountId);
         isUserIdMatch(currentUser, account);
         accountRepository.delete(account);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return modelMapper.map(account, AccountResponseDto.class);
     }
 
     @Override

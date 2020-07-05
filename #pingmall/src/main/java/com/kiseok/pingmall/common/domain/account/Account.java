@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity @Table
 @JsonIdentityInfo(
         scope = Account.class,

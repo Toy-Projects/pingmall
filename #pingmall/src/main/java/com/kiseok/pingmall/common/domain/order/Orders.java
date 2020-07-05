@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
 @Entity @Table
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @JsonIdentityInfo(
         scope = Orders.class,
         generator = ObjectIdGenerators.PropertyGenerator.class,

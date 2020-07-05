@@ -14,7 +14,7 @@ import java.util.Set;
 
 @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity @Table
 @JsonIdentityInfo(
         scope = Product.class,

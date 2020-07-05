@@ -25,3 +25,9 @@
   - `select * from table_constraints;` -> 해당 `제약조건명` 확인
   - `alter table [테이블명] drop constraint [제약조건명];`
   - `alter table [테이블명] drop [컬럼명];`
+
+<br>
+
+### **_5. `HATEOAS` 적용 중 `Deprecated` 된 메소드, 클래스 발견_**
+  - `EntityModel.super`
+  - `Link`
