@@ -44,6 +44,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(actions);
@@ -60,7 +63,7 @@ class ImageControllerTests extends BaseControllerTests {
         ;
     }
 
-    @DisplayName("정상적으로 디폴트 이미지 저장 -> 200 OK")
+    @DisplayName("정상적으로 디폴트 이미지 저장 -> 201 CREATED")
     @Test
     void save_default_image_201() throws Exception  {
         ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
@@ -76,6 +79,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -95,6 +101,12 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String productAsString = productActions.andReturn().getResponse().getContentAsString();
@@ -112,7 +124,13 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
-                ;
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+        ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();
         ProductResponseDto responseDto2 = objectMapper.readValue(imageAsString, ProductResponseDto.class);
@@ -138,6 +156,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(actions);
@@ -173,6 +194,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -192,6 +216,12 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = productActions.andReturn().getResponse().getContentAsString();
@@ -229,6 +259,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -248,6 +281,12 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = productActions.andReturn().getResponse().getContentAsString();
@@ -268,7 +307,7 @@ class ImageControllerTests extends BaseControllerTests {
         ;
     }
 
-    @DisplayName("정상적으로 이미지 저장 -> 200 OK")
+    @DisplayName("정상적으로 이미지 저장 -> 201 CREATED")
     @ParameterizedTest(name = "{index} {displayName} message={0}")
     @ValueSource(strings = {".png", ".jpg", ".jpeg"})
     void save_image_201(String extension) throws Exception  {
@@ -285,6 +324,9 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String token = generateToken(accountActions);
@@ -304,6 +346,12 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String productAsString = productActions.andReturn().getResponse().getContentAsString();
@@ -324,6 +372,12 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();

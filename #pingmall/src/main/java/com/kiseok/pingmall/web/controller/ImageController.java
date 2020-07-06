@@ -3,12 +3,18 @@ package com.kiseok.pingmall.web.controller;
 import com.kiseok.pingmall.api.service.ImageService;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
+import com.kiseok.pingmall.common.domain.product.ProductResource;
+import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/images")
@@ -27,11 +33,21 @@ public class ImageController {
                                        @RequestParam(name = "file", required = false) MultipartFile file,
                                        HttpServletRequest request,
                                        @CurrentUser Account currentUser) throws IOException {
+        ProductResponseDto responseDto;
         if(file == null)    {
-            return imageService.saveDefaultProductImage(productId, request,  currentUser);
+            responseDto = imageService.saveDefaultProductImage(productId, request, currentUser);
         }
         else {
-            return imageService.saveProductImage(productId, file, request, currentUser);
+            responseDto = imageService.saveProductImage(productId, file, request, currentUser);
         }
+        WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class);
+        ProductResource resource = new ProductResource(responseDto);
+        resource.add(linkTo(ProductController.class).withRel("load-all-products"));
+        resource.add(selfLinkBuilder.withRel("load-product"));
+        resource.add(selfLinkBuilder.withRel("modify-product"));
+        resource.add(selfLinkBuilder.withRel("delete-product"));
+        resource.add(new Link("/docs/index.html#resources-product-image-create").withRel("profile"));
+
+        return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }
 }

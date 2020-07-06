@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -80,7 +79,7 @@ public class ImageService {
         }
     }
 
-    public ResponseEntity<?> saveProductImage(Long productId, MultipartFile file, HttpServletRequest request, Account currentUser) throws IOException {
+    public ProductResponseDto saveProductImage(Long productId, MultipartFile file, HttpServletRequest request, Account currentUser) throws IOException {
         Product product = isProductExist(productId);
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
         String extension = FilenameUtils.getExtension(fileName);
@@ -102,12 +101,11 @@ public class ImageService {
                 .path(fileName)
                 .toUriString();
         product.uploadImage(imagePath);
-        ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
     }
 
-    public ResponseEntity<?> saveDefaultProductImage(Long productId, HttpServletRequest request, Account currentUser) {
+    public ProductResponseDto saveDefaultProductImage(Long productId, HttpServletRequest request, Account currentUser) {
         Product product = isProductExist(productId);
         String imagePrefix = currentUser.getEmail() + "_" + product.getName();
         String fileName = UUID.randomUUID().toString() + "_" + imagePrefix + "_" + DEFAULT_IMAGE;
@@ -117,9 +115,8 @@ public class ImageService {
                 .pathSegment(fileName)
                 .toUriString();
         product.uploadImage(imagePath);
-        ProductResponseDto responseDto = modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(productRepository.save(product),  ProductResponseDto.class);
     }
 
     private Product isProductExist(Long productId) {
