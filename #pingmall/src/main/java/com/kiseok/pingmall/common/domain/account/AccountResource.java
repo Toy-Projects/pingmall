@@ -10,7 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @NoArgsConstructor
 public class AccountResource extends EntityModel<AccountResponseDto> {
 
-    public AccountResource(AccountResponseDto responseDto, Link ...links) {
+    public AccountResource(AccountResponseDto responseDto, Link... links) {
         super(responseDto, links);
         add(linkTo(AccountController.class).slash(responseDto.getId()).withSelfRel());
     }

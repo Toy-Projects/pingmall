@@ -25,7 +25,7 @@ public class LoginService {
     private final JwtProvider jwtProvider;
     private final AccountRepository accountRepository;
 
-    public ResponseEntity<?> loginAccount(LoginRequestDto loginRequestDto) {
+    public JwtResponseDto loginAccount(LoginRequestDto loginRequestDto) {
         if(!authenticate(loginRequestDto.getEmail(), loginRequestDto.getPassword()))    {
             throw new UserUnauthorizedException();
         }
@@ -33,7 +33,7 @@ public class LoginService {
         Account account = isUserExist(loginRequestDto);
         String jwt = jwtProvider.generateToken(new JwtRequestDto(account.getId(), loginRequestDto.getEmail()));
 
-        return new ResponseEntity<>(new JwtResponseDto(jwt), HttpStatus.OK);
+        return new JwtResponseDto(jwt);
     }
 
     private boolean authenticate(String email, String password) {

@@ -38,6 +38,9 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -106,6 +109,10 @@ class LoginControllerTests extends BaseControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("token").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.create-account").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
