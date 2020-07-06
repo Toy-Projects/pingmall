@@ -97,6 +97,13 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+
         ;
     }
 
@@ -140,6 +147,12 @@ class ProductControllerTests extends BaseControllerTests {
                         .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                         .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                         .andExpect(jsonPath("seller").exists())
+                        .andExpect(jsonPath("_links.self").exists())
+                        .andExpect(jsonPath("_links.load-all-products").exists())
+                        .andExpect(jsonPath("_links.load-product").exists())
+                        .andExpect(jsonPath("_links.modify-product").exists())
+                        .andExpect(jsonPath("_links.delete-product").exists())
+                        .andExpect(jsonPath("_links.profile").exists())
                 ;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -151,6 +164,18 @@ class ProductControllerTests extends BaseControllerTests {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.self").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.modify-product").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.modify-product").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.delete-product").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.profile").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("page.size").exists())
+                .andExpect(jsonPath("page.totalElements").exists())
+                .andExpect(jsonPath("page.totalPages").exists())
+                .andExpect(jsonPath("page.number").exists())
         ;
     }
 
@@ -175,6 +200,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -193,6 +224,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(responseDto.getStock()))
                 .andExpect(jsonPath("category").value(responseDto.getCategory().name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -218,6 +255,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -270,6 +313,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         requestDto = createProductModifyRequestDto();
@@ -309,6 +358,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -352,6 +407,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -373,6 +434,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestModifiedStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.TOP.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -397,6 +464,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         this.mockMvc.perform(delete(PRODUCT_URL + "-1")
@@ -432,6 +505,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -471,6 +550,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -480,6 +565,10 @@ class ProductControllerTests extends BaseControllerTests {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -504,6 +593,12 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
@@ -533,6 +628,9 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         return generateToken(actions);
@@ -552,6 +650,9 @@ class ProductControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         return generateToken(actions);

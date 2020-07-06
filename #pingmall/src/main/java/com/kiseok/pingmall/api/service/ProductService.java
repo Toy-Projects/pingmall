@@ -11,6 +11,8 @@ import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,33 +27,26 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final AccountRepository accountRepository;
 
-    public ResponseEntity<?> loadAllProducts() {
-        List<ProductResponseDto> responseDtoList = new ArrayList<>();
-        productRepository.findAll().forEach(product -> {
-            responseDtoList.add(modelMapper.map(product, ProductResponseDto.class));
-        });
-
-        return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+    public Page<Product> loadAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
-    public ResponseEntity<?> loadProduct(Long productId) {
+    public ProductResponseDto loadProduct(Long productId) {
         Product product = isProductExist(productId);
-        ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public ResponseEntity<?> saveProduct(ProductRequestDto requestDto, Account currentUser) {
+    public ProductResponseDto saveProduct(ProductRequestDto requestDto, Account currentUser) {
         Account account = isUserExist(currentUser);
         Product product = requestDto.toEntity(currentUser);
         account.getSellProducts().add(product);
         product = productRepository.save(product);
-        ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public ResponseEntity<?> modifyProduct(Long productId, ProductRequestDto requestDto, Account currentUser) {
+    public ProductResponseDto modifyProduct(Long productId, ProductRequestDto requestDto, Account currentUser) {
         Account account = isUserExist(currentUser);
         Product product = isProductExist(productId);
         isUserIdMatch(account, product);
@@ -59,19 +54,18 @@ public class ProductService {
         product.updateProduct(requestDto);
         account.getSellProducts().add(product);
         product = productRepository.save(product);
-        ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
-    public ResponseEntity<?> deleteProduct(Long productId, Account currentUser) {
+    public ProductResponseDto deleteProduct(Long productId, Account currentUser) {
         Account account = isUserExist(currentUser);
         Product product = isProductExist(productId);
         isUserIdMatch(account, product);
         productRepository.delete(product);
         account.getSellProducts().remove(product);
 
-        return new ResponseEntity<>(accountRepository.save(account), HttpStatus.OK);
+        return modelMapper.map(product, ProductResponseDto.class);
     }
 
     private Account isUserExist(Account currentUser) {

@@ -1,6 +1,6 @@
 # Error log
 
-### **_1. 테스트 실행 시 `@DisplayName`이 적용이 안되고, 테스트 메소드 명이 보임_**
+### **_1. 테스트 실행 시 `@DisplayName`이 적용 안되고, 테스트 메소드 명이 보임_**
   - `Preferences` -> `Build, Execution, Deployment` -> `Build Tools` -> `Gradle`
     - `Run tests using`
       - `Gradle` -> `IntelliJ IDEA` 로 변경
@@ -29,5 +29,5 @@
 <br>
 
 ### **_5. `HATEOAS` 적용 중 `Deprecated` 된 메소드, 클래스 발견_**
-  - `EntityModel.super`
-  - `Link`
+  - `EntityModel.super()`
+  - `Link.class`
