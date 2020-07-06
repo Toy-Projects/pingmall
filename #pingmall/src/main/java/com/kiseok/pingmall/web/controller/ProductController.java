@@ -40,6 +40,7 @@ public class ProductController {
             resource.add(linkTo(ProductController.class).withRel("create-product"));
             resource.add(selfLinkBuilder.withRel("modify-product"));
             resource.add(selfLinkBuilder.withRel("delete-product"));
+            resource.add(linkTo(OrdersController.class).withRel("create-orders"));
             resource.add(new Link("/docs/index.html#resources-product-load").withRel("profile"));
 
             return resource;
@@ -59,6 +60,7 @@ public class ProductController {
         resource.add(linkTo(ProductController.class).withRel("create-product"));
         resource.add(selfLinkBuilder.withRel("modify-product"));
         resource.add(selfLinkBuilder.withRel("delete-product"));
+        resource.add(linkTo(OrdersController.class).withRel("create-orders"));
         resource.add(new Link("/docs/index.html#resources-product-load").withRel("profile"));
 
         return ResponseEntity.ok(resource);
@@ -73,6 +75,7 @@ public class ProductController {
         resource.add(selfLinkBuilder.withRel("load-product"));
         resource.add(selfLinkBuilder.withRel("modify-product"));
         resource.add(selfLinkBuilder.withRel("delete-product"));
+        resource.add(linkTo(OrdersController.class).withRel("create-orders"));
         resource.add(new Link("/docs/index.html#resources-product-create").withRel("profile"));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
@@ -87,6 +90,7 @@ public class ProductController {
         resource.add(selfLinkBuilder.withRel("load-product"));
         resource.add(linkTo(ProductController.class).withRel("create-product"));
         resource.add(selfLinkBuilder.withRel("delete-product"));
+        resource.add(linkTo(OrdersController.class).withRel("create-orders"));
         resource.add(new Link("/docs/index.html#resources-product-modify").withRel("profile"));
 
         return ResponseEntity.ok(resource);
@@ -98,6 +102,7 @@ public class ProductController {
         ProductResource resource = new ProductResource(responseDto);
         resource.add(linkTo(ProductController.class).withRel("load-all-products"));
         resource.add(linkTo(ProductController.class).withRel("create-product"));
+        resource.add(linkTo(OrdersController.class).withRel("create-orders"));
         resource.add(new Link("/docs/index.html#resources-product-delete").withRel("profile"));
 
         return ResponseEntity.ok(resource);

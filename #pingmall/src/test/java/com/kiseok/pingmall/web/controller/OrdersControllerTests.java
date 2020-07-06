@@ -172,11 +172,14 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .header(HttpHeaders.AUTHORIZATION, anotherToken))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("[*].id").exists())
-                .andExpect(jsonPath("[*].number").exists())
-                .andExpect(jsonPath("[*].amount").exists())
-                .andExpect(jsonPath("[*].buyer").exists())
-                .andExpect(jsonPath("[*].product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].id").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].number").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].amount").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].buyer").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.load-product").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         ordersRequestDtoList = new ArrayList<>();
@@ -266,11 +269,14 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .header(HttpHeaders.AUTHORIZATION, anotherToken))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("[*].id").exists())
-                .andExpect(jsonPath("[*].number").exists())
-                .andExpect(jsonPath("[*].amount").exists())
-                .andExpect(jsonPath("[*].buyer").exists())
-                .andExpect(jsonPath("[*].product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].id").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].number").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].amount").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].buyer").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.load-product").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -288,6 +294,9 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         return generateToken(actions);
@@ -307,7 +316,10 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                ;
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+        ;
 
         return generateToken(actions);
     }
@@ -328,7 +340,10 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("address").value(ANOTHER + appProperties.getTestAddress()))
                 .andExpect(jsonPath("balance").value(balance))
                 .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                ;
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+        ;
 
         return generateToken(actions);
     }
@@ -365,6 +380,13 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.create-orders").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
 
         String productAsString = actions.andReturn().getResponse().getContentAsString();
@@ -389,7 +411,14 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("stock").value(stock))
                 .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
                 .andExpect(jsonPath("seller").exists())
-                ;
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.load-product").exists())
+                .andExpect(jsonPath("_links.modify-product").exists())
+                .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.create-orders").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+        ;
 
         String productAsString = actions.andReturn().getResponse().getContentAsString();
         return objectMapper.readValue(productAsString, ProductResponseDto.class);

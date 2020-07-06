@@ -13,8 +13,6 @@ import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +26,7 @@ public class OrdersService {
     private final AccountRepository accountRepository;
     private final OrdersRepository ordersRepository;
 
-    public ResponseEntity<?> saveOrders(List<OrdersRequestDto> requestDtoList, Account currentUser)    {
+    public List<OrdersResponseDto> saveOrders(List<OrdersRequestDto> requestDtoList, Account currentUser)    {
         List<OrdersResponseDto> responseDtoList = new LinkedList<>();
         Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
         requestDtoList.forEach(requestDto -> {
@@ -44,7 +42,7 @@ public class OrdersService {
             responseDtoList.add(responseDto);
         });
 
-        return new ResponseEntity<>(responseDtoList, HttpStatus.CREATED);
+        return responseDtoList;
     }
 
     private void isEqualsToUserId(Account account, Product product) {
