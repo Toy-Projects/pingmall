@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.common.errors;
 
 import lombok.Getter;
-import static com.kiseok.pingmall.common.errors.ErrorsConstants.*;
+import static com.kiseok.pingmall.common.errors.ErrorConstants.*;
 
 @Getter
 public enum ErrorCode {

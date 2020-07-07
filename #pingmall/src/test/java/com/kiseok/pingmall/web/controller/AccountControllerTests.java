@@ -58,6 +58,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("errors.[*].field").exists())
                 .andExpect(jsonPath("errors.[*].value").exists())
                 .andExpect(jsonPath("errors.[*].reason").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -95,6 +97,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -165,6 +169,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -262,6 +268,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("errors.[*].field").exists())
                 .andExpect(jsonPath("errors.[*].value").exists())
                 .andExpect(jsonPath("errors.[*].reason").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -305,6 +313,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -370,6 +380,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -514,6 +526,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("errors.[*].field").exists())
                 .andExpect(jsonPath("errors.[*].value").exists())
                 .andExpect(jsonPath("errors.[*].reason").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -555,6 +569,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -618,6 +634,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -712,6 +730,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 
@@ -773,6 +793,8 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("code").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
         ;
     }
 

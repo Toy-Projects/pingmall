@@ -2,10 +2,10 @@ package com.kiseok.pingmall.common.errors;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import static com.kiseok.pingmall.common.errors.ErrorsConstants.*;
+import static com.kiseok.pingmall.common.errors.ErrorConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ErrorsConstantsTests {
+public class ErrorConstantsTests {
 
     @DisplayName("Error Constants 테스트")
     @Test

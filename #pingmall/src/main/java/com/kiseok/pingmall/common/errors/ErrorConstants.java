@@ -1,6 +1,6 @@
 package com.kiseok.pingmall.common.errors;
 
-public class ErrorsConstants {
+public class ErrorConstants {
     public static final String NOT_FOUND_404 = "404 NOT_FOUND";
     public static final String BAD_REQUEST_400 = "400 BAD_REQUEST";
     public static final String UNAUTHORIZED_401 = "401 UNAUTHORIZED";
