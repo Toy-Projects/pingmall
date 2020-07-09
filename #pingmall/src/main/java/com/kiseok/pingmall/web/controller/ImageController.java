@@ -1,11 +1,12 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.ImageService;
+import com.kiseok.pingmall.common.domain.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
-import com.kiseok.pingmall.common.domain.product.ProductResource;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 public class ImageController {
 
+    private final ModelResource modelResource;
     private final ImageService imageService;
 
     @GetMapping("/products/{productId}/{imagePath:.+}")
@@ -40,12 +42,12 @@ public class ImageController {
             responseDto = imageService.saveProductImage(productId, file, request, currentUser);
         }
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class);
-        ProductResource resource = new ProductResource(responseDto);
+        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
         resource.add(linkTo(ProductController.class).withRel("load-all-products"));
         resource.add(selfLinkBuilder.withRel("load-product"));
         resource.add(selfLinkBuilder.withRel("modify-product"));
         resource.add(selfLinkBuilder.withRel("delete-product"));
-        resource.add(new Link("/docs/index.html#resources-product-image-create").withRel("profile"));
+        resource.add(Link.of("/docs/index.html#resources-product-image-create").withRel("profile"));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }

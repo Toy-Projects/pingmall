@@ -1,13 +1,14 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.OrdersService;
+import com.kiseok.pingmall.common.domain.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
-import com.kiseok.pingmall.common.domain.order.OrdersResource;
 import com.kiseok.pingmall.common.domain.order.OrdersValidator;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
@@ -29,6 +30,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 public class OrdersController {
 
+    private final ModelResource modelResource;
     private final OrdersValidator ordersValidator;
     private final OrdersService ordersService;
 
@@ -36,14 +38,14 @@ public class OrdersController {
     ResponseEntity<?> saveOrders(@RequestBody @Valid List<OrdersRequestDto> requestDtoList, @CurrentUser Account currentUser, BindingResult bindingResult) throws BindException {
         validateOrdersList(requestDtoList, bindingResult);
         List<OrdersResponseDto> responseDtoList = ordersService.saveOrders(requestDtoList, currentUser);
-        List<EntityModel<OrdersResponseDto>> entityModelList = responseDtoList.stream().map(responseDto -> {
-            EntityModel<OrdersResponseDto> entityModel = new EntityModel<>(responseDto);
+        List<EntityModel<?>> entityModelList = responseDtoList.stream().map(responseDto -> {
+            EntityModel<?> entityModel = modelResource.getEntityModel(responseDto);
             entityModel.add(linkTo(ProductController.class).slash(responseDto.getProduct().getId()).withRel("load-product"));
             return entityModel;
         }).collect(Collectors.toList());
 
-        OrdersResource resource = new OrdersResource(entityModelList);
-        resource.add(new Link("/docs/index.html#resources-orders-create").withRel("profile"));
+        CollectionModel<EntityModel<?>> resource = modelResource.getCollectionModelWithSelfRel(entityModelList, linkTo(OrdersController.class));
+        resource.add(Link.of("/docs/index.html#resources-orders-create").withRel("profile"));
 
         return new ResponseEntity<>(resource, HttpStatus.CREATED);
     }
