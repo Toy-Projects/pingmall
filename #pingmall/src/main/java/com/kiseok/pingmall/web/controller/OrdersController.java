@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.OrdersService;
-import com.kiseok.pingmall.common.domain.ModelResource;
+import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.common.domain.order.OrdersValidator;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
@@ -40,12 +41,12 @@ public class OrdersController {
         List<OrdersResponseDto> responseDtoList = ordersService.saveOrders(requestDtoList, currentUser);
         List<EntityModel<?>> entityModelList = responseDtoList.stream().map(responseDto -> {
             EntityModel<?> entityModel = modelResource.getEntityModel(responseDto);
-            entityModel.add(linkTo(ProductController.class).slash(responseDto.getProduct().getId()).withRel("load-product"));
+            entityModel.add(linkTo(ProductController.class).slash(responseDto.getProduct().getId()).withRel(LOAD_PRODUCT.getRel()));
             return entityModel;
         }).collect(Collectors.toList());
 
         CollectionModel<EntityModel<?>> resource = modelResource.getCollectionModelWithSelfRel(entityModelList, linkTo(OrdersController.class));
-        resource.add(Link.of("/docs/index.html#resources-orders-create").withRel("profile"));
+        resource.add(Link.of(CREATE_ORDERS.getProfile()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.CREATED);
     }

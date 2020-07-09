@@ -4,7 +4,7 @@ import com.kiseok.pingmall.api.exception.account.*;
 import com.kiseok.pingmall.api.exception.image.*;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
-import com.kiseok.pingmall.common.domain.ModelResource;
+import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.common.errors.ErrorCode;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static com.kiseok.pingmall.common.errors.ErrorCode.*;
 
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class ErrorControllerAdvice {
         }
 
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + INVALID_INPUT_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + INVALID_INPUT_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -58,7 +59,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleUserDuplicatedException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(DUPLICATED_ACCOUNT_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + DUPLICATED_ACCOUNT_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + DUPLICATED_ACCOUNT_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -68,7 +69,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleUserIdNotMatchException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_MATCH_ACCOUNT_ID_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + NOT_MATCH_ACCOUNT_ID_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + NOT_MATCH_ACCOUNT_ID_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -78,7 +79,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleUserIdEqualException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.EQUAL_ACCOUNT_ID_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + EQUAL_ACCOUNT_ID_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + EQUAL_ACCOUNT_ID_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -88,7 +89,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleFileNameInvalidException() {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_FILE_NAME_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + INVALID_FILE_NAME_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + INVALID_FILE_NAME_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -98,7 +99,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleFileExtensionInvalidException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_FILE_EXTENSION_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + INVALID_FILE_EXTENSION_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + INVALID_FILE_EXTENSION_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -108,7 +109,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleFileInvalidException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_FILE_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + INVALID_FILE_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + INVALID_FILE_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -118,7 +119,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleFilePathInvalidException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.INVALID_FILE_PATH_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + INVALID_FILE_PATH_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + INVALID_FILE_PATH_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -128,7 +129,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleBalanceShortageException()   {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.SHORTAGE_BALANCE_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + SHORTAGE_BALANCE_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + SHORTAGE_BALANCE_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -138,7 +139,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleStockShortageException() {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.SHORTAGE_STOCK_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + SHORTAGE_STOCK_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + SHORTAGE_STOCK_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
@@ -150,7 +151,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleUserUnauthorizedException()  {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.UNAUTHORIZED_ACCOUNT_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + UNAUTHORIZED_ACCOUNT_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + UNAUTHORIZED_ACCOUNT_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.UNAUTHORIZED);
     }
@@ -162,7 +163,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleUserNotFoundException()  {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_FOUND_ACCOUNT_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + NOT_FOUND_ACCOUNT_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + NOT_FOUND_ACCOUNT_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.NOT_FOUND);
     }
@@ -172,7 +173,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleProductNotFoundException() {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_FOUND_PRODUCT_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + NOT_FOUND_PRODUCT_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + NOT_FOUND_PRODUCT_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.NOT_FOUND);
     }
@@ -182,7 +183,7 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleFileNotFoundException()  {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_FOUND_FILE_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModelWithSelfRel(responseDto);
-        resource.add(Link.of("/docs/index.html#resources-error-" + NOT_FOUND_FILE_ERROR.name()).withRel("profile"));
+        resource.add(Link.of(ERROR.getProfile() + NOT_FOUND_FILE_ERROR.name()).withRel(PROFILE.getRel()));
 
         return new ResponseEntity<>(resource, HttpStatus.NOT_FOUND);
     }

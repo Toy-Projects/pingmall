@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.AccountService;
-import com.kiseok.pingmall.common.domain.ModelResource;
+import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
@@ -16,6 +16,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
@@ -31,11 +32,11 @@ public class AccountController {
         AccountResponseDto responseDto = accountService.loadAccount(accountId);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(linkTo(AccountController.class).withRel("create-account"));
-        resource.add(selfLinkBuilder.slash("balance").withRel("deposit-account"));
-        resource.add(selfLinkBuilder.withRel("modify-account"));
-        resource.add(selfLinkBuilder.withRel("delete-account"));
-        resource.add(Link.of("/docs/index.html#resources-account-load").withRel("profile"));
+        resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.slash("balance").withRel(DEPOSIT_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.withRel(MODIFY_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
+        resource.add(Link.of(LOAD_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -45,8 +46,8 @@ public class AccountController {
         AccountResponseDto responseDto = accountService.saveAccount(requestDto);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(linkTo(LoginController.class).withRel("login-account"));
-        resource.add(Link.of("/docs/index.html#resources-account-create").withRel("profile"));
+        resource.add(linkTo(LoginController.class).withRel(LOGIN_ACCOUNT.getRel()));
+        resource.add(Link.of(CREATE_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }
@@ -56,10 +57,10 @@ public class AccountController {
         AccountResponseDto responseDto = accountService.depositAccount(accountId, requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(selfLinkBuilder.withRel("load-account"));
-        resource.add(selfLinkBuilder.withRel("modify-account"));
-        resource.add(selfLinkBuilder.withRel("delete-account"));
-        resource.add(Link.of("/docs/index.html#resources-account-deposit").withRel("profile"));
+        resource.add(selfLinkBuilder.withRel(LOAD_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.withRel(MODIFY_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
+        resource.add(Link.of(DEPOSIT_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -69,10 +70,10 @@ public class AccountController {
         AccountResponseDto responseDto = accountService.modifyAccount(accountId, requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(selfLinkBuilder.withRel("load-account"));
-        resource.add(selfLinkBuilder.slash("balance").withRel("deposit-account"));
-        resource.add(selfLinkBuilder.withRel("delete-account"));
-        resource.add(Link.of("/docs/index.html#resources-account-modify").withRel("profile"));
+        resource.add(selfLinkBuilder.withRel(LOAD_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.slash("balance").withRel(DEPOSIT_ACCOUNT.getRel()));
+        resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
+        resource.add(Link.of(MODIFY_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -82,9 +83,9 @@ public class AccountController {
         AccountResponseDto responseDto = accountService.removeAccount(accountId, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(linkTo(LoginController.class).withRel("login-account"));
-        resource.add(linkTo(AccountController.class).withRel("create-account"));
-        resource.add(Link.of("/docs/index.html#resources-account-delete").withRel("profile"));
+        resource.add(linkTo(LoginController.class).withRel(LOGIN_ACCOUNT.getRel()));
+        resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
+        resource.add(Link.of(DELETE_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }

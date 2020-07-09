@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.ImageService;
-import com.kiseok.pingmall.common.domain.ModelResource;
+import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
@@ -43,11 +44,11 @@ public class ImageController {
         }
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class);
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
-        resource.add(linkTo(ProductController.class).withRel("load-all-products"));
-        resource.add(selfLinkBuilder.withRel("load-product"));
-        resource.add(selfLinkBuilder.withRel("modify-product"));
-        resource.add(selfLinkBuilder.withRel("delete-product"));
-        resource.add(Link.of("/docs/index.html#resources-product-image-create").withRel("profile"));
+        resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(LOAD_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
+        resource.add(Link.of(CREATE_PRODUCT_IMAGE.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }

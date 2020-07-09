@@ -1,9 +1,10 @@
 package com.kiseok.pingmall.common.errors;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import static com.kiseok.pingmall.common.errors.ErrorConstants.*;
 
-@Getter
+@Getter @AllArgsConstructor
 public enum ErrorCode {
 
     // Account
@@ -31,10 +32,4 @@ public enum ErrorCode {
     private final String code;
     private final String status;
     private final String message;
-
-    ErrorCode(String code, String status, String message) {
-        this.code = code;
-        this.status = status;
-        this.message = message;
-    }
 }

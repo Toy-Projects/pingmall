@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.common.domain;
+package com.kiseok.pingmall.common.domain.resources;
 
 import com.kiseok.pingmall.web.controller.ErrorControllerAdvice;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;

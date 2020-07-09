@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.LoginService;
-import com.kiseok.pingmall.common.domain.ModelResource;
+import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
@@ -28,9 +29,9 @@ public class LoginController {
     ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto)   {
         JwtResponseDto responseDto = loginService.loginAccount(requestDto);
         EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, linkTo(LoginController.class));
-        resource.add(linkTo(AccountController.class).withRel("create-account"));
-        resource.add(linkTo(ProductController.class).withRel("load-all-products"));
-        resource.add(Link.of("/docs/index.html#resources-account-login").withRel("profile"));
+        resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
+        resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
+        resource.add(Link.of(LOGIN_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
