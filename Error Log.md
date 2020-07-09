@@ -29,5 +29,5 @@
 <br>
 
 ### **_5. `HATEOAS` 적용 중 `Deprecated` 된 메소드, 클래스 발견_**
-  - `EntityModel.super()`
-  - `Link.class`
+  - `EntityModel.super(T content, Link... links)` -> `EntityModel.of(T content)` 로 변경
+  - `new Link("...")` -> `Link.of("..")` 로 변경
