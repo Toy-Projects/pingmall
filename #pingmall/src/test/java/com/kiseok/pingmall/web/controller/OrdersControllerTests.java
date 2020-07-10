@@ -185,7 +185,7 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].amount").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].buyer").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].product").exists())
-                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.load-product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.self").exists())
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
@@ -288,7 +288,7 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].amount").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].buyer").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].product").exists())
-                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.load-product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.self").exists())
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;

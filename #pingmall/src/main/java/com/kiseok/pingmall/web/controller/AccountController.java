@@ -10,7 +10,6 @@ import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +30,11 @@ public class AccountController {
     ResponseEntity<?> loadAccount(@PathVariable Long accountId)   {
         AccountResponseDto responseDto = accountService.loadAccount(accountId);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, LOAD_ACCOUNT.getProfile());
         resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.slash("balance").withRel(DEPOSIT_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
-        resource.add(Link.of(LOAD_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -45,9 +43,8 @@ public class AccountController {
     ResponseEntity<?> saveAccount(@RequestBody @Valid AccountRequestDto requestDto) {
         AccountResponseDto responseDto = accountService.saveAccount(requestDto);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, CREATE_ACCOUNT.getProfile());
         resource.add(linkTo(LoginController.class).withRel(LOGIN_ACCOUNT.getRel()));
-        resource.add(Link.of(CREATE_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }
@@ -56,11 +53,10 @@ public class AccountController {
     ResponseEntity<?> depositAccount(@PathVariable Long accountId, @RequestBody @Valid AccountDepositRequestDto requestDto, @CurrentUser Account currentUser)   {
         AccountResponseDto responseDto = accountService.depositAccount(accountId, requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, DEPOSIT_ACCOUNT.getProfile());
         resource.add(selfLinkBuilder.withRel(LOAD_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
-        resource.add(Link.of(DEPOSIT_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -69,11 +65,10 @@ public class AccountController {
     ResponseEntity<?> modifyAccount(@PathVariable Long accountId, @RequestBody @Valid AccountModifyRequestDto requestDto, @CurrentUser Account currentUser)   {
         AccountResponseDto responseDto = accountService.modifyAccount(accountId, requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, MODIFY_ACCOUNT.getProfile());
         resource.add(selfLinkBuilder.withRel(LOAD_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.slash("balance").withRel(DEPOSIT_ACCOUNT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_ACCOUNT.getRel()));
-        resource.add(Link.of(MODIFY_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -82,10 +77,9 @@ public class AccountController {
     ResponseEntity<?> removeAccount(@PathVariable Long accountId, @CurrentUser Account currentUser)  {
         AccountResponseDto responseDto = accountService.removeAccount(accountId, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(AccountController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, DELETE_ACCOUNT.getProfile());
         resource.add(linkTo(LoginController.class).withRel(LOGIN_ACCOUNT.getRel()));
         resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
-        resource.add(Link.of(DELETE_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }

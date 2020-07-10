@@ -39,12 +39,12 @@ public class ProductController {
         {
             ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
             WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
-            EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+            EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, LOAD_PRODUCT.getProfile());
             resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
+            resource.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
             resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
             resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
             resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
-            resource.add(Link.of(LOAD_PRODUCT.getProfile()).withRel(PROFILE.getRel()));
 
             return resource;
         });
@@ -58,13 +58,13 @@ public class ProductController {
     ResponseEntity<?> loadProduct(@PathVariable Long productId)  {
         ProductResponseDto responseDto = productService.loadProduct(productId);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, LOAD_PRODUCT.getProfile());
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
         resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
-        resource.add(Link.of(LOAD_PRODUCT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -73,13 +73,13 @@ public class ProductController {
     ResponseEntity<?> saveProduct(@RequestBody @Valid ProductRequestDto requestDto, @CurrentUser Account currentUser)  {
         ProductResponseDto responseDto = productService.saveProduct(requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, CREATE_PRODUCT.getProfile());
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(LOAD_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
         resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
-        resource.add(Link.of(CREATE_PRODUCT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }
@@ -88,13 +88,13 @@ public class ProductController {
     ResponseEntity<?> modifyProduct(@PathVariable Long productId, @RequestBody @Valid ProductRequestDto requestDto, @CurrentUser Account currentUser)    {
         ProductResponseDto responseDto = productService.modifyProduct(productId, requestDto, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, MODIFY_PRODUCT.getProfile());
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(LOAD_PRODUCT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
         resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
-        resource.add(Link.of(MODIFY_PRODUCT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }
@@ -103,11 +103,11 @@ public class ProductController {
     ResponseEntity<?> deleteProduct(@PathVariable Long productId, @CurrentUser Account currentUser)    {
         ProductResponseDto responseDto = productService.deleteProduct(productId, currentUser);
         WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, DELETE_PRODUCT.getProfile());
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
+        resource.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
         resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
-        resource.add(Link.of(DELETE_PRODUCT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }

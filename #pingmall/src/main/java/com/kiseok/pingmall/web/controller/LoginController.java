@@ -6,7 +6,6 @@ import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +27,9 @@ public class LoginController {
     @PostMapping
     ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto)   {
         JwtResponseDto responseDto = loginService.loginAccount(requestDto);
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, linkTo(LoginController.class));
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, linkTo(LoginController.class), LOGIN_ACCOUNT.getProfile());
         resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
-        resource.add(Link.of(LOGIN_ACCOUNT.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.ok(resource);
     }

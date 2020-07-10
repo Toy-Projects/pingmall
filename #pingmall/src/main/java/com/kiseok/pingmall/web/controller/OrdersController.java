@@ -10,8 +10,8 @@ import com.kiseok.pingmall.web.dto.order.OrdersResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -40,13 +40,15 @@ public class OrdersController {
         validateOrdersList(requestDtoList, bindingResult);
         List<OrdersResponseDto> responseDtoList = ordersService.saveOrders(requestDtoList, currentUser);
         List<EntityModel<?>> entityModelList = responseDtoList.stream().map(responseDto -> {
-            EntityModel<?> entityModel = modelResource.getEntityModel(responseDto);
-            entityModel.add(linkTo(ProductController.class).slash(responseDto.getProduct().getId()).withRel(LOAD_PRODUCT.getRel()));
+            WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
+            EntityModel<?> entityModel = modelResource.getEntityModel(responseDto, selfLinkBuilder);
+            entityModel.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
+            entityModel.add(selfLinkBuilder.withRel(CREATE_PRODUCT_IMAGE.getRel()));
+            entityModel.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
+            entityModel.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
             return entityModel;
         }).collect(Collectors.toList());
-
-        CollectionModel<EntityModel<?>> resource = modelResource.getCollectionModelWithSelfRel(entityModelList, linkTo(OrdersController.class));
-        resource.add(Link.of(CREATE_ORDERS.getProfile()).withRel(PROFILE.getRel()));
+        CollectionModel<EntityModel<?>> resource = modelResource.getCollectionModel(entityModelList, linkTo(OrdersController.class), CREATE_ORDERS.getProfile());
 
         return new ResponseEntity<>(resource, HttpStatus.CREATED);
     }

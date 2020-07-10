@@ -7,7 +7,6 @@ import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,13 +41,12 @@ public class ImageController {
         else {
             responseDto = imageService.saveProductImage(productId, file, request, currentUser);
         }
-        WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class);
-        EntityModel<?> resource = modelResource.getEntityModelWithSelfRel(responseDto, selfLinkBuilder);
+        WebMvcLinkBuilder selfLinkBuilder = linkTo(ProductController.class).slash(responseDto.getId());
+        EntityModel<?> resource = modelResource.getEntityModel(responseDto, selfLinkBuilder, CREATE_PRODUCT_IMAGE.getProfile());
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(LOAD_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
-        resource.add(Link.of(CREATE_PRODUCT_IMAGE.getProfile()).withRel(PROFILE.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }
