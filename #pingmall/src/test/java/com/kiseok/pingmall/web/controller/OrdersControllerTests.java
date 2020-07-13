@@ -2,7 +2,7 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
-import com.kiseok.pingmall.web.BaseControllerTests;
+import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;

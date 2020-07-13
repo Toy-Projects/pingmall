@@ -1,7 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
-import com.kiseok.pingmall.web.BaseControllerTests;
+import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import org.junit.jupiter.api.AfterEach;
@@ -12,8 +12,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.util.stream.Stream;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -114,9 +123,35 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("token").exists())
                 .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.create-account").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
                 .andExpect(jsonPath("_links.load-all-products").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(LOGIN_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(CREATE_PRODUCT.getRel()).description("link to create product"),
+                                linkWithRel(LOAD_ALL_PRODUCT.getRel()).description("link to load all products")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        requestFields(
+                                fieldWithPath("email").description("E-mail of Account to Login"),
+                                fieldWithPath("password").description("Password of Account to Login")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("token").description("Token of Login Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.create-product.href").description("link to create product"),
+                                fieldWithPath("_links.load-all-products.href").description("link to load all products")
+                        )
+                ))
         ;
     }
 

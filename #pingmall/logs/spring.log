@@ -1,0 +1,24 @@
+2020-07-13 23:31:03.142  INFO 2212 --- [main] com.kiseok.pingmall.PingmallApplication  : Starting PingmallApplication on yang-giseog-ui-MacBookPro.local with PID 2212 (/Users/kiseokyang/Desktop/Study/pingmall/#pingmall/build/classes/java/main started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-13 23:31:03.148  INFO 2212 --- [main] com.kiseok.pingmall.PingmallApplication  : No active profile set, falling back to default profiles: default
+2020-07-13 23:31:03.976  INFO 2212 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-13 23:31:04.041  INFO 2212 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 59ms. Found 3 JPA repository interfaces.
+2020-07-13 23:31:04.642  INFO 2212 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-13 23:31:04.652  INFO 2212 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-13 23:31:04.652  INFO 2212 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-07-13 23:31:04.747  INFO 2212 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-13 23:31:04.748  INFO 2212 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1514 ms
+2020-07-13 23:31:04.789  INFO 2212 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-13 23:31:05.159  INFO 2212 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-13 23:31:05.163  INFO 2212 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-13 23:31:05.374  INFO 2212 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-13 23:31:05.438  INFO 2212 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-13 23:31:05.494  INFO 2212 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-13 23:31:05.809  INFO 2212 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-13 23:31:06.020  INFO 2212 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-13 23:31:06.090  INFO 2212 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7e0bc8a3, org.springframework.security.web.context.SecurityContextPersistenceFilter@1de9b505, org.springframework.security.web.header.HeaderWriterFilter@984169e, org.springframework.security.web.authentication.logout.LogoutFilter@46aa712c, com.kiseok.pingmall.common.config.jwt.JwtFilter@336880df, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3743539f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6cd3ad8a, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4b0f2299, org.springframework.security.web.session.SessionManagementFilter@489091bd, org.springframework.security.web.access.ExceptionTranslationFilter@17273273, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6f70a21b]
+2020-07-13 23:31:06.960  INFO 2212 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-13 23:31:06.968  INFO 2212 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-13 23:31:07.467  INFO 2212 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-07-13 23:31:07.469  INFO 2212 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-13 23:31:07.575  INFO 2212 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-13 23:31:07.587  INFO 2212 --- [main] com.kiseok.pingmall.PingmallApplication  : Started PingmallApplication in 4.818 seconds (JVM running for 5.224)

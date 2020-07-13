@@ -2,7 +2,7 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRole;
-import com.kiseok.pingmall.web.BaseControllerTests;
+import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
@@ -20,7 +20,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.stream.Stream;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -123,6 +129,39 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.login-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(CREATE_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOGIN_ACCOUNT.getRel()).description("link to login account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        requestFields(
+                                fieldWithPath("email").description("E-mail of new Account"),
+                                fieldWithPath("password").description("Password of new Account"),
+                                fieldWithPath("name").description("Name of Account"),
+                                fieldWithPath("address").description("Address of new Account"),
+                                fieldWithPath("balance").description("Balance of new Account")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("location header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of new Account"),
+                                fieldWithPath("email").description("E-mail of new Account"),
+                                fieldWithPath("name").description("Name of new Account"),
+                                fieldWithPath("address").description("Address of new Account"),
+                                fieldWithPath("balance").description("Balance of new Account"),
+                                fieldWithPath("accountRole").description("Role of new Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.login-account.href").description("link to login account")
+                        )
+                ))
         ;
 
         List<Account> accountList = accountRepository.findAll();
@@ -220,6 +259,37 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.delete-account").exists())
                 .andExpect(jsonPath("_links.deposit-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(LOAD_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(CREATE_ACCOUNT.getRel()).description("link to create account"),
+                                linkWithRel(DEPOSIT_ACCOUNT.getRel()).description("link to deposit account"),
+                                linkWithRel(MODIFY_ACCOUNT.getRel()).description("link to modify account"),
+                                linkWithRel(DELETE_ACCOUNT.getRel()).description("link to delete account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Account"),
+                                fieldWithPath("email").description("E-mail of Account"),
+                                fieldWithPath("name").description("Name of Account"),
+                                fieldWithPath("address").description("Address of Account"),
+                                fieldWithPath("balance").description("Balance of Account"),
+                                fieldWithPath("accountRole").description("Role of Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.create-account.href").description("link to create account"),
+                                fieldWithPath("_links.deposit-account.href").description("link to deposit account"),
+                                fieldWithPath("_links.modify-account.href").description("link to modify account"),
+                                fieldWithPath("_links.delete-account.href").description("link to delete account")
+                        )
+                ))
         ;
     }
 
@@ -473,6 +543,39 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.modify-account").exists())
                 .andExpect(jsonPath("_links.delete-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(DEPOSIT_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOAD_ACCOUNT.getRel()).description("link to load account"),
+                                linkWithRel(MODIFY_ACCOUNT.getRel()).description("link to modify account"),
+                                linkWithRel(DELETE_ACCOUNT.getRel()).description("link to delete account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        requestFields(
+                                fieldWithPath("balance").description("Additional Balance of Account")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Account"),
+                                fieldWithPath("email").description("E-mail of Account"),
+                                fieldWithPath("name").description("Name of Account"),
+                                fieldWithPath("address").description("Address of Account"),
+                                fieldWithPath("balance").description("Balance of Account"),
+                                fieldWithPath("accountRole").description("Role of Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.load-account.href").description("link to load account"),
+                                fieldWithPath("_links.modify-account.href").description("link to modify account"),
+                                fieldWithPath("_links.delete-account.href").description("link to delete account")
+                        )
+                ))
         ;
     }
 
@@ -686,6 +789,41 @@ class AccountControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.deposit-account").exists())
                 .andExpect(jsonPath("_links.delete-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(MODIFY_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOAD_ACCOUNT.getRel()).description("link to load account"),
+                                linkWithRel(DEPOSIT_ACCOUNT.getRel()).description("link to deposit account"),
+                                linkWithRel(DELETE_ACCOUNT.getRel()).description("link to delete account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        requestFields(
+                                fieldWithPath("password").description("Modified Password of Account"),
+                                fieldWithPath("name").description("Modified Name of Account"),
+                                fieldWithPath("address").description("Modified Address of Account")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Modified Account"),
+                                fieldWithPath("email").description("E-mail of Modified Account"),
+                                fieldWithPath("name").description("Name of Modified Account"),
+                                fieldWithPath("address").description("Address of Modified Account"),
+                                fieldWithPath("balance").description("Balance of Modified Account"),
+                                fieldWithPath("accountRole").description("Role of Modified Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.load-account.href").description("link to load account"),
+                                fieldWithPath("_links.deposit-account.href").description("link to deposit account"),
+                                fieldWithPath("_links.delete-account.href").description("link to delete account")
+                        )
+                ))
         ;
 
         List<Account> accountList = accountRepository.findAll();
@@ -831,10 +969,45 @@ class AccountControllerTests extends BaseControllerTests {
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("password").doesNotExist())
+                .andExpect(jsonPath("name").value(appProperties.getTestName()))
+                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
+                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
+                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.login-account").exists())
                 .andExpect(jsonPath("_links.create-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(DELETE_ACCOUNT.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOGIN_ACCOUNT.getRel()).description("link to login account"),
+                                linkWithRel(CREATE_ACCOUNT.getRel()).description("link to create account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Modified Account"),
+                                fieldWithPath("email").description("E-mail of Modified Account"),
+                                fieldWithPath("name").description("Name of Modified Account"),
+                                fieldWithPath("address").description("Address of Modified Account"),
+                                fieldWithPath("balance").description("Balance of Modified Account"),
+                                fieldWithPath("accountRole").description("Role of Modified Account"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.login-account.href").description("link to login account"),
+                                fieldWithPath("_links.create-account.href").description("link to create account")
+                        )
+                ))
         ;
     }
 

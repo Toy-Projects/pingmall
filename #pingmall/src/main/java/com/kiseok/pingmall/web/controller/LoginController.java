@@ -28,7 +28,7 @@ public class LoginController {
     ResponseEntity<?> loginAccount(@RequestBody @Valid LoginRequestDto requestDto)   {
         JwtResponseDto responseDto = loginService.loginAccount(requestDto);
         EntityModel<?> resource = modelResource.getEntityModel(responseDto, linkTo(LoginController.class), LOGIN_ACCOUNT.getProfile());
-        resource.add(linkTo(AccountController.class).withRel(CREATE_ACCOUNT.getRel()));
+        resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
 
         return ResponseEntity.ok(resource);

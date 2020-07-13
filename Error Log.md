@@ -31,3 +31,10 @@
 ### **_5. `HATEOAS` 적용 중 `Deprecated` 된 메소드, 클래스 발견_**
   - `EntityModel.super(T content, Link... links)` -> `EntityModel.of(T content)` 로 변경
   - `new Link("...")` -> `Link.of("..")` 로 변경
+
+<br>
+
+### **_6. `Spring Application` 실횅 시 Console에 `WARN` 로그 발견_**
+  - `yyyy-mm-dd hh:mm:ss  WARN 1239 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning`
+  - `applicaation.yml` -> `spring.jpa.open-in-view=false` 로 변경
+  - [참조1](https://mand2.github.io/spring-boot/1/), [참조2](https://kingbbode.tistory.com/27)

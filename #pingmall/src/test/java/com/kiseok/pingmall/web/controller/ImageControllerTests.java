@@ -2,7 +2,7 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
-import com.kiseok.pingmall.web.BaseControllerTests;
+import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
