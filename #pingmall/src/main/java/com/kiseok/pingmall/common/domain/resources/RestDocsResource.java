@@ -6,6 +6,9 @@ import lombok.Getter;
 @Getter @AllArgsConstructor
 public enum RestDocsResource {
 
+    // index
+    LOAD_INDEX("load-index", "/docs/index.html#resources-index-load"),
+
     // profile
     PROFILE("profile", null),
 

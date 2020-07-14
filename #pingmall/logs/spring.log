@@ -1103,3 +1103,133 @@
 2020-07-14 16:03:09.001  INFO 1565 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2020-07-14 16:03:09.002  INFO 1565 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2020-07-14 16:03:09.012  INFO 1565 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 16:47:54.075  INFO 1782 --- [main] c.k.p.w.controller.IndexControllerTests  : Starting IndexControllerTests on yang-giseog-ui-MacBookPro.local with PID 1782 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 16:47:54.076  INFO 1782 --- [main] c.k.p.w.controller.IndexControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 16:47:54.768  INFO 1782 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 16:47:54.836  INFO 1782 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61ms. Found 3 JPA repository interfaces.
+2020-07-14 16:47:55.422  INFO 1782 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:47:55.467  INFO 1782 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 16:47:55.510  INFO 1782 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 16:47:55.678  INFO 1782 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 16:47:55.819  INFO 1782 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 16:47:56.175  INFO 1782 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@77bc2e16, org.springframework.security.web.context.SecurityContextPersistenceFilter@18137eab, org.springframework.security.web.header.HeaderWriterFilter@60a19573, org.springframework.security.web.authentication.logout.LogoutFilter@40a72ecd, com.kiseok.pingmall.common.config.jwt.JwtFilter@3ba46e63, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2935fd2c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7523a3dc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@48e8c32a, org.springframework.security.web.session.SessionManagementFilter@7d32e714, org.springframework.security.web.access.ExceptionTranslationFilter@47ac613b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@41184371]
+2020-07-14 16:47:56.258  INFO 1782 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 16:47:56.294  INFO 1782 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 16:47:57.064  INFO 1782 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 16:47:57.069  INFO 1782 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:47:57.926  INFO 1782 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 16:47:58.093  INFO 1782 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 16:47:58.093  INFO 1782 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 16:47:58.107  INFO 1782 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 14 ms
+2020-07-14 16:47:58.117  INFO 1782 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 16:47:58.294  INFO 1782 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 16:47:58.305  INFO 1782 --- [main] c.k.p.w.controller.IndexControllerTests  : Started IndexControllerTests in 4.654 seconds (JVM running for 5.68)
+2020-07-14 16:47:58.409  WARN 1782 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 16:47:58.530  INFO 1782 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:47:58.534  INFO 1782 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:47:58.535  INFO 1782 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 16:47:58.540  INFO 1782 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 16:49:25.082  INFO 1793 --- [main] c.k.p.w.controller.IndexControllerTests  : Starting IndexControllerTests on yang-giseog-ui-MacBookPro.local with PID 1793 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 16:49:25.084  INFO 1793 --- [main] c.k.p.w.controller.IndexControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 16:49:25.749  INFO 1793 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 16:49:25.842  INFO 1793 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 83ms. Found 3 JPA repository interfaces.
+2020-07-14 16:49:26.455  INFO 1793 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:49:26.501  INFO 1793 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 16:49:26.545  INFO 1793 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 16:49:26.742  INFO 1793 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 16:49:26.883  INFO 1793 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 16:49:27.317  INFO 1793 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20a7953c, org.springframework.security.web.context.SecurityContextPersistenceFilter@2935fd2c, org.springframework.security.web.header.HeaderWriterFilter@134ff8f8, org.springframework.security.web.authentication.logout.LogoutFilter@76a14c8d, com.kiseok.pingmall.common.config.jwt.JwtFilter@2dc3271b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3ce443f9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@766a49c7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@57c00115, org.springframework.security.web.session.SessionManagementFilter@34d45ec0, org.springframework.security.web.access.ExceptionTranslationFilter@66f28a1f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@76a805b7]
+2020-07-14 16:49:27.384  INFO 1793 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 16:49:27.416  INFO 1793 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 16:49:28.555  INFO 1793 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 16:49:28.563  INFO 1793 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:49:29.679  INFO 1793 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 16:49:29.883  INFO 1793 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 16:49:29.883  INFO 1793 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 16:49:29.901  INFO 1793 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 18 ms
+2020-07-14 16:49:29.913  INFO 1793 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 16:49:30.069  INFO 1793 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 16:49:30.078  INFO 1793 --- [main] c.k.p.w.controller.IndexControllerTests  : Started IndexControllerTests in 5.353 seconds (JVM running for 6.396)
+2020-07-14 16:49:30.153  WARN 1793 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 16:49:30.280  INFO 1793 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:49:30.281  INFO 1793 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:49:30.282  INFO 1793 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 16:49:30.286  INFO 1793 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 16:50:34.175  INFO 1800 --- [main] c.k.p.w.controller.IndexControllerTests  : Starting IndexControllerTests on yang-giseog-ui-MacBookPro.local with PID 1800 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 16:50:34.176  INFO 1800 --- [main] c.k.p.w.controller.IndexControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 16:50:35.131  INFO 1800 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 16:50:35.233  INFO 1800 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92ms. Found 3 JPA repository interfaces.
+2020-07-14 16:50:36.113  INFO 1800 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:50:36.162  INFO 1800 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 16:50:36.204  INFO 1800 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 16:50:36.407  INFO 1800 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 16:50:36.557  INFO 1800 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 16:50:36.907  INFO 1800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@77bc2e16, org.springframework.security.web.context.SecurityContextPersistenceFilter@18137eab, org.springframework.security.web.header.HeaderWriterFilter@60a19573, org.springframework.security.web.authentication.logout.LogoutFilter@40a72ecd, com.kiseok.pingmall.common.config.jwt.JwtFilter@3ba46e63, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2935fd2c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7523a3dc, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@48e8c32a, org.springframework.security.web.session.SessionManagementFilter@7d32e714, org.springframework.security.web.access.ExceptionTranslationFilter@47ac613b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@41184371]
+2020-07-14 16:50:37.018  INFO 1800 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 16:50:37.051  INFO 1800 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 16:50:37.834  INFO 1800 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 16:50:37.840  INFO 1800 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:50:38.717  INFO 1800 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 16:50:38.898  INFO 1800 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 16:50:38.899  INFO 1800 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 16:50:38.919  INFO 1800 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 20 ms
+2020-07-14 16:50:38.938  INFO 1800 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 16:50:39.123  INFO 1800 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 16:50:39.136  INFO 1800 --- [main] c.k.p.w.controller.IndexControllerTests  : Started IndexControllerTests in 5.29 seconds (JVM running for 6.237)
+2020-07-14 16:50:39.274  WARN 1800 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 16:50:39.468  INFO 1800 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:50:39.470  INFO 1800 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:50:39.472  INFO 1800 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 16:50:39.485  INFO 1800 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 16:53:27.128  INFO 1809 --- [main] c.k.p.w.controller.IndexControllerTests  : Starting IndexControllerTests on yang-giseog-ui-MacBookPro.local with PID 1809 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 16:53:27.130  INFO 1809 --- [main] c.k.p.w.controller.IndexControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 16:53:27.759  INFO 1809 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 16:53:27.866  INFO 1809 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 99ms. Found 3 JPA repository interfaces.
+2020-07-14 16:53:28.505  INFO 1809 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:53:28.554  INFO 1809 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 16:53:28.594  INFO 1809 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 16:53:28.754  INFO 1809 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 16:53:28.896  INFO 1809 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 16:53:29.229  INFO 1809 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@57c00115, org.springframework.security.web.context.SecurityContextPersistenceFilter@3f018494, org.springframework.security.web.header.HeaderWriterFilter@619f2afc, org.springframework.security.web.authentication.logout.LogoutFilter@17410c07, com.kiseok.pingmall.common.config.jwt.JwtFilter@254f906e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57fbc06f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1db7157f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@411a5965, org.springframework.security.web.session.SessionManagementFilter@18137eab, org.springframework.security.web.access.ExceptionTranslationFilter@60a19573, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@15f35bc3]
+2020-07-14 16:53:29.323  INFO 1809 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 16:53:29.355  INFO 1809 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 16:53:30.128  INFO 1809 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 16:53:30.133  INFO 1809 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:53:31.065  INFO 1809 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 16:53:31.231  INFO 1809 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 16:53:31.231  INFO 1809 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 16:53:31.241  INFO 1809 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 10 ms
+2020-07-14 16:53:31.252  INFO 1809 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 16:53:31.452  INFO 1809 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 16:53:31.461  INFO 1809 --- [main] c.k.p.w.controller.IndexControllerTests  : Started IndexControllerTests in 4.615 seconds (JVM running for 5.539)
+2020-07-14 16:53:31.545  WARN 1809 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 16:53:31.730  INFO 1809 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:53:31.734  INFO 1809 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:53:31.735  INFO 1809 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 16:53:31.739  INFO 1809 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 16:55:45.873  INFO 1818 --- [main] c.k.p.w.controller.IndexControllerTests  : Starting IndexControllerTests on yang-giseog-ui-MacBookPro.local with PID 1818 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 16:55:45.874  INFO 1818 --- [main] c.k.p.w.controller.IndexControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 16:55:46.495  INFO 1818 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 16:55:46.558  INFO 1818 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 57ms. Found 3 JPA repository interfaces.
+2020-07-14 16:55:47.120  INFO 1818 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:55:47.166  INFO 1818 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 16:55:47.212  INFO 1818 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 16:55:47.377  INFO 1818 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 16:55:47.507  INFO 1818 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 16:55:47.835  INFO 1818 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@48e8c32a, org.springframework.security.web.context.SecurityContextPersistenceFilter@727320fa, org.springframework.security.web.header.HeaderWriterFilter@44a085e5, org.springframework.security.web.authentication.logout.LogoutFilter@73971965, com.kiseok.pingmall.common.config.jwt.JwtFilter@2dc3271b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3f018494, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2806d6da, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@20a7953c, org.springframework.security.web.session.SessionManagementFilter@eb6ec6, org.springframework.security.web.access.ExceptionTranslationFilter@60d6fdd4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@34585ac9]
+2020-07-14 16:55:47.912  INFO 1818 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 16:55:47.938  INFO 1818 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 16:55:48.639  INFO 1818 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 16:55:48.644  INFO 1818 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:55:49.489  INFO 1818 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 16:55:49.654  INFO 1818 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 16:55:49.654  INFO 1818 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 16:55:49.665  INFO 1818 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 11 ms
+2020-07-14 16:55:49.676  INFO 1818 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 16:55:49.883  INFO 1818 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 16:55:49.891  INFO 1818 --- [main] c.k.p.w.controller.IndexControllerTests  : Started IndexControllerTests in 4.34 seconds (JVM running for 5.214)
+2020-07-14 16:55:49.967  WARN 1818 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 16:55:50.166  INFO 1818 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 16:55:50.171  INFO 1818 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 16:55:50.171  INFO 1818 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 16:55:50.177  INFO 1818 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
