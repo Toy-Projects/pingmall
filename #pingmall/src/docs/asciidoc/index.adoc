@@ -114,7 +114,6 @@ operation::create-account[snippets='curl-request,http-request,request-headers,re
 
 operation::deposit-account[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
 
-
 [[resources-account-modify]]
 === 사용자 수정
 
@@ -129,3 +128,53 @@ operation::modify-account[snippets='curl-request,http-request,request-headers,re
 
 operation::delete-account[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
 
+
+[[resources-product-load]]
+=== 제품 조회
+
+`GET` 요청을 사용하여 제품을 조회할 수 있다.
+
+operation::load-product[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-product-load-all]]
+=== 모든 제품 조회
+
+`GET` 요청을 사용하여 모든 제품을 조회할 수 있다.
+
+operation::load-all-products[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-product-create]]
+=== 제품 생성
+
+`POST` 요청을 사용해서 제품을 생성할 수 있다.
+
+operation::create-product[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+[[resources-product-image-create]]
+=== 제품 이미지 생성
+
+`POST` 요청을 사용해서 제품 이미지를 생성할 수 있다.
+
+operation::create-product-image[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+[[resources-product-modify]]
+=== 제품 수정
+
+`PUT` 요청을 사용해서 제품을 수정할 수 있다.
+
+operation::modify-product[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+[[resources-product-delete]]
+=== 제품 삭제
+
+`DELETE` 요청을 사용해서 제품을 삭제할 수 있다.
+
+operation::delete-product[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+
+[[resources-orders-create]]
+=== 주문 생성
+
+`POST` 요청을 사용해서 주문을 할 수 있다.
+
+operation::create-orders[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']

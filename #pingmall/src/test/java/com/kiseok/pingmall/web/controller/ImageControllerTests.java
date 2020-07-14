@@ -14,7 +14,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultActions;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -131,7 +139,52 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.load-product").exists())
                 .andExpect(jsonPath("_links.modify-product").exists())
                 .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.create-orders").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(CREATE_PRODUCT_IMAGE.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOAD_ALL_PRODUCT.getRel()).description("link to load all products"),
+                                linkWithRel(LOAD_PRODUCT.getRel()).description("link to load product"),
+                                linkWithRel(MODIFY_PRODUCT.getRel()).description("link to modify product"),
+                                linkWithRel(DELETE_PRODUCT.getRel()).description("link to delete product"),
+                                linkWithRel(CREATE_ORDERS.getRel()).description("link to create orders")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("location header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Product"),
+                                fieldWithPath("name").description("Name of Product"),
+                                fieldWithPath("size").description("Size of Product"),
+                                fieldWithPath("image").description("New Image of Product"),
+                                fieldWithPath("price").description("Price of Product"),
+                                fieldWithPath("stock").description("Stock of Product"),
+                                fieldWithPath("category").description("Category of Product"),
+                                fieldWithPath("seller.id").description("Identifier of Seller"),
+                                fieldWithPath("seller.createdAt").description("Created Date of Seller"),
+                                fieldWithPath("seller.modifiedAt").description("Modified Date of Seller"),
+                                fieldWithPath("seller.email").description("Email of Seller"),
+                                fieldWithPath("seller.name").description("Name of Seller"),
+                                fieldWithPath("seller.address").description("Address of Seller"),
+                                fieldWithPath("seller.balance").description("Balance of Seller"),
+                                fieldWithPath("seller.accountRole").description("Role of Seller"),
+                                fieldWithPath("buyer").description("Buyer"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.load-all-products.href").description("link to load all products"),
+                                fieldWithPath("_links.load-product.href").description("link to load product"),
+                                fieldWithPath("_links.modify-product.href").description("link to modify product"),
+                                fieldWithPath("_links.delete-product.href").description("link to delete product"),
+                                fieldWithPath("_links.create-orders.href").description("link to create orders")
+                        )
+                ))
         ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();
@@ -385,7 +438,52 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.load-product").exists())
                 .andExpect(jsonPath("_links.modify-product").exists())
                 .andExpect(jsonPath("_links.delete-product").exists())
+                .andExpect(jsonPath("_links.create-orders").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(CREATE_PRODUCT_IMAGE.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(LOAD_ALL_PRODUCT.getRel()).description("link to load all products"),
+                                linkWithRel(LOAD_PRODUCT.getRel()).description("link to load product"),
+                                linkWithRel(MODIFY_PRODUCT.getRel()).description("link to modify product"),
+                                linkWithRel(DELETE_PRODUCT.getRel()).description("link to delete product"),
+                                linkWithRel(CREATE_ORDERS.getRel()).description("link to create orders")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("location header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("Identifier of Product"),
+                                fieldWithPath("name").description("Name of Product"),
+                                fieldWithPath("size").description("Size of Product"),
+                                fieldWithPath("image").description("New Image of Product"),
+                                fieldWithPath("price").description("Price of Product"),
+                                fieldWithPath("stock").description("Stock of Product"),
+                                fieldWithPath("category").description("Category of Product"),
+                                fieldWithPath("seller.id").description("Identifier of Seller"),
+                                fieldWithPath("seller.createdAt").description("Created Date of Seller"),
+                                fieldWithPath("seller.modifiedAt").description("Modified Date of Seller"),
+                                fieldWithPath("seller.email").description("Email of Seller"),
+                                fieldWithPath("seller.name").description("Name of Seller"),
+                                fieldWithPath("seller.address").description("Address of Seller"),
+                                fieldWithPath("seller.balance").description("Balance of Seller"),
+                                fieldWithPath("seller.accountRole").description("Role of Seller"),
+                                fieldWithPath("buyer").description("Buyer"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.load-all-products.href").description("link to load all products"),
+                                fieldWithPath("_links.load-product.href").description("link to load product"),
+                                fieldWithPath("_links.modify-product.href").description("link to modify product"),
+                                fieldWithPath("_links.delete-product.href").description("link to delete product"),
+                                fieldWithPath("_links.create-orders.href").description("link to create orders")
+                        )
+                ))
         ;
 
         String imageAsString = imageActions.andReturn().getResponse().getContentAsString();

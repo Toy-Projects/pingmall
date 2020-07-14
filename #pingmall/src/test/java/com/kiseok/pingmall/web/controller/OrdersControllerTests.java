@@ -18,6 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -289,8 +296,82 @@ public class OrdersControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].buyer").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*].product").exists())
                 .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.self").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.create-product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.create-product-image").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.modify-product").exists())
+                .andExpect(jsonPath("_embedded.ordersResponseDtoList.[*]._links.delete-product").exists())
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.profile").exists())
+                .andDo(document(CREATE_ORDERS.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header"),
+                                headerWithName(HttpHeaders.AUTHORIZATION).description("authorization header")
+                        ),
+                        requestFields(
+                                fieldWithPath("[*].amount").description("Amount of new Orders"),
+                                fieldWithPath("[*].productId").description("Product Id of new Orders")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].id").description("Identifier of new Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].number").description("Name of new Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].amount").description("Size of new Orders"),
+                                // buyer
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer").description("Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.id").description("Identifier of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.createdAt").description("Created Date of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.modifiedAt").description("Modified Date of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.email").description("E-Mail of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.name").description("Name of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.address").description("Address of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.balance").description("Balance of Buyer"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].buyer.accountRole").description("Role of Buyer"),
+                                // product
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product").description("Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.id").description("Identifier of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.createdAt").description("Created Date of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.modifiedAt").description("Modified Date of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.name").description("Name of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.size").description("Size of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.image").description("Image of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.price").description("Price of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.stock").description("Stock of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.category").description("Category of Product"),
+                                // product.orders
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*]").description("Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].id").description("Identifier of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].createdAt").description("Created Date of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].modifiedAt").description("Modified Date of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].number").description("Number of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].amount").description("Amount of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].buyer").description("Buyer of the Product's Orders"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].product").description("Product of the Product's Orders"),
+                                // product.seller
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.id").description("Identifier of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.createdAt").description("Created Date of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.modifiedAt").description("Modified Date of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.email").description("E-Mail of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.name").description("Name of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.address").description("Address of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.balance").description("Balance of Seller"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.seller.accountRole").description("Role of Seller"),
+                                // _links
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*]._links.self.href").description("link to self"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*]._links.create-product.href").description("link to create product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*]._links.create-product-image.href").description("link to create product image"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*]._links.modify-product.href").description("link to modify product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*]._links.delete-product.href").description("link to delete product"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile")
+                        )
+                ))
         ;
     }
 

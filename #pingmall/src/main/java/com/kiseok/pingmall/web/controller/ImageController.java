@@ -47,6 +47,7 @@ public class ImageController {
         resource.add(selfLinkBuilder.withRel(LOAD_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(MODIFY_PRODUCT.getRel()));
         resource.add(selfLinkBuilder.withRel(DELETE_PRODUCT.getRel()));
+        resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
 
         return ResponseEntity.created(selfLinkBuilder.toUri()).body(resource);
     }

@@ -140,7 +140,7 @@ class AccountControllerTests extends BaseControllerTests {
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                         ),
                         requestFields(
-                                fieldWithPath("email").description("E-mail of new Account"),
+                                fieldWithPath("email").description("E-Mail of new Account"),
                                 fieldWithPath("password").description("Password of new Account"),
                                 fieldWithPath("name").description("Name of Account"),
                                 fieldWithPath("address").description("Address of new Account"),
@@ -996,12 +996,12 @@ class AccountControllerTests extends BaseControllerTests {
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                         ),
                         responseFields(
-                                fieldWithPath("id").description("Identifier of Modified Account"),
-                                fieldWithPath("email").description("E-mail of Modified Account"),
-                                fieldWithPath("name").description("Name of Modified Account"),
-                                fieldWithPath("address").description("Address of Modified Account"),
-                                fieldWithPath("balance").description("Balance of Modified Account"),
-                                fieldWithPath("accountRole").description("Role of Modified Account"),
+                                fieldWithPath("id").description("Identifier of Deleted Account"),
+                                fieldWithPath("email").description("E-mail of Deleted Account"),
+                                fieldWithPath("name").description("Name of Deleted Account"),
+                                fieldWithPath("address").description("Address of Deleted Account"),
+                                fieldWithPath("balance").description("Balance of Deleted Account"),
+                                fieldWithPath("accountRole").description("Role of Deleted Account"),
                                 fieldWithPath("_links.self.href").description("link to self"),
                                 fieldWithPath("_links.profile.href").description("link to profile"),
                                 fieldWithPath("_links.login-account.href").description("link to login account"),
