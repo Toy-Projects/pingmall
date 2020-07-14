@@ -62,11 +62,13 @@ public class Account extends BaseTimeEntity {
     }
 
     public void reduceBalance(OrdersRequestDto requestDto, Long price) {
-        long payment = requestDto.getAmount() * price;
-        if(this.balance < payment || this.balance <= 0L)    {
+        this.balance -= (requestDto.getAmount() * price);
+    }
+
+    public void checkBalance(long totalPrice) {
+        if(this.balance < totalPrice || this.balance <= 0L)    {
             throw new BalanceShortageException();
         }
-        this.balance -= payment;
     }
 
     public void updateAccount(AccountModifyRequestDto requestDto) {

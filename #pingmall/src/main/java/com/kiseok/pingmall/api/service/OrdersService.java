@@ -29,16 +29,17 @@ public class OrdersService {
     public List<OrdersResponseDto> saveOrders(List<OrdersRequestDto> requestDtoList, Account currentUser)    {
         List<OrdersResponseDto> responseDtoList = new LinkedList<>();
         Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
+        isAvailableOrder(account, requestDtoList);
         requestDtoList.forEach(requestDto -> {
-            Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(ProductNotFoundException::new);
+            Product product = productRepository.findById(requestDto.getProductId()).get();
             isEqualsToUserId(account, product);
             account.reduceBalance(requestDto, product.getPrice());
             product.reduceStock(requestDto);
-            accountRepository.save(account);
-            productRepository.save(product);
             Orders orders = requestDto.toEntity(account, product);
             account.getOrders().add(orders);
             product.getOrders().add(orders);
+            accountRepository.save(account);
+            productRepository.save(product);
             orders = ordersRepository.save(orders);
             OrdersResponseDto responseDto = modelMapper.map(orders, OrdersResponseDto.class);
             responseDtoList.add(responseDto);
@@ -47,10 +48,19 @@ public class OrdersService {
         return responseDtoList;
     }
 
+    private void isAvailableOrder(Account account, List<OrdersRequestDto> requestDtoList) {
+        long totalPrice = requestDtoList
+                .stream()
+                .map(requestDto -> productRepository.findById(requestDto.getProductId()).orElseThrow(ProductNotFoundException::new))
+                .mapToLong(Product::getPrice)
+                .sum();
+
+        account.checkBalance(totalPrice);
+    }
+
     private void isEqualsToUserId(Account account, Product product) {
         if(product.getSeller().getId().equals(account.getId())) {
             throw new UserIdEqualsException();
         }
     }
-
 }

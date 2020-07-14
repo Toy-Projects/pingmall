@@ -15,6 +15,11 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
+test {
+    useJUnitPlatform()
+    outputs.dir snippetsDir
+}
+
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
@@ -64,9 +69,4 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-}
-
-test {
-    useJUnitPlatform()
-    outputs.dir snippetsDir
 }
