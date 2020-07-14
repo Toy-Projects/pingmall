@@ -81,6 +81,7 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("errors.[*].value").exists())
                 .andExpect(jsonPath("errors.[*].reason").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }
@@ -106,6 +107,7 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("errors").exists())
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }

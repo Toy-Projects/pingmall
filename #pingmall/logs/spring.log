@@ -1233,3 +1233,303 @@
 2020-07-14 16:55:50.171  INFO 1818 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
 2020-07-14 16:55:50.171  INFO 1818 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2020-07-14 16:55:50.177  INFO 1818 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:03:20.225  INFO 1895 --- [main] c.k.p.w.c.AccountControllerTests         : Starting AccountControllerTests on yang-giseog-ui-MacBookPro.local with PID 1895 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:03:20.227  INFO 1895 --- [main] c.k.p.w.c.AccountControllerTests         : No active profile set, falling back to default profiles: default
+2020-07-14 17:03:20.827  INFO 1895 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:03:20.890  INFO 1895 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 56ms. Found 3 JPA repository interfaces.
+2020-07-14 17:03:21.458  INFO 1895 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:03:21.514  INFO 1895 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:03:21.557  INFO 1895 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:03:21.723  INFO 1895 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:03:21.847  INFO 1895 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:03:22.223  INFO 1895 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@49fa1d74, org.springframework.security.web.context.SecurityContextPersistenceFilter@56382bc9, org.springframework.security.web.header.HeaderWriterFilter@5afbd567, org.springframework.security.web.authentication.logout.LogoutFilter@1e60b459, com.kiseok.pingmall.common.config.jwt.JwtFilter@7fb66650, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53ed80d3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@411a5965, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3f362135, org.springframework.security.web.session.SessionManagementFilter@15f35bc3, org.springframework.security.web.access.ExceptionTranslationFilter@27329d2a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@31db34da]
+2020-07-14 17:03:22.284  INFO 1895 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:03:22.323  INFO 1895 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:03:23.098  INFO 1895 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:03:23.104  INFO 1895 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:03:23.983  INFO 1895 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:03:24.318  INFO 1895 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:03:24.319  INFO 1895 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:03:24.343  INFO 1895 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 24 ms
+2020-07-14 17:03:24.367  INFO 1895 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:03:24.652  INFO 1895 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:03:24.665  INFO 1895 --- [main] c.k.p.w.c.AccountControllerTests         : Started AccountControllerTests in 4.76 seconds (JVM running for 5.691)
+2020-07-14 17:03:24.847  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.265  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.288  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.314  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.327  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.338  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.364  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.373  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.383  WARN 1895 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:03:25.397  INFO 1895 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:03:25.398  INFO 1895 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:03:25.399  INFO 1895 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:03:25.403  INFO 1895 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:04:09.875  INFO 1903 --- [main] c.k.p.w.c.AccountControllerTests         : Starting AccountControllerTests on yang-giseog-ui-MacBookPro.local with PID 1903 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:04:09.876  INFO 1903 --- [main] c.k.p.w.c.AccountControllerTests         : No active profile set, falling back to default profiles: default
+2020-07-14 17:04:10.437  INFO 1903 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:04:10.506  INFO 1903 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62ms. Found 3 JPA repository interfaces.
+2020-07-14 17:04:11.059  INFO 1903 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:04:11.105  INFO 1903 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:04:11.153  INFO 1903 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:04:11.307  INFO 1903 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:04:11.427  INFO 1903 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:04:11.806  INFO 1903 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3f362135, org.springframework.security.web.context.SecurityContextPersistenceFilter@591a4f8e, org.springframework.security.web.header.HeaderWriterFilter@6993c8df, org.springframework.security.web.authentication.logout.LogoutFilter@717d7587, com.kiseok.pingmall.common.config.jwt.JwtFilter@1a96d94c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ba060f3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4fe533ff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@21eee94f, org.springframework.security.web.session.SessionManagementFilter@167381c7, org.springframework.security.web.access.ExceptionTranslationFilter@7978e022, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@109f8c7e]
+2020-07-14 17:04:11.857  INFO 1903 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:04:11.886  INFO 1903 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:04:12.605  INFO 1903 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:04:12.611  INFO 1903 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:04:13.435  INFO 1903 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:04:13.613  INFO 1903 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:04:13.613  INFO 1903 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:04:13.633  INFO 1903 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 20 ms
+2020-07-14 17:04:13.644  INFO 1903 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:04:13.814  INFO 1903 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:04:13.824  INFO 1903 --- [main] c.k.p.w.c.AccountControllerTests         : Started AccountControllerTests in 4.23 seconds (JVM running for 5.163)
+2020-07-14 17:04:13.963  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.384  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.411  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.449  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.476  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.500  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.530  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.569  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.599  WARN 1903 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:04:14.638  INFO 1903 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:04:14.640  INFO 1903 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:04:14.640  INFO 1903 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:04:14.644  INFO 1903 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:05:40.716  INFO 1910 --- [main] c.k.p.w.c.AccountControllerTests         : Starting AccountControllerTests on yang-giseog-ui-MacBookPro.local with PID 1910 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:05:40.717  INFO 1910 --- [main] c.k.p.w.c.AccountControllerTests         : No active profile set, falling back to default profiles: default
+2020-07-14 17:05:41.294  INFO 1910 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:05:41.364  INFO 1910 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62ms. Found 3 JPA repository interfaces.
+2020-07-14 17:05:41.853  INFO 1910 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:05:41.952  INFO 1910 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:05:41.990  INFO 1910 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:05:42.121  INFO 1910 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:05:42.228  INFO 1910 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:05:42.515  INFO 1910 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5731d3a, org.springframework.security.web.context.SecurityContextPersistenceFilter@361abd01, org.springframework.security.web.header.HeaderWriterFilter@22f4f8f2, org.springframework.security.web.authentication.logout.LogoutFilter@1ee47d9e, com.kiseok.pingmall.common.config.jwt.JwtFilter@3f1ed068, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@59bbb974, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@21da4b5f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6a0f2853, org.springframework.security.web.session.SessionManagementFilter@59c70ceb, org.springframework.security.web.access.ExceptionTranslationFilter@52bf7bf6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@40230eb9]
+2020-07-14 17:05:42.579  INFO 1910 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:05:42.608  INFO 1910 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:05:43.360  INFO 1910 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:05:43.366  INFO 1910 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:05:44.358  INFO 1910 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:05:44.655  INFO 1910 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:05:44.655  INFO 1910 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:05:44.672  INFO 1910 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 17 ms
+2020-07-14 17:05:44.689  INFO 1910 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:05:44.887  INFO 1910 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:05:44.896  INFO 1910 --- [main] c.k.p.w.c.AccountControllerTests         : Started AccountControllerTests in 4.447 seconds (JVM running for 5.279)
+2020-07-14 17:05:45.054  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:45.738  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:45.862  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:45.944  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.080  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.185  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.263  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.278  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.420  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.440  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.459  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.473  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.492  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.510  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.532  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.552  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.571  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.591  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.695  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.796  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:46.925  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.037  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.127  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.222  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.320  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.409  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.500  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.588  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.674  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.762  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.834  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.916  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:47.998  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:48.082  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:48.155  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:48.170  WARN 1910 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:05:48.348  INFO 1910 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:05:48.349  INFO 1910 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:05:48.350  INFO 1910 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:05:48.353  INFO 1910 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:06:51.073  INFO 1923 --- [main] c.k.p.w.controller.ImageControllerTests  : Starting ImageControllerTests on yang-giseog-ui-MacBookPro.local with PID 1923 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:06:51.074  INFO 1923 --- [main] c.k.p.w.controller.ImageControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 17:06:51.692  INFO 1923 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:06:51.761  INFO 1923 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 62ms. Found 3 JPA repository interfaces.
+2020-07-14 17:06:52.318  INFO 1923 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:06:52.362  INFO 1923 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:06:52.412  INFO 1923 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:06:52.574  INFO 1923 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:06:52.701  INFO 1923 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:06:53.041  INFO 1923 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7930ffa9, org.springframework.security.web.context.SecurityContextPersistenceFilter@6749fe50, org.springframework.security.web.header.HeaderWriterFilter@766a49c7, org.springframework.security.web.authentication.logout.LogoutFilter@2eed37f4, com.kiseok.pingmall.common.config.jwt.JwtFilter@1a22e0ef, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@261db982, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@17410c07, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1e60b459, org.springframework.security.web.session.SessionManagementFilter@2a53f215, org.springframework.security.web.access.ExceptionTranslationFilter@7c52fc81, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5d5b9ecb]
+2020-07-14 17:06:53.119  INFO 1923 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:06:53.147  INFO 1923 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:06:53.876  INFO 1923 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:06:53.882  INFO 1923 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:06:54.736  INFO 1923 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:06:54.891  INFO 1923 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:06:54.891  INFO 1923 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:06:54.902  INFO 1923 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 11 ms
+2020-07-14 17:06:54.916  INFO 1923 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:06:55.111  INFO 1923 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:06:55.120  INFO 1923 --- [main] c.k.p.w.controller.ImageControllerTests  : Started ImageControllerTests in 4.35 seconds (JVM running for 5.207)
+2020-07-14 17:06:55.253  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:55.925  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.218  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.401  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.543  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.658  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.772  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:56.885  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:57.000  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:57.107  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:57.230  WARN 1923 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:06:57.342  INFO 1923 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:06:57.343  INFO 1923 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:06:57.343  INFO 1923 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:06:57.346  INFO 1923 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:07:14.671  INFO 1935 --- [main] c.k.p.w.controller.LoginControllerTests  : Starting LoginControllerTests on yang-giseog-ui-MacBookPro.local with PID 1935 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:07:14.672  INFO 1935 --- [main] c.k.p.w.controller.LoginControllerTests  : No active profile set, falling back to default profiles: default
+2020-07-14 17:07:15.285  INFO 1935 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:07:15.350  INFO 1935 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58ms. Found 3 JPA repository interfaces.
+2020-07-14 17:07:15.911  INFO 1935 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:07:15.964  INFO 1935 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:07:16.010  INFO 1935 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:07:16.177  INFO 1935 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:07:16.297  INFO 1935 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:07:16.637  INFO 1935 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@47311277, org.springframework.security.web.context.SecurityContextPersistenceFilter@7beae796, org.springframework.security.web.header.HeaderWriterFilter@2806d6da, org.springframework.security.web.authentication.logout.LogoutFilter@5d1e0fbb, com.kiseok.pingmall.common.config.jwt.JwtFilter@173a6728, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@52bf7bf6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76a14c8d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7930ffa9, org.springframework.security.web.session.SessionManagementFilter@1f3b992, org.springframework.security.web.access.ExceptionTranslationFilter@62b790a5, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@18a25bbd]
+2020-07-14 17:07:16.729  INFO 1935 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:07:16.766  INFO 1935 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:07:17.570  INFO 1935 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:07:17.576  INFO 1935 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:07:18.379  INFO 1935 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:07:18.570  INFO 1935 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:07:18.571  INFO 1935 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:07:18.586  INFO 1935 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 15 ms
+2020-07-14 17:07:18.601  INFO 1935 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:07:18.771  INFO 1935 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:07:18.779  INFO 1935 --- [main] c.k.p.w.controller.LoginControllerTests  : Started LoginControllerTests in 4.421 seconds (JVM running for 5.322)
+2020-07-14 17:07:18.928  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:19.441  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:19.787  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:19.899  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.031  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.115  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.199  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.276  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.301  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.378  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.389  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.465  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.477  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.554  WARN 1935 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:07:20.571  INFO 1935 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:07:20.572  INFO 1935 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:07:20.573  INFO 1935 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:07:20.576  INFO 1935 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:09:14.875  INFO 1943 --- [main] c.k.p.w.c.ProductControllerTests         : Starting ProductControllerTests on yang-giseog-ui-MacBookPro.local with PID 1943 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:09:14.877  INFO 1943 --- [main] c.k.p.w.c.ProductControllerTests         : No active profile set, falling back to default profiles: default
+2020-07-14 17:09:15.480  INFO 1943 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:09:15.549  INFO 1943 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63ms. Found 3 JPA repository interfaces.
+2020-07-14 17:09:16.102  INFO 1943 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:09:16.146  INFO 1943 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:09:16.193  INFO 1943 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:09:16.367  INFO 1943 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:09:16.490  INFO 1943 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:09:16.845  INFO 1943 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2489e84a, org.springframework.security.web.context.SecurityContextPersistenceFilter@76a14c8d, org.springframework.security.web.header.HeaderWriterFilter@2a53f215, org.springframework.security.web.authentication.logout.LogoutFilter@7c011174, com.kiseok.pingmall.common.config.jwt.JwtFilter@7c8c70d6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6ee99964, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@59bbb974, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2a39aa2b, org.springframework.security.web.session.SessionManagementFilter@bbd4791, org.springframework.security.web.access.ExceptionTranslationFilter@6a756082, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@316acbb5]
+2020-07-14 17:09:16.915  INFO 1943 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:09:16.946  INFO 1943 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:09:17.686  INFO 1943 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:09:17.691  INFO 1943 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:09:18.526  INFO 1943 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:09:18.689  INFO 1943 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:09:18.689  INFO 1943 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:09:18.701  INFO 1943 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 12 ms
+2020-07-14 17:09:18.710  INFO 1943 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:09:18.889  INFO 1943 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:09:18.896  INFO 1943 --- [main] c.k.p.w.c.ProductControllerTests         : Started ProductControllerTests in 4.319 seconds (JVM running for 5.188)
+2020-07-14 17:09:19.045  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:19.806  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:19.828  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:20.001  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:20.111  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:20.217  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:20.560  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:20.801  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.084  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.281  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.415  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.534  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.628  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.715  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.803  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.888  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:21.895  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.005  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.133  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.247  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.350  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.448  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.543  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.648  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.749  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.851  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:22.947  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:23.025  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:23.054  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:23.134  WARN 1943 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:09:23.222  INFO 1943 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:09:23.223  INFO 1943 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:09:23.223  INFO 1943 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:09:23.226  INFO 1943 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-07-14 17:10:15.698  INFO 1952 --- [main] c.k.p.w.c.OrdersControllerTests          : Starting OrdersControllerTests on yang-giseog-ui-MacBookPro.local with PID 1952 (started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-14 17:10:15.699  INFO 1952 --- [main] c.k.p.w.c.OrdersControllerTests          : No active profile set, falling back to default profiles: default
+2020-07-14 17:10:16.326  INFO 1952 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-14 17:10:16.394  INFO 1952 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61ms. Found 3 JPA repository interfaces.
+2020-07-14 17:10:16.979  INFO 1952 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:10:17.025  INFO 1952 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-14 17:10:17.070  INFO 1952 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-14 17:10:17.233  INFO 1952 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-14 17:10:17.355  INFO 1952 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-14 17:10:17.700  INFO 1952 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5d5b9ecb, org.springframework.security.web.context.SecurityContextPersistenceFilter@766a49c7, org.springframework.security.web.header.HeaderWriterFilter@18137eab, org.springframework.security.web.authentication.logout.LogoutFilter@59bbb974, com.kiseok.pingmall.common.config.jwt.JwtFilter@1a1f5f71, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@75e27856, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6b63e6ad, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1ee27d73, org.springframework.security.web.session.SessionManagementFilter@7c52fc81, org.springframework.security.web.access.ExceptionTranslationFilter@7d32e714, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@77bc2e16]
+2020-07-14 17:10:17.787  INFO 1952 --- [task-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-14 17:10:17.825  INFO 1952 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-14 17:10:18.647  INFO 1952 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-14 17:10:18.653  INFO 1952 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:10:19.453  INFO 1952 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-14 17:10:19.604  INFO 1952 --- [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2020-07-14 17:10:19.605  INFO 1952 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2020-07-14 17:10:19.617  INFO 1952 --- [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 12 ms
+2020-07-14 17:10:19.625  INFO 1952 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-14 17:10:19.762  INFO 1952 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-14 17:10:19.771  INFO 1952 --- [main] c.k.p.w.c.OrdersControllerTests          : Started OrdersControllerTests in 4.364 seconds (JVM running for 5.346)
+2020-07-14 17:10:19.905  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:20.891  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:20.966  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.201  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.296  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.365  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.630  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.703  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:21.809  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.013  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.036  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.110  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.353  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.427  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.546  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:22.617  WARN 1952 --- [main] c.k.p.common.config.jwt.JwtFilter        : JWT Token does not begin with Bearer String
+2020-07-14 17:10:23.039  INFO 1952 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-14 17:10:23.041  INFO 1952 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-14 17:10:23.042  INFO 1952 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-14 17:10:23.045  INFO 1952 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

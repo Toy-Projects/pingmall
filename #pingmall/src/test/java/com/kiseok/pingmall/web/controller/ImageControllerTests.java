@@ -69,6 +69,7 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }
@@ -231,6 +232,7 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }
@@ -297,6 +299,7 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }
@@ -364,6 +367,7 @@ class ImageControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("erroredAt").exists())
                 .andExpect(jsonPath("errors").exists())
                 .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.load-index").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
     }

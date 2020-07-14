@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.common.domain.resources;
 
 import com.kiseok.pingmall.web.controller.ErrorControllerAdvice;
+import com.kiseok.pingmall.web.controller.IndexController;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class ModelResource {
@@ -28,6 +30,7 @@ public class ModelResource {
     public EntityModel<ErrorResponseDto> getErrorResponseModel(ErrorResponseDto responseDto, String error) {
         return EntityModel.of(responseDto)
                 .add(linkTo(ErrorControllerAdvice.class).withSelfRel())
+                .add(linkTo(methodOn(IndexController.class).index()).withRel(LOAD_INDEX.getRel()))
                 .add(Link.of(ERROR.getProfile() + error).withRel(PROFILE.getRel()));
     }
 
