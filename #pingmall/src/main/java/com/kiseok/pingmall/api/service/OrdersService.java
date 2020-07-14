@@ -34,6 +34,8 @@ public class OrdersService {
             isEqualsToUserId(account, product);
             account.reduceBalance(requestDto, product.getPrice());
             product.reduceStock(requestDto);
+            accountRepository.save(account);
+            productRepository.save(product);
             Orders orders = requestDto.toEntity(account, product);
             account.getOrders().add(orders);
             product.getOrders().add(orders);
