@@ -8,8 +8,6 @@ import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
 import com.kiseok.pingmall.web.dto.find.FindPasswordResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
@@ -22,19 +20,17 @@ public class FindService {
     private final ModelMapper modelMapper;
     private final AccountRepository accountRepository;
 
-    public ResponseEntity<?> findEmail(String name)  {
+    public FindEmailResponseDto findEmail(String name)  {
         Account account = accountRepository.findByName(name).orElseThrow(UserNotFoundException::new);
-        FindEmailResponseDto responseDto = modelMapper.map(account, FindEmailResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(account, FindEmailResponseDto.class);
     }
 
-    public ResponseEntity<?> findPassword(FindPasswordRequestDto requestDto) {
+    public FindPasswordResponseDto findPassword(FindPasswordRequestDto requestDto) {
         Account account = accountRepository.findByEmailAndName(requestDto.getEmail(), requestDto.getName()).orElseThrow(UserNotFoundException::new);
         account.updatePassword(createTemporaryPassword());
-        FindPasswordResponseDto responseDto = modelMapper.map(accountRepository.save(account), FindPasswordResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(accountRepository.save(account), FindPasswordResponseDto.class);
     }
 
     private String createTemporaryPassword() {

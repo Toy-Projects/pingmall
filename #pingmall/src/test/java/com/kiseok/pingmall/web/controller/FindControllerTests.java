@@ -99,6 +99,10 @@ public class FindControllerTests extends BaseControllerTests {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("_links.find-password").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
         ;
     }
 
@@ -221,6 +225,10 @@ public class FindControllerTests extends BaseControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("password").exists())
                 .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("_links.find-email").exists())
+                .andExpect(jsonPath("_links.login-account").exists())
         ;
 
         String contentAsString = actions.andReturn().getResponse().getContentAsString();

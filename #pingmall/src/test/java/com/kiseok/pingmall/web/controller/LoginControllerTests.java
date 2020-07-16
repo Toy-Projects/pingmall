@@ -127,12 +127,16 @@ class LoginControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.create-product").exists())
                 .andExpect(jsonPath("_links.load-all-products").exists())
+                .andExpect(jsonPath("_links.find-email").exists())
+                .andExpect(jsonPath("_links.find-password").exists())
                 .andExpect(jsonPath("_links.profile").exists())
                 .andDo(document(LOGIN_ACCOUNT.getRel(),
                         links(
                                 linkWithRel("self").description("link to self"),
                                 linkWithRel(PROFILE.getRel()).description("link to profile"),
                                 linkWithRel(CREATE_PRODUCT.getRel()).description("link to create product"),
+                                linkWithRel(FIND_EMAIL.getRel()).description("link to find email"),
+                                linkWithRel(FIND_PASSWORD.getRel()).description("link to find password"),
                                 linkWithRel(LOAD_ALL_PRODUCT.getRel()).description("link to load all products")
                         ),
                         requestHeaders(
@@ -151,6 +155,8 @@ class LoginControllerTests extends BaseControllerTests {
                                 fieldWithPath("_links.self.href").description("link to self"),
                                 fieldWithPath("_links.profile.href").description("link to profile"),
                                 fieldWithPath("_links.create-product.href").description("link to create product"),
+                                fieldWithPath("_links.find-email.href").description("link to find email"),
+                                fieldWithPath("_links.find-password.href").description("link to find password"),
                                 fieldWithPath("_links.load-all-products.href").description("link to load all products")
                         )
                 ))

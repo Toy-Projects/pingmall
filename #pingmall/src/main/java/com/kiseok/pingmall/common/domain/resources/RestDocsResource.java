@@ -32,7 +32,11 @@ public enum RestDocsResource {
     DELETE_PRODUCT("delete-product", "/docs/index.html#resources-product-delete"),
 
     // orders
-    CREATE_ORDERS("create-orders", "/docs/index.html#resources-orders-create")
+    CREATE_ORDERS("create-orders", "/docs/index.html#resources-orders-create"),
+
+    // find
+    FIND_EMAIL("find-email", "/docs/index.html#resources-email-find"),
+    FIND_PASSWORD("find-password", "/docs/index.html#resources-password-find")
     ;
 
     private final String rel;

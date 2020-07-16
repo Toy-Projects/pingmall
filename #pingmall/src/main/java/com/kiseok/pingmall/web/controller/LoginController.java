@@ -30,6 +30,8 @@ public class LoginController {
         EntityModel<?> resource = modelResource.getEntityModel(responseDto, linkTo(LoginController.class), LOGIN_ACCOUNT.getProfile());
         resource.add(linkTo(ProductController.class).withRel(CREATE_PRODUCT.getRel()));
         resource.add(linkTo(ProductController.class).withRel(LOAD_ALL_PRODUCT.getRel()));
+        resource.add(linkTo(FindController.class).slash("email").withRel(FIND_EMAIL.getRel()));
+        resource.add(linkTo(FindController.class).slash("password").withRel(FIND_PASSWORD.getRel()));
 
         return ResponseEntity.ok(resource);
     }
