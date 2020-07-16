@@ -7,6 +7,7 @@ import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
 import com.kiseok.pingmall.web.dto.find.FindPasswordResponseDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,10 +15,19 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
+import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -25,16 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class FindControllerTests extends BaseControllerTests {
 
-    @AfterEach
-    void tearDown()    {
-        accountRepository.deleteAll();
-    }
-
-    @DisplayName("Email 찾기 유효성 검사 실패 -> 404 NOT_FOUND")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
-    @ValueSource(strings = {"", " ", "yks"})
-    void find_email_invalid_404(String name) throws Exception  {
+    @BeforeEach
+    void setUp() throws Exception {
         AccountRequestDto requestDto = createAccountRequestDto();
+
         this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -52,7 +56,17 @@ public class FindControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.login-account").exists())
                 .andExpect(jsonPath("_links.profile").exists())
         ;
+    }
 
+    @AfterEach
+    void tearDown()    {
+        accountRepository.deleteAll();
+    }
+
+    @DisplayName("Email 찾기 유효성 검사 실패 -> 404 NOT_FOUND")
+    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ValueSource(strings = {"", " ", "yks"})
+    void find_email_invalid_404(String name) throws Exception  {
         this.mockMvc.perform(get(FIND_EMAIL_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -73,29 +87,10 @@ public class FindControllerTests extends BaseControllerTests {
     @DisplayName("정상적으로 Email 찾기 -> 200 OK")
     @Test
     void find_email_200() throws Exception  {
-        AccountRequestDto requestDto = createAccountRequestDto();
-        this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestDto)))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("name").value(appProperties.getTestName()))
-                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
-                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
-                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.login-account").exists())
-                .andExpect(jsonPath("_links.profile").exists())
-        ;
-
         this.mockMvc.perform(get(FIND_EMAIL_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .param("name", requestDto.getName()))
+                .param("name", createAccountRequestDto().getName()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
@@ -103,6 +98,28 @@ public class FindControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.profile").exists())
                 .andExpect(jsonPath("_links.find-password").exists())
                 .andExpect(jsonPath("_links.login-account").exists())
+                .andDo(document(FIND_EMAIL.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(FIND_PASSWORD.getRel()).description("link to find password"),
+                                linkWithRel(LOGIN_ACCOUNT.getRel()).description("link to login account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("email").description("E-Mail found by Account's Name"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.find-password.href").description("link to find password"),
+                                fieldWithPath("_links.login-account.href").description("link to login account")
+                        )
+                ))
         ;
     }
 
@@ -110,31 +127,12 @@ public class FindControllerTests extends BaseControllerTests {
     @ParameterizedTest(name = "{index} {displayName} message={0}")
     @MethodSource("validFindPassword")
     void find_password_invalid_400(String email, String name) throws Exception  {
-        AccountRequestDto accountRequestDto = createAccountRequestDto();
-        this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(accountRequestDto)))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("name").value(appProperties.getTestName()))
-                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
-                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
-                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.login-account").exists())
-                .andExpect(jsonPath("_links.profile").exists())
-        ;
-
-        FindPasswordRequestDto findPasswordRequestDto = createFindPasswordRequestDto(email, name);
+        FindPasswordRequestDto requestDto = createFindPasswordRequestDto(email, name);
 
         this.mockMvc.perform(put(FIND_PASSWORD_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(findPasswordRequestDto)))
+                .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("status").exists())
@@ -154,31 +152,12 @@ public class FindControllerTests extends BaseControllerTests {
     @ParameterizedTest(name = "{index} {displayName} message={0}")
     @MethodSource("noneExistFindPassword")
     void find_password_not_exist_404(String email, String name) throws Exception  {
-        AccountRequestDto accountRequestDto = createAccountRequestDto();
-        this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(accountRequestDto)))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("name").value(appProperties.getTestName()))
-                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
-                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
-                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.login-account").exists())
-                .andExpect(jsonPath("_links.profile").exists())
-        ;
-
-        FindPasswordRequestDto findPasswordRequestDto = createFindPasswordRequestDto(email, name);
+        FindPasswordRequestDto requestDto = createFindPasswordRequestDto(email, name);
 
         this.mockMvc.perform(put(FIND_PASSWORD_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(findPasswordRequestDto)))
+                .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("status").exists())
@@ -195,32 +174,13 @@ public class FindControllerTests extends BaseControllerTests {
     @DisplayName("정상적으로 Password 찾기 -> 200 OK")
     @Test
     void find_password_200() throws Exception   {
-        AccountRequestDto accountRequestDto = createAccountRequestDto();
-        this.mockMvc.perform(post(ACCOUNT_URL)
-                .accept(MediaTypes.HAL_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(accountRequestDto)))
-                .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("email").value(appProperties.getTestEmail()))
-                .andExpect(jsonPath("password").doesNotExist())
-                .andExpect(jsonPath("name").value(appProperties.getTestName()))
-                .andExpect(jsonPath("address").value(appProperties.getTestAddress()))
-                .andExpect(jsonPath("balance").value(appProperties.getTestBalance()))
-                .andExpect(jsonPath("accountRole").value(AccountRole.USER.name()))
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.login-account").exists())
-                .andExpect(jsonPath("_links.profile").exists())
-        ;
-
-        FindPasswordRequestDto findPasswordRequestDto =
-                createFindPasswordRequestDto(accountRequestDto.getEmail(), accountRequestDto.getName());
+        FindPasswordRequestDto requestDto =
+                createFindPasswordRequestDto(createAccountRequestDto().getEmail(), createAccountRequestDto().getName());
 
         ResultActions actions = this.mockMvc.perform(put(FIND_PASSWORD_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(findPasswordRequestDto)))
+                .content(objectMapper.writeValueAsString(requestDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("password").exists())
@@ -229,11 +189,37 @@ public class FindControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("_links.profile").exists())
                 .andExpect(jsonPath("_links.find-email").exists())
                 .andExpect(jsonPath("_links.login-account").exists())
+                .andDo(document(FIND_PASSWORD.getRel(),
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel(PROFILE.getRel()).description("link to profile"),
+                                linkWithRel(FIND_EMAIL.getRel()).description("link to find email"),
+                                linkWithRel(LOGIN_ACCOUNT.getRel()).description("link to login account")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        requestFields(
+                                fieldWithPath("email").description("E-mail of Account to Find Password"),
+                                fieldWithPath("name").description("Name of Account to Find Password")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("password").description("Temporary Password"),
+                                fieldWithPath("message").description("Message for Temporary password's usage"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.find-email.href").description("link to find email"),
+                                fieldWithPath("_links.login-account.href").description("link to login account")
+                        )
+                ))
         ;
-
         String contentAsString = actions.andReturn().getResponse().getContentAsString();
         FindPasswordResponseDto responseDto = objectMapper.readValue(contentAsString, FindPasswordResponseDto.class);
-        Account account = accountRepository.findByEmail(accountRequestDto.getEmail()).get();
+        Account account = accountRepository.findByEmail(createAccountRequestDto().getEmail()).get();
 
         assertEquals(account.getPassword(), responseDto.getPassword());
     }
