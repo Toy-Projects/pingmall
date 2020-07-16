@@ -178,3 +178,17 @@ operation::delete-product[snippets='curl-request,http-request,request-headers,ht
 `POST` 요청을 사용해서 주문을 할 수 있다.
 
 operation::create-orders[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+[[resources-email-find]]
+=== 이메일 찾기
+
+`GET` 요청을 사용해서 이메일을 찾을 수 있다.
+
+operation::find-email[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+[[resources-password-find]]
+=== 비밀번호 찾기
+
+`PUT` 요청을 사용해서 임시 비밀번호를 발급받을 수 있다.
+
+operation::find-password[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
