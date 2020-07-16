@@ -13,6 +13,7 @@ import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
@@ -75,5 +76,9 @@ public class Account extends BaseTimeEntity {
         this.password = requestDto.getPassword();
         this.name = requestDto.getName();
         this.address = requestDto.getAddress();
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
     }
 }

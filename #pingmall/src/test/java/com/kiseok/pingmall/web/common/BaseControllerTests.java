@@ -11,6 +11,7 @@ import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
+import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
@@ -62,6 +63,8 @@ public class BaseControllerTests {
     protected final String PRODUCT_URL = "/api/products/";
     protected final String IMAGE_URL = "/api/images/";
     protected final String ORDERS_URL = "/api/orders/";
+    protected final String FIND_EMAIL_URL = "/api/find/email";
+    protected final String FIND_PASSWORD_URL = "/api/find/password";
     protected final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
@@ -140,6 +143,13 @@ public class BaseControllerTests {
         return OrdersRequestDto.builder()
                 .amount(amount)
                 .productId(productId)
+                .build();
+    }
+
+    protected FindPasswordRequestDto createFindPasswordRequestDto(String email, String name) {
+        return FindPasswordRequestDto.builder()
+                .email(email)
+                .name(name)
                 .build();
     }
 
