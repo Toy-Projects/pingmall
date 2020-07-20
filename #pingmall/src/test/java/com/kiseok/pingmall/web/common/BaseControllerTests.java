@@ -121,6 +121,17 @@ public class BaseControllerTests {
                 .build();
     }
 
+    protected ProductRequestDto createProductRequestDto(String name, String size, Long price, ProductCategory category) {
+        return ProductRequestDto.builder()
+                .name(name)
+                .size(size)
+                .image(appProperties.getTestImage())
+                .price(price)
+                .stock(appProperties.getTestStock())
+                .category(category)
+                .build();
+    }
+
     protected ProductRequestDto createProductModifyRequestDto() {
         return ProductRequestDto.builder()
                 .name(appProperties.getTestModifiedProductName())

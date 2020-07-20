@@ -1,0 +1,30 @@
+2020-07-17 18:43:25.281  INFO 3721 --- [main] com.kiseok.pingmall.PingmallApplication  : Starting PingmallApplication on yang-giseog-ui-MacBookPro.local with PID 3721 (/Users/kiseokyang/Desktop/Study/pingmall/#pingmall/build/classes/java/main started by kiseokyang in /Users/kiseokyang/Desktop/Study/pingmall/#pingmall)
+2020-07-17 18:43:25.283  INFO 3721 --- [main] com.kiseok.pingmall.PingmallApplication  : No active profile set, falling back to default profiles: default
+2020-07-17 18:43:25.726  INFO 3721 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFERRED mode.
+2020-07-17 18:43:25.774  INFO 3721 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43ms. Found 3 JPA repository interfaces.
+2020-07-17 18:43:26.117  INFO 3721 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-07-17 18:43:26.122  INFO 3721 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-07-17 18:43:26.122  INFO 3721 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-07-17 18:43:26.170  INFO 3721 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-07-17 18:43:26.170  INFO 3721 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 861 ms
+2020-07-17 18:43:26.196  INFO 3721 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-07-17 18:43:26.415  INFO 3721 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-07-17 18:43:26.420  INFO 3721 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:mysql://127.0.0.1:3306/pingmall?characterEncoding=utf8&serverTimezone=UTC'
+2020-07-17 18:43:26.534  INFO 3721 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-07-17 18:43:26.561  INFO 3721 --- [task-1] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-07-17 18:43:26.588  INFO 3721 --- [task-1] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.15.Final
+2020-07-17 18:43:26.669  INFO 3721 --- [task-1] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-07-17 18:43:26.747  INFO 3721 --- [task-1] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-07-17 18:43:27.264  INFO 3721 --- [task-1] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-07-17 18:43:27.269  INFO 3721 --- [task-1] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-07-17 18:43:27.431  INFO 3721 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: Mvc [pattern='/docs/index.html'], []
+2020-07-17 18:43:27.447  INFO 3721 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@67022ea, org.springframework.security.web.context.SecurityContextPersistenceFilter@1e977098, org.springframework.security.web.header.HeaderWriterFilter@16aed49f, org.springframework.security.web.authentication.logout.LogoutFilter@2c9a6717, com.kiseok.pingmall.common.config.jwt.JwtFilter@700f518a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6690b9fa, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@57ad1178, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2954f6ab, org.springframework.security.web.session.SessionManagementFilter@708eb310, org.springframework.security.web.access.ExceptionTranslationFilter@2f14b0f6, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4d9754a8]
+2020-07-17 18:43:27.553  WARN 3721 --- [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-07-17 18:43:27.634  INFO 3721 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-07-17 18:43:27.634  INFO 3721 --- [main] DeferredRepositoryInitializationListener : Triggering deferred initialization of Spring Data repositories…
+2020-07-17 18:43:27.718  INFO 3721 --- [main] DeferredRepositoryInitializationListener : Spring Data repositories initialized!
+2020-07-17 18:43:27.725  INFO 3721 --- [main] com.kiseok.pingmall.PingmallApplication  : Started PingmallApplication in 2.708 seconds (JVM running for 3.295)
+2020-07-17 19:03:20.648  INFO 3721 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-07-17 19:03:20.650  INFO 3721 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-07-17 19:03:20.650  INFO 3721 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-07-17 19:03:20.652  INFO 3721 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

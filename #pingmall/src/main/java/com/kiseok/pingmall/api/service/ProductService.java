@@ -7,6 +7,7 @@ import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.product.ProductRepository;
+import com.kiseok.pingmall.web.dto.product.ProductFilterRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,9 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final AccountRepository accountRepository;
 
-    public Page<Product> loadAllProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<Product> loadAllFilteredProducts(ProductFilterRequestDto requestDto, Pageable pageable) {
+        return productRepository.findByFilter(requestDto, pageable);
+
     }
 
     public ProductResponseDto loadProduct(Long productId) {

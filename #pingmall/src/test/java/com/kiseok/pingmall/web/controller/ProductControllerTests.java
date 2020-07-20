@@ -15,6 +15,8 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
@@ -296,6 +298,37 @@ class ProductControllerTests extends BaseControllerTests {
                                 fieldWithPath("page.number").description("number of page")
                         )
                 ))
+        ;
+    }
+
+    @DisplayName("정상적으로 필터링 된 모든 제품 불러오기 -> 200 OK")
+    @Test
+    void load_all_filtered_products_200() throws Exception   {
+        saveCustomProduct(createAccountAndToken());
+
+        this.mockMvc.perform(get(PRODUCT_URL)
+//                .queryParam("name", "Adidas")
+//                .queryParam("size", "L")
+//                .queryParam("price", "80000")
+//                .queryParam("category", ProductCategory.BOTTOMS.name())
+//                .queryParam("orderBy", "price")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.self").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.create-product-image").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.modify-product").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.delete-product").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.create-orders").exists())
+                .andExpect(jsonPath("_embedded.productResponseDtoList.[*]._links.profile").exists())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.create-product").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("page.size").exists())
+                .andExpect(jsonPath("page.totalElements").exists())
+                .andExpect(jsonPath("page.totalPages").exists())
+                .andExpect(jsonPath("page.number").exists())
         ;
     }
 
@@ -967,6 +1000,45 @@ class ProductControllerTests extends BaseControllerTests {
         ;
 
         return generateToken(actions);
+    }
+
+    private void saveCustomProduct(String token) {
+        List<String> names = Arrays.asList("Nike", "Nike Shoes", "Nike Hood", "Nike Wind", "Adidas", "Adidas Cap", "Adidas Socks", "Carhartt Jeans", "Carhartt Jeans", "Carhartt Wind");
+        List<String> sizes = Arrays.asList("L", "265", "XL", "M", "32", "S", "270", "32", "34", "XL");
+        List<Long> prices = Arrays.asList(10000L, 40000L, 30000L, 20000L, 80000L, 90000L, 70000L, 50000L, 20000L, 10000L);
+        List<ProductCategory> categories = Arrays.asList(ProductCategory.TOP, ProductCategory.SHOES, ProductCategory.TOP, ProductCategory.TOP, ProductCategory.BOTTOMS, ProductCategory.ACCESSORY, ProductCategory.SHOES, ProductCategory.BOTTOMS, ProductCategory.BOTTOMS, ProductCategory.TOP);
+        IntStream.rangeClosed(1, 10).forEach(i -> {
+            ProductRequestDto requestDto = createProductRequestDto(names.get(i - 1), sizes.get(i - 1), prices.get(i - 1), categories.get(i - 1));
+
+            try {
+                this.mockMvc.perform(post(PRODUCT_URL)
+                        .accept(MediaTypes.HAL_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto))
+                        .header(HttpHeaders.AUTHORIZATION, token))
+                        .andDo(print())
+                        .andExpect(status().isCreated())
+                        .andExpect(jsonPath("id").exists())
+                        .andExpect(jsonPath("name").value(requestDto.getName()))
+                        .andExpect(jsonPath("image").value(appProperties.getTestImage()))
+                        .andExpect(jsonPath("size").value(requestDto.getSize()))
+                        .andExpect(jsonPath("price").value(requestDto.getPrice()))
+                        .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
+                        .andExpect(jsonPath("category").value(requestDto.getCategory().name()))
+                        .andExpect(jsonPath("seller").exists())
+                        .andExpect(jsonPath("_links.self").exists())
+                        .andExpect(jsonPath("_links.load-all-products").exists())
+                        .andExpect(jsonPath("_links.load-product").exists())
+                        .andExpect(jsonPath("_links.create-product-image").exists())
+                        .andExpect(jsonPath("_links.modify-product").exists())
+                        .andExpect(jsonPath("_links.delete-product").exists())
+                        .andExpect(jsonPath("_links.create-orders").exists())
+                        .andExpect(jsonPath("_links.profile").exists())
+                ;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private static Stream<Arguments> validProduct() {

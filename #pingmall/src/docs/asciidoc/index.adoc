@@ -155,7 +155,7 @@ operation::create-product[snippets='curl-request,http-request,request-headers,re
 
 `POST` 요청을 사용해서 제품 이미지를 생성할 수 있다.
 
-operation::create-product-image[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+operation::create-product-image[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
 
 [[resources-product-modify]]
 === 제품 수정
@@ -184,7 +184,7 @@ operation::create-orders[snippets='curl-request,http-request,request-headers,req
 
 `GET` 요청을 사용해서 이메일을 찾을 수 있다.
 
-operation::find-email[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+operation::find-email[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
 
 [[resources-password-find]]
 === 비밀번호 찾기

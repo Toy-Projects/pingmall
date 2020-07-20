@@ -1,10 +1,12 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.service.ProductService;
+import com.kiseok.pingmall.common.domain.product.ProductCategory;
 import com.kiseok.pingmall.common.domain.resources.ModelResource;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.CurrentUser;
 import com.kiseok.pingmall.common.domain.product.Product;
+import com.kiseok.pingmall.web.dto.product.ProductFilterRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +35,17 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    ResponseEntity<?> loadAllProducts(Pageable pageable, PagedResourcesAssembler<Product> assembler) {
-        Page<Product> products = productService.loadAllProducts(pageable);
+    ResponseEntity<?> loadFilteredProducts(@RequestParam(required = false) String name,
+                                           @RequestParam(required = false) String size,
+                                           @RequestParam(required = false) String price,
+                                           @RequestParam(required = false) ProductCategory category,
+                                           @RequestParam(required = false) String orderBy,
+                                           Pageable pageable,
+                                           PagedResourcesAssembler<Product> assembler)  {
+
+        ProductFilterRequestDto requestDto = createProductFilterRequestDto(name, size, price, category, orderBy);
+
+        Page<Product> products = productService.loadAllFilteredProducts(requestDto, pageable);
         PagedModel<EntityModel<?>> productResources = assembler.toModel(products, product ->
         {
             ProductResponseDto responseDto = modelMapper.map(product, ProductResponseDto.class);
@@ -110,5 +121,15 @@ public class ProductController {
         resource.add(linkTo(OrdersController.class).withRel(CREATE_ORDERS.getRel()));
 
         return ResponseEntity.ok(resource);
+    }
+
+    private ProductFilterRequestDto createProductFilterRequestDto(String name, String size, String price, ProductCategory category, String orderBy) {
+        return ProductFilterRequestDto.builder()
+                .name(name)
+                .size(size)
+                .price(price)
+                .category(category)
+                .orderBy(orderBy)
+                .build();
     }
 }
