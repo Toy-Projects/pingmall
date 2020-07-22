@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
 import com.kiseok.pingmall.common.domain.BaseTimeEntity;
 import com.kiseok.pingmall.common.domain.account.Account;
+import com.kiseok.pingmall.common.domain.comment.Comment;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
@@ -51,6 +52,9 @@ public class Product extends BaseTimeEntity {
 
     @ManyToOne
     private Account seller;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Comment> comment;
 
     public void reduceStock(OrdersRequestDto requestDto) {
         if(this.stock < requestDto.getAmount() || this.stock <= 0L) {

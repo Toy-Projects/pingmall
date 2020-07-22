@@ -27,7 +27,10 @@ public enum ErrorCode {
 
     // Orders
     SHORTAGE_BALANCE_ERROR("o001", BAD_REQUEST_400, SHORTAGE_BALANCE),
-    SHORTAGE_STOCK_ERROR("o002", BAD_REQUEST_400, SHORTAGE_STOCK);
+    SHORTAGE_STOCK_ERROR("o002", BAD_REQUEST_400, SHORTAGE_STOCK),
+
+    // Comment
+    NOT_FOUND_COMMENT_ERROR("c001", NOT_FOUND_404, NOT_FOUND_COMMENT);
 
     private final String code;
     private final String status;

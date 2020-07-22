@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.api.exception.account.*;
+import com.kiseok.pingmall.api.exception.comment.CommentNotFoundException;
 import com.kiseok.pingmall.api.exception.image.*;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
@@ -160,6 +161,15 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleProductNotFoundException() {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_FOUND_PRODUCT_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModel(responseDto, NOT_FOUND_PRODUCT_ERROR.name());
+
+        return new ResponseEntity<>(resource, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<?> handleCommentNotFoundException() {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.NOT_FOUND_COMMENT_ERROR, new ArrayList<>());
+        EntityModel<?> resource = modelResource.getErrorResponseModel(responseDto, NOT_FOUND_COMMENT_ERROR.name());
 
         return new ResponseEntity<>(resource, HttpStatus.NOT_FOUND);
     }

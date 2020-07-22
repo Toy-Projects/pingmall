@@ -36,6 +36,7 @@ class ProductControllerTests extends BaseControllerTests {
 
     @AfterEach
     void tearDown()    {
+        commentRepository.deleteAll();
         productRepository.deleteAll();
         accountRepository.deleteAll();
     }

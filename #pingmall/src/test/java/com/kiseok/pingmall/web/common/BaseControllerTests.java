@@ -1,6 +1,8 @@
 package com.kiseok.pingmall.web.common;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kiseok.pingmall.common.domain.comment.CommentRepository;
+import com.kiseok.pingmall.common.domain.comment.CommentType;
 import com.kiseok.pingmall.common.domain.order.OrdersRepository;
 import com.kiseok.pingmall.common.properties.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
@@ -11,6 +13,8 @@ import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
+import com.kiseok.pingmall.web.dto.comment.CommentModifyRequestDto;
+import com.kiseok.pingmall.web.dto.comment.CommentRequestDto;
 import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
@@ -47,6 +51,9 @@ public class BaseControllerTests {
     protected OrdersRepository ordersRepository;
 
     @Autowired
+    protected CommentRepository commentRepository;
+
+    @Autowired
     protected JwtProvider jwtProvider;
 
     @Autowired
@@ -65,6 +72,7 @@ public class BaseControllerTests {
     protected final String ORDERS_URL = "/api/orders/";
     protected final String FIND_EMAIL_URL = "/api/find/email";
     protected final String FIND_PASSWORD_URL = "/api/find/password";
+    protected final String COMMENT_URL = "/api/comments/";
     protected final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
@@ -161,6 +169,21 @@ public class BaseControllerTests {
         return FindPasswordRequestDto.builder()
                 .email(email)
                 .name(name)
+                .build();
+    }
+
+    protected CommentRequestDto createCommentRequestDto(Long productId)   {
+        return CommentRequestDto.builder()
+                .content("new Comment")
+                .commentType(CommentType.QUESTION)
+                .productId(productId)
+                .build();
+    }
+
+    protected CommentModifyRequestDto createCommentModifyRequestDto()   {
+        return CommentModifyRequestDto.builder()
+                .content("modified content")
+                .commentType(CommentType.EPILOGUE)
                 .build();
     }
 
