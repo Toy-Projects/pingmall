@@ -108,6 +108,22 @@ public class CommentControllerTests extends BaseControllerTests {
         ;
     }
 
+    // TODO DB에 없는 댓글 불러오기 -> 404 NOT_FOUND
+
+    // TODO DB에 없는 제품의 댓글 불러오기 -> 404 NOT_FOUND
+
+    // TODO 정상적으로 댓글 불러오기 -> 200 OK
+
+    // TODO 정상적으로 모든 댓글 불러오기 -> 200 OK
+
+    // TODO 댓글 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST
+
+    // TODO DB에 없는 댓글 수정 시 -> 404 NOT_FOUND
+
+    // TODO 댓글 수정 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST
+
+    // TODO DB에 없는 제품의 댓글 수정 시 -> 404 NOT_FOUND
+
     @DisplayName("정상적으로 댓글 수정 -> 200 OK")
     @Test
     void modify_comment_200() throws Exception  {
@@ -145,6 +161,14 @@ public class CommentControllerTests extends BaseControllerTests {
                 .andExpect(jsonPath("product").exists())
         ;
     }
+
+    // TODO DB에 없는 댓글 삭제 -> 404 NOT_FOUND
+
+    // TODO 댓글 삭제 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST
+
+    // TODO 정상적으로 댓글 삭제 -> 200 OK
+
+    // TODO 제품 삭제시 모든 댓글 삭제 -> 200 OK
 
     private String createAccountAndJwt(AccountRequestDto requestDto) throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
