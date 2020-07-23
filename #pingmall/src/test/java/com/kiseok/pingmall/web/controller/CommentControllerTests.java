@@ -20,7 +20,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -109,11 +111,75 @@ public class CommentControllerTests extends BaseControllerTests {
         ;
     }
 
-    // TODO DB에 없는 댓글 불러오기 -> 404 NOT_FOUND
+    @DisplayName("DB에 없는 댓글 불러오기 -> 404 NOT_FOUND")
+    @Test
+    void load_comment_not_found_404() throws Exception  {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
 
-    // TODO DB에 없는 제품의 댓글 불러오기 -> 404 NOT_FOUND
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists())
+        ;
 
-    // TODO 정상적으로 댓글 불러오기 -> 200 OK
+        this.mockMvc.perform(get(COMMENT_URL + "-1")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
+        ;
+
+    }
+
+    @DisplayName("정상적으로 댓글 불러오기 -> 200 OK")
+    @Test
+    void load_comment_200() throws Exception    {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+
+        this.mockMvc.perform(get(COMMENT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists())
+        ;
+    }
 
     // TODO 정상적으로 모든 댓글 불러오기 -> 200 OK
 
@@ -277,13 +343,145 @@ public class CommentControllerTests extends BaseControllerTests {
         ;
     }
 
-    // TODO DB에 없는 댓글 삭제 -> 404 NOT_FOUND
+    @DisplayName("DB에 없는 댓글 삭제 -> 404 NOT_FOUND")
+    @Test
+    void delete_comment_not_found_404() throws Exception  {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
 
-    // TODO 댓글 삭제 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
 
-    // TODO 정상적으로 댓글 삭제 -> 200 OK
+        this.mockMvc.perform(delete(COMMENT_URL + "-1")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
+        ;
+    }
 
-    // TODO 제품 삭제시 모든 댓글 삭제 -> 200 OK
+    @DisplayName("댓글 삭제 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST")
+    @Test
+    void delete_comment_account_id_not_match_400() throws Exception {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        String anotherJwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+
+        this.mockMvc.perform(delete(COMMENT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
+        ;
+    }
+
+    @DisplayName("정상적으로 댓글 삭제 -> 200 OK")
+    @Test
+    void delete_comment_200() throws Exception {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+
+        this.mockMvc.perform(delete(COMMENT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists())
+        ;
+    }
+
+    @DisplayName("제품 삭제시 모든 댓글 삭제 -> 200 OK")
+    @Test
+    void delete_product_cascade_all_with_comments_200() throws Exception    {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        String anotherJwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists())
+                ;
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+
+        this.mockMvc.perform(delete(PRODUCT_URL + responseDto.getProduct().getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+    }
 
     private String createAccountAndJwt(AccountRequestDto requestDto) throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)

@@ -18,6 +18,11 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @GetMapping("/{commentId}")
+    ResponseEntity<?> loadComment(@PathVariable Long commentId)    {
+        return commentService.loadComment(commentId);
+    }
+
     @PostMapping
     ResponseEntity<?> saveComment(@RequestBody @Valid CommentRequestDto requestDto, @CurrentUser Account currentUser) {
         return commentService.saveComment(requestDto, currentUser);
@@ -26,5 +31,10 @@ public class CommentController {
     @PutMapping("/{commentId}")
     ResponseEntity<?> modifyComment(@PathVariable Long commentId, @RequestBody @Valid CommentModifyRequestDto requestDto, @CurrentUser Account currentAccount)  {
         return commentService.modifyComment(commentId, requestDto, currentAccount);
+    }
+
+    @DeleteMapping("/{commentId}")
+    ResponseEntity<?> deleteComment(@PathVariable Long commentId, @CurrentUser Account currentUser) {
+        return commentService.deleteComment(commentId, currentUser);
     }
 }

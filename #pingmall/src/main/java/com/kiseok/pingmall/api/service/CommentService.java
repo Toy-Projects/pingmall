@@ -25,6 +25,11 @@ public class CommentService {
     private final ProductRepository productRepository;
     private final CommentRepository commentRepository;
 
+    public ResponseEntity<?> loadComment(Long commentId) {
+        Comment comment = isExistComment(commentId);
+        return new ResponseEntity<>(modelMapper.map(comment, CommentResponseDto.class), HttpStatus.OK);
+    }
+
     public ResponseEntity<?> saveComment(CommentRequestDto requestDto, Account currentUser) {
         Product product = isExistProduct(requestDto.getProductId());
         Comment comment = commentRepository.save(requestDto.toEntity(currentUser, product));
@@ -45,6 +50,16 @@ public class CommentService {
         CommentResponseDto responseDto = modelMapper.map(commentRepository.save(comment), CommentResponseDto.class);
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> deleteComment(Long commentId, Account currentUser) {
+        Comment comment = isExistComment(commentId);
+        isEqualAccountId(comment, currentUser);
+        Product product = isExistProduct(comment.getProduct().getId());
+        commentRepository.delete(comment);
+        product.getComment().remove(comment);
+
+        return new ResponseEntity<>(modelMapper.map(comment, CommentResponseDto.class), HttpStatus.OK);
     }
 
     private void isEqualAccountId(Comment comment, Account currentAccount) {

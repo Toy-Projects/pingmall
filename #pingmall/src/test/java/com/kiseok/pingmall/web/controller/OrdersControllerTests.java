@@ -351,6 +351,7 @@ public class OrdersControllerTests extends BaseControllerTests {
                                 fieldWithPath("_embedded.ordersResponseDtoList.[*].product.price").description("Price of Product"),
                                 fieldWithPath("_embedded.ordersResponseDtoList.[*].product.stock").description("Stock of Product"),
                                 fieldWithPath("_embedded.ordersResponseDtoList.[*].product.category").description("Category of Product"),
+                                fieldWithPath("_embedded.ordersResponseDtoList.[*].product.comment.[*]").description("Comments of Product"),
                                 // product.orders
                                 fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*]").description("Orders"),
                                 fieldWithPath("_embedded.ordersResponseDtoList.[*].product.orders.[*].id").description("Identifier of the Product's Orders"),
