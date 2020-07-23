@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
@@ -116,13 +117,127 @@ public class CommentControllerTests extends BaseControllerTests {
 
     // TODO 정상적으로 모든 댓글 불러오기 -> 200 OK
 
-    // TODO 댓글 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST
+    @DisplayName("댓글 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST")
+    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @CsvSource({", EPILOGUE", " , EPILOGUE"})
+    void modify_comment_invalid_400(String content, CommentType commentType) throws Exception  {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
 
-    // TODO DB에 없는 댓글 수정 시 -> 404 NOT_FOUND
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
 
-    // TODO 댓글 수정 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+        CommentModifyRequestDto requestDto = CommentModifyRequestDto.builder()
+                .content(content)
+                .commentType(commentType)
+                .build();
 
-    // TODO DB에 없는 제품의 댓글 수정 시 -> 404 NOT_FOUND
+        this.mockMvc.perform(put(COMMENT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors.[*].field").exists())
+                .andExpect(jsonPath("errors.[*].value").exists())
+                .andExpect(jsonPath("errors.[*].reason").exists())
+        ;
+    }
+
+    @DisplayName("DB에 없는 댓글 수정 시 -> 404 NOT_FOUND")
+    @Test
+    void modify_comment_not_found_404() throws Exception    {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        jwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists())
+        ;
+
+        CommentModifyRequestDto requestDto = createCommentModifyRequestDto();
+
+        this.mockMvc.perform(put(COMMENT_URL + "-1")
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
+        ;
+    }
+
+    @DisplayName("댓글 수정 시도한 유저의 ID와 댓글을 쓴 유저의 ID가 다를 때 -> 400 BAD_REQUEST")
+    @Test
+    void modify_comment_account_id_not_match_400() throws Exception {
+        String jwt = createAccountAndJwt(createAccountRequestDto());
+        ProductResponseDto productResponseDto = getProductResponseDto(jwt);
+        String anotherJwt = createAccountAndJwt(createAnotherAccountRequestDto());
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+
+        ResultActions actions = this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt)
+                .content(objectMapper.writeValueAsString(commentRequestDto)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("id").exists())
+                .andExpect(jsonPath("content").exists())
+                .andExpect(jsonPath("writer").exists())
+                .andExpect(jsonPath("product").exists());
+
+        String contentAsString = actions.andReturn().getResponse().getContentAsString();
+        CommentResponseDto responseDto = objectMapper.readValue(contentAsString, CommentResponseDto.class);
+        CommentModifyRequestDto requestDto = createCommentModifyRequestDto();
+
+        this.mockMvc.perform(put(COMMENT_URL + responseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt)
+                .content(objectMapper.writeValueAsString(requestDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("status").exists())
+                .andExpect(jsonPath("message").exists())
+                .andExpect(jsonPath("code").exists())
+                .andExpect(jsonPath("erroredAt").exists())
+                .andExpect(jsonPath("errors").exists())
+        ;
+    }
 
     @DisplayName("정상적으로 댓글 수정 -> 200 OK")
     @Test
