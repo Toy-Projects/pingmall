@@ -25,41 +25,39 @@ public class CommentService {
     private final ProductRepository productRepository;
     private final CommentRepository commentRepository;
 
-    public ResponseEntity<?> loadComment(Long commentId) {
+    public CommentResponseDto loadComment(Long commentId) {
         Comment comment = isExistComment(commentId);
-        return new ResponseEntity<>(modelMapper.map(comment, CommentResponseDto.class), HttpStatus.OK);
+        return modelMapper.map(comment, CommentResponseDto.class);
     }
 
-    public ResponseEntity<?> saveComment(CommentRequestDto requestDto, Account currentUser) {
+    public CommentResponseDto saveComment(CommentRequestDto requestDto, Account currentUser) {
         Product product = isExistProduct(requestDto.getProductId());
         Comment comment = commentRepository.save(requestDto.toEntity(currentUser, product));
         product.getComment().add(comment);
         productRepository.save(product);
-        CommentResponseDto responseDto = modelMapper.map(comment, CommentResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(comment, CommentResponseDto.class);
     }
 
-    public ResponseEntity<?> modifyComment(Long commentId, CommentModifyRequestDto requestDto, Account currentAccount) {
+    public CommentResponseDto modifyComment(Long commentId, CommentModifyRequestDto requestDto, Account currentAccount) {
         Comment comment = isExistComment(commentId);
         isEqualAccountId(comment, currentAccount);
         Product product = isExistProduct(comment.getProduct().getId());
         product.getComment().remove(comment);
         comment.updateComment(requestDto);
         product.getComment().add(comment);
-        CommentResponseDto responseDto = modelMapper.map(commentRepository.save(comment), CommentResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(commentRepository.save(comment), CommentResponseDto.class);
     }
 
-    public ResponseEntity<?> deleteComment(Long commentId, Account currentUser) {
+    public CommentResponseDto deleteComment(Long commentId, Account currentUser) {
         Comment comment = isExistComment(commentId);
         isEqualAccountId(comment, currentUser);
         Product product = isExistProduct(comment.getProduct().getId());
         commentRepository.delete(comment);
         product.getComment().remove(comment);
 
-        return new ResponseEntity<>(modelMapper.map(comment, CommentResponseDto.class), HttpStatus.OK);
+        return modelMapper.map(comment, CommentResponseDto.class);
     }
 
     private void isEqualAccountId(Comment comment, Account currentAccount) {
