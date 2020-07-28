@@ -6,6 +6,7 @@ import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.comment.Comment;
 import com.kiseok.pingmall.common.domain.comment.CommentRepository;
+import com.kiseok.pingmall.common.domain.comment.CommentType;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.product.ProductRepository;
 import com.kiseok.pingmall.web.dto.comment.CommentModifyRequestDto;
@@ -13,8 +14,8 @@ import com.kiseok.pingmall.web.dto.comment.CommentRequestDto;
 import com.kiseok.pingmall.web.dto.comment.CommentResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -24,6 +25,11 @@ public class CommentService {
     private final ModelMapper modelMapper;
     private final ProductRepository productRepository;
     private final CommentRepository commentRepository;
+
+    public Page<Comment> loadAllFilteredComments(CommentType commentType, Long productId, Pageable pageable) {
+        isExistProduct(productId);
+        return commentRepository.findByFilter(commentType, productId, pageable);
+    }
 
     public CommentResponseDto loadComment(Long commentId) {
         Comment comment = isExistComment(commentId);
@@ -71,6 +77,8 @@ public class CommentService {
     }
 
     private Product isExistProduct(Long productId) {
+        if(productId == null)
+            throw new ProductNotFoundException();
         return productRepository.findById(productId).orElseThrow(ProductNotFoundException::new);
     }
 }

@@ -13,7 +13,6 @@ import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter @Builder
 @NoArgsConstructor @AllArgsConstructor
