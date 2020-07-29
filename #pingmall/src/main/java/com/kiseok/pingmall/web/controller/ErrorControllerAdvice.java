@@ -1,5 +1,6 @@
 package com.kiseok.pingmall.web.controller;
 
+import com.kiseok.pingmall.api.exception.InvalidVerificationCodeException;
 import com.kiseok.pingmall.api.exception.account.*;
 import com.kiseok.pingmall.api.exception.comment.CommentNotFoundException;
 import com.kiseok.pingmall.api.exception.image.*;
@@ -130,6 +131,15 @@ public class ErrorControllerAdvice {
     public ResponseEntity<?> handleStockShortageException() {
         ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(ErrorCode.SHORTAGE_STOCK_ERROR, new ArrayList<>());
         EntityModel<?> resource = modelResource.getErrorResponseModel(responseDto, SHORTAGE_STOCK_ERROR.name());
+
+        return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidVerificationCodeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleInvalidVerificationCodeException()   {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(INVALID_VERIFICATION_CODE_ERROR, new ArrayList<>());
+        EntityModel<?> resource = modelResource.getErrorResponseModel(responseDto, INVALID_VERIFICATION_CODE_ERROR.name());
 
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }

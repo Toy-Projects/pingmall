@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiseok.pingmall.common.domain.comment.CommentRepository;
 import com.kiseok.pingmall.common.domain.comment.CommentType;
 import com.kiseok.pingmall.common.domain.order.OrdersRepository;
+import com.kiseok.pingmall.common.domain.verification.VerificationRepository;
 import com.kiseok.pingmall.common.properties.AppProperties;
 import com.kiseok.pingmall.common.config.jwt.JwtProvider;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
@@ -52,6 +53,9 @@ public class BaseControllerTests {
 
     @Autowired
     protected CommentRepository commentRepository;
+
+    @Autowired
+    protected VerificationRepository verificationRepository;
 
     @Autowired
     protected JwtProvider jwtProvider;
