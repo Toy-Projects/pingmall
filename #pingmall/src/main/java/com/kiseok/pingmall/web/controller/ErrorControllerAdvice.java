@@ -144,6 +144,15 @@ public class ErrorControllerAdvice {
         return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserNotVerifiedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleUserNotVerifiedException()   {
+        ErrorResponseDto responseDto = ErrorResponseDto.createErrorResponseDto(USER_NOT_VERIFIED_ERROR, new ArrayList<>());
+        EntityModel<?> resource = modelResource.getErrorResponseModel(responseDto, USER_NOT_VERIFIED_ERROR.name());
+
+        return new ResponseEntity<>(resource, HttpStatus.BAD_REQUEST);
+    }
+
     // 401 UNAUTHORIZED
 
     @ExceptionHandler(UserUnauthorizedException.class)
