@@ -2,6 +2,7 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
@@ -15,6 +16,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import java.util.UUID;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +36,21 @@ public class FindControllerTests extends BaseControllerTests {
 
     @BeforeEach
     void setUp() throws Exception {
+        Verification verification = Verification.builder()
+                .email(appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        Verification anotherVerification = Verification.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+        verificationRepository.save(anotherVerification);
+
         AccountRequestDto requestDto = createAccountRequestDto();
 
         this.mockMvc.perform(post(ACCOUNT_URL)
@@ -57,7 +74,8 @@ public class FindControllerTests extends BaseControllerTests {
 
     @AfterEach
     void tearDown()    {
-        accountRepository.deleteAll();
+        this.accountRepository.deleteAll();
+        this.verificationRepository.deleteAll();
     }
 
     @DisplayName("Email 찾기 유효성 검사 실패 -> 404 NOT_FOUND")
@@ -171,8 +189,16 @@ public class FindControllerTests extends BaseControllerTests {
     @DisplayName("정상적으로 Password 찾기 -> 200 OK")
     @Test
     void find_password_200() throws Exception   {
+        String email = appProperties.getMyEmail();
+        Verification verification = Verification.builder()
+                .email(email)
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+
         AccountRequestDto accountRequestDto = createAccountRequestDto();
-        String email = "rltjr219@gmail.com";
         accountRequestDto.setEmail(email);
 
         this.mockMvc.perform(post(ACCOUNT_URL)

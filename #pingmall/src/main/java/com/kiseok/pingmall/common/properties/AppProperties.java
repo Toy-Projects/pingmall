@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 @Getter @Setter
 public class AppProperties {
 
+    // Email
+    private String myEmail;
+
     // Account & Login
     private String testEmail;
     private String testPassword;
@@ -34,4 +37,8 @@ public class AppProperties {
 
     // Orders
     private Long testAmount;
+
+    // Comment
+    private String testContent;
+    private String testModifiedContent;
 }

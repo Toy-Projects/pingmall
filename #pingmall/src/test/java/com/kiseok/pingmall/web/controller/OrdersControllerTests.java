@@ -2,12 +2,14 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
+import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.MediaTypes;
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -32,11 +35,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class OrdersControllerTests extends BaseControllerTests {
 
+    @BeforeEach
+    void setUp() {
+        Verification verification = Verification.builder()
+                .email(appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        Verification anotherVerification = Verification.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+        verificationRepository.save(anotherVerification);
+    }
+
     @AfterEach
     void tearDown() {
         this.ordersRepository.deleteAll();
         this.productRepository.deleteAll();
         this.accountRepository.deleteAll();
+        this.verificationRepository.deleteAll();
     }
 
     @DisplayName("주문 등록 시 유효성 검사 실패 -> 400 BAD_REQUEST")

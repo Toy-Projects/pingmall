@@ -2,12 +2,14 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,9 +37,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AccountControllerTests extends BaseControllerTests {
 
+    @BeforeEach
+    void setUp() {
+        Verification verification = Verification.builder()
+                .email(appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        Verification anotherVerification = Verification.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+        verificationRepository.save(anotherVerification);
+    }
+
     @AfterEach
     void tearDown()    {
-        accountRepository.deleteAll();
+        this.accountRepository.deleteAll();
+        this.verificationRepository.deleteAll();
     }
 
     @DisplayName("유저 생성 시 유효성 검사 실패 -> 400 BAD_REQUEST")

@@ -20,6 +20,8 @@ import com.kiseok.pingmall.web.dto.find.FindPasswordRequestDto;
 import com.kiseok.pingmall.web.dto.jwt.JwtRequestDto;
 import com.kiseok.pingmall.web.dto.order.OrdersRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
+import com.kiseok.pingmall.web.dto.verification.VerificationCodeRequestDto;
+import com.kiseok.pingmall.web.dto.verification.VerificationEmailRequestDto;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.UUID;
+
 import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 
 @ExtendWith(SpringExtension.class)
@@ -77,6 +82,7 @@ public class BaseControllerTests {
     protected final String FIND_EMAIL_URL = "/api/find/email";
     protected final String FIND_PASSWORD_URL = "/api/find/password";
     protected final String COMMENT_URL = "/api/comments/";
+    protected final String VERIFICATION_URL = "/api/verifications";
     protected final String ANOTHER = "another_";
 
     protected String generateToken(ResultActions actions) throws Exception {
@@ -178,7 +184,7 @@ public class BaseControllerTests {
 
     protected CommentRequestDto createCommentRequestDto(Long productId)   {
         return CommentRequestDto.builder()
-                .content("new Comment")
+                .content(appProperties.getTestContent())
                 .commentType(CommentType.QUESTION)
                 .productId(productId)
                 .build();
@@ -186,8 +192,21 @@ public class BaseControllerTests {
 
     protected CommentModifyRequestDto createCommentModifyRequestDto()   {
         return CommentModifyRequestDto.builder()
-                .content("modified content")
+                .content(appProperties.getTestModifiedContent())
                 .commentType(CommentType.EPILOGUE)
+                .build();
+    }
+
+    protected VerificationEmailRequestDto createVerificationEmailRequestDto()   {
+        return VerificationEmailRequestDto.builder()
+                .email(appProperties.getMyEmail())
+                .build();
+    }
+
+    protected VerificationCodeRequestDto createVerificationCodeRequestDto() {
+        return VerificationCodeRequestDto.builder()
+                .email(appProperties.getMyEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
                 .build();
     }
 

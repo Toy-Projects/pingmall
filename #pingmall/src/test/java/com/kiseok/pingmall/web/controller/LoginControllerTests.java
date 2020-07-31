@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.LoginRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
@@ -14,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import java.util.UUID;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -32,6 +34,21 @@ class LoginControllerTests extends BaseControllerTests {
 
     @BeforeEach
     void setUp() throws Exception {
+        Verification verification = Verification.builder()
+                .email(appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        Verification anotherVerification = Verification.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+        verificationRepository.save(anotherVerification);
+
         AccountRequestDto requestDto = createAccountRequestDto();
 
         this.mockMvc.perform(post(ACCOUNT_URL)
@@ -56,6 +73,7 @@ class LoginControllerTests extends BaseControllerTests {
     @AfterEach
     void tearDown()    {
         this.accountRepository.deleteAll();
+        this.verificationRepository.deleteAll();
     }
 
     @DisplayName("로그인 시 유효성 검사 실패 -> 400 BAD_REQUEST")

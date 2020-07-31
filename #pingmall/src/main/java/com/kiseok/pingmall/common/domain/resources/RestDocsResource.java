@@ -41,10 +41,13 @@ public enum RestDocsResource {
     MODIFY_COMMENT("modify-comment", "/docs/index.html#resources-comment-modify"),
     DELETE_COMMENT("delete-comment", "/docs/index.html#resources-comment-delete"),
 
-
     // find
     FIND_EMAIL("find-email", "/docs/index.html#resources-email-find"),
-    FIND_PASSWORD("find-password", "/docs/index.html#resources-password-find")
+    FIND_PASSWORD("find-password", "/docs/index.html#resources-password-find"),
+
+    // verification
+    VERIFY_EMAIL("verify-email", "/docs/index.html#resources-email-verify"),
+    VERIFY_CODE("verify-code", "/docs/index.html#resources-code-verify")
     ;
 
     private final String rel;

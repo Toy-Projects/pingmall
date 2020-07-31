@@ -12,8 +12,6 @@ import com.kiseok.pingmall.web.dto.verification.VerificationEmailRequestDto;
 import com.kiseok.pingmall.web.dto.verification.VerificationResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -30,23 +28,21 @@ public class VerificationService {
     private final VerificationRepository verificationRepository;
     private static final String PINGMALL = "#pingmall";
 
-    public ResponseEntity<?> verifyEmail(VerificationEmailRequestDto requestDto) {
+    public VerificationResponseDto verifyEmail(VerificationEmailRequestDto requestDto) {
         isUserDuplicated(requestDto.getEmail());
         isAlreadySendCode(requestDto);
         String verificationCode = createVerificationCode();
         sendMail(requestDto.getEmail(), verificationCode);
         Verification verification = requestDto.toEntity(verificationCode);
-        VerificationResponseDto responseDto = modelMapper.map(verificationRepository.save(verification), VerificationResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return modelMapper.map(verificationRepository.save(verification), VerificationResponseDto.class);
     }
 
-    public ResponseEntity<?> verifyCode(VerificationCodeRequestDto requestDto) {
+    public VerificationResponseDto verifyCode(VerificationCodeRequestDto requestDto) {
         Verification verification = isEqualVerificationCode(requestDto);
         verification.verified();
-        VerificationResponseDto responseDto = modelMapper.map(verificationRepository.save(verification), VerificationResponseDto.class);
 
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return modelMapper.map(verificationRepository.save(verification), VerificationResponseDto.class);
     }
 
     private Verification isEqualVerificationCode(VerificationCodeRequestDto requestDto) {

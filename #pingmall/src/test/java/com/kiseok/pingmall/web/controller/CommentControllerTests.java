@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.comment.CommentType;
+import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.comment.CommentModifyRequestDto;
@@ -9,6 +10,7 @@ import com.kiseok.pingmall.web.dto.comment.CommentResponseDto;
 import com.kiseok.pingmall.web.dto.product.ProductRequestDto;
 import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
@@ -38,11 +41,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class CommentControllerTests extends BaseControllerTests {
 
+    @BeforeEach
+    void setUp() {
+        Verification verification = Verification.builder()
+                .email(appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        Verification anotherVerification = Verification.builder()
+                .email(ANOTHER + appProperties.getTestEmail())
+                .verificationCode(UUID.randomUUID().toString().substring(0, 6))
+                .isVerified(true)
+                .build();
+
+        verificationRepository.save(verification);
+        verificationRepository.save(anotherVerification);
+    }
+
     @AfterEach
     void tearDown() {
-        commentRepository.deleteAll();
-        productRepository.deleteAll();
-        accountRepository.deleteAll();
+        this.commentRepository.deleteAll();
+        this.productRepository.deleteAll();
+        this.accountRepository.deleteAll();
+        this.verificationRepository.deleteAll();
     }
 
     @DisplayName("댓글 저장시 유효성 검사 실패 -> 400 BAD_REQUEST")
