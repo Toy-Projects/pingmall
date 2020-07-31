@@ -4,7 +4,7 @@ import com.kiseok.pingmall.web.common.BaseControllerTests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
+import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;

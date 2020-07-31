@@ -36,6 +36,14 @@ public class ErrorCodeTests {
         assertEquals(UNAUTHORIZED_ACCOUNT_ERROR.getStatus(), "401 UNAUTHORIZED");
         assertEquals(UNAUTHORIZED_ACCOUNT_ERROR.getMessage(), "Login failed!");
 
+        assertEquals(INVALID_VERIFICATION_CODE_ERROR.getCode(), "a007");
+        assertEquals(INVALID_VERIFICATION_CODE_ERROR.getStatus(), "400 BAD_REQUEST");
+        assertEquals(INVALID_VERIFICATION_CODE_ERROR.getMessage(), "Entered verification code is not match with sent code");
+
+        assertEquals(USER_NOT_VERIFIED_ERROR.getCode(), "a008");
+        assertEquals(USER_NOT_VERIFIED_ERROR.getStatus(), "400 BAD_REQUEST");
+        assertEquals(USER_NOT_VERIFIED_ERROR.getMessage(), "Above all, verify your email!");
+
         // Product
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getCode(), "p001");
         assertEquals(NOT_FOUND_PRODUCT_ERROR.getStatus(), "404 NOT_FOUND");
@@ -70,5 +78,10 @@ public class ErrorCodeTests {
         assertEquals(SHORTAGE_STOCK_ERROR.getCode(), "o002");
         assertEquals(SHORTAGE_STOCK_ERROR.getStatus(), "400 BAD_REQUEST");
         assertEquals(SHORTAGE_STOCK_ERROR.getMessage(), "The product has shortage of stock to fulfill the amount you want!");
+
+        // Comment
+        assertEquals(NOT_FOUND_COMMENT_ERROR.getCode(), "c001");
+        assertEquals(NOT_FOUND_COMMENT_ERROR.getStatus(), "404 NOT_FOUND");
+        assertEquals(NOT_FOUND_COMMENT_ERROR.getMessage(), "CommentId is not exist!");
     }
 }

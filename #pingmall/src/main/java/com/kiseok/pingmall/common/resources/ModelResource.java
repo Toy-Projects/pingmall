@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.common.domain.resources;
+package com.kiseok.pingmall.common.resources;
 
 import com.kiseok.pingmall.web.controller.ErrorControllerAdvice;
 import com.kiseok.pingmall.web.controller.IndexController;
@@ -10,7 +10,7 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static com.kiseok.pingmall.common.domain.resources.RestDocsResource.*;
+import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component

@@ -27,5 +27,8 @@ public class ErrorConstantsTests {
         assertEquals(INVALID_FILE_PATH, "The file path is invalid!");
         assertEquals(SHORTAGE_BALANCE, "You have shortage of balance to buy the product!");
         assertEquals(SHORTAGE_STOCK, "The product has shortage of stock to fulfill the amount you want!");
+        assertEquals(NOT_FOUND_COMMENT, "CommentId is not exist!");
+        assertEquals(INVALID_VERIFICATION_CODE, "Entered verification code is not match with sent code");
+        assertEquals(USER_NOT_VERIFIED, "Above all, verify your email!");
     }
 }

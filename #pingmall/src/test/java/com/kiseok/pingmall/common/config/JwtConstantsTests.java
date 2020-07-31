@@ -14,5 +14,7 @@ public class JwtConstantsTests {
         assertEquals(HEADER, "Authorization");
         assertEquals(PREFIX, "Bearer ");
         assertEquals(JWT_VALIDITY, 5 * 60 * 60);
+        assertEquals(PROVIDE_SERIAL_VERSION_UID, -2550185165626007488L);
+        assertEquals(ENTRY_POINT_SERIAL_VERSION_UID, -7858869558953243875L);
     }
 }

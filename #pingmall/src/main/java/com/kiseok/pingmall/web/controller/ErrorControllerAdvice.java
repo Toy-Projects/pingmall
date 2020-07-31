@@ -6,7 +6,7 @@ import com.kiseok.pingmall.api.exception.comment.CommentNotFoundException;
 import com.kiseok.pingmall.api.exception.image.*;
 import com.kiseok.pingmall.api.exception.product.ProductNotFoundException;
 import com.kiseok.pingmall.api.exception.product.StockShortageException;
-import com.kiseok.pingmall.common.domain.resources.ModelResource;
+import com.kiseok.pingmall.common.resources.ModelResource;
 import com.kiseok.pingmall.common.errors.ErrorCode;
 import com.kiseok.pingmall.web.dto.ErrorResponseDto;
 import lombok.RequiredArgsConstructor;

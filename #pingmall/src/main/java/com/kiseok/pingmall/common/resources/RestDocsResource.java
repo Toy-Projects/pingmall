@@ -1,4 +1,4 @@
-package com.kiseok.pingmall.common.domain.resources;
+package com.kiseok.pingmall.common.resources;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

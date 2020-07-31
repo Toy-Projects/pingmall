@@ -11,6 +11,9 @@ public class AppPropertiesTests extends BaseCommonTests {
     @Test
     void test_app_properties()  {
 
+        // Email
+        assertEquals(appProperties.getMyEmail(), "rltjr219@gmail.com");
+
         // Account
         assertEquals(appProperties.getTestEmail(), "test@email.com");
         assertEquals(appProperties.getTestPassword(), "testPW123!");
@@ -35,5 +38,9 @@ public class AppPropertiesTests extends BaseCommonTests {
 
         // Orders
         assertEquals(appProperties.getTestAmount(), 2L);
+
+        // Comment
+        assertEquals(appProperties.getTestContent(), "testContent");
+        assertEquals(appProperties.getTestModifiedContent(), "modifiedContent");
     }
 }
