@@ -179,6 +179,7 @@ operation::delete-product[snippets='curl-request,http-request,request-headers,ht
 
 operation::create-orders[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
 
+
 [[resources-email-find]]
 === 이메일 찾기
 
@@ -192,3 +193,47 @@ operation::find-email[snippets='curl-request,http-request,request-headers,http-r
 `PUT` 요청을 사용해서 임시 비밀번호를 발급받을 수 있다.
 
 operation::find-password[snippets='curl-request,http-request,request-headers,request-fields,http-response,response-headers,response-fields,links']
+
+
+[[resources-comment-load]]
+=== 댓글 조회
+
+`GET` 요청을 사용해서 댓글을 조회할 수 있다.
+
+operation::load-comment[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-comment-load-all]]
+=== 모든 댓글 조회
+
+`GET` 요청을 사용해서 모든 댓글을 조회할 수 있다.
+
+operation::load-all-comments[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-comment-create]]
+=== 댓글 생성
+
+`POST` 요청을 사용해서 댓글을 생성할 수 있다.
+
+operation::create-comment[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-comment-modify]]
+=== 댓글 수정
+
+`PUT` 요청을 사용해서 댓글을 수정할 수 있다.
+
+operation::modify-comment[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+[[resources-email-verify]]
+=== 이메일 인증
+
+`POST` 요청을 사용해서 이메일을 인증할 수 있다.
+
+operation::verify-email[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
+
+
+[[resources-code-verify]]
+=== 인증번호 인증
+
+`PUT` 요청을 사용해서 인증번호를 인증할 수 있다.
+
+operation::verify-code[snippets='curl-request,http-request,request-headers,http-response,response-headers,response-fields,links']
