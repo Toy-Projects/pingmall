@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.kiseok.pingmall.api.exception.account.BalanceShortageException;
 import com.kiseok.pingmall.common.domain.BaseTimeEntity;
+import com.kiseok.pingmall.common.domain.comment.Comment;
 import com.kiseok.pingmall.common.domain.order.Orders;
 import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
@@ -54,8 +55,12 @@ public class Account extends BaseTimeEntity {
     private Set<Orders> orders;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "seller", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Product> sellProducts;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<Comment> comments;
 
     public void addBalance(AccountDepositRequestDto requestDto) {
         this.balance += requestDto.getBalance();

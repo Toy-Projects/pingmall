@@ -2,12 +2,16 @@ package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.common.domain.comment.Comment;
+import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountModifyRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
 import com.kiseok.pingmall.web.dto.account.AccountResponseDto;
+import com.kiseok.pingmall.web.dto.comment.CommentRequestDto;
+import com.kiseok.pingmall.web.dto.product.ProductResponseDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +28,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
@@ -57,6 +62,8 @@ class AccountControllerTests extends BaseControllerTests {
 
     @AfterEach
     void tearDown()    {
+        this.commentRepository.deleteAll();
+        this.productRepository.deleteAll();
         this.accountRepository.deleteAll();
         this.verificationRepository.deleteAll();
     }
@@ -1042,6 +1049,208 @@ class AccountControllerTests extends BaseControllerTests {
                         )
                 ))
         ;
+    }
+
+    @DisplayName("사용자 삭제 -> 사용자가 등록한 제품 삭제")
+    @Test
+    void delete_account_with_product() throws Exception {
+        // user_1 등록
+        ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String accountAsString = accountActions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto accountResponseDto = objectMapper.readValue(accountAsString, AccountResponseDto.class);
+        String jwt = generateToken(accountActions);
+
+        // user_1의 제품 등록
+        this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createProductRequestDto()))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        // user_1 삭제
+        this.mockMvc.perform(delete(ACCOUNT_URL + accountResponseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+
+        // user_1 등록한 제품이 삭제되었는지 확인
+        List<Product> productList = this.productRepository.findAll();
+        assertEquals(productList.size(), 0);
+
+    }
+
+    @DisplayName("유저 삭제 -> 유저가 등록한 제품에 등록된 댓글들 삭제")
+    @Test
+    void delete_account_with_product_with_comment() throws Exception    {
+        // user_1 등록
+        ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String accountAsString = accountActions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto accountResponseDto = objectMapper.readValue(accountAsString, AccountResponseDto.class);
+        String jwt = generateToken(accountActions);
+
+        // user_1의 제품 등록
+        ResultActions productActions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createProductRequestDto()))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String productAsString = productActions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto productResponseDto = objectMapper.readValue(productAsString, ProductResponseDto.class);
+
+        // user_2 등록
+        ResultActions anotherAccountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAnotherAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String anotherJwt = generateToken(anotherAccountActions);
+
+        // user_1이 등록한 제품에 user_2가 댓글 등록
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(commentRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        // user_1 삭제
+        this.mockMvc.perform(delete(ACCOUNT_URL + accountResponseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+
+        // user_1이 등록한 제품이 삭제되었는지 확인
+        List<Product> productList = this.productRepository.findAll();
+        assertEquals(productList.size(), 0);
+
+        // user_1이 등록한 제품에 등록된 댓글이 삭제되었는지 확인
+        List<Comment> commentList = this.commentRepository.findAll();
+        assertEquals(commentList.size(), 0);
+    }
+
+    @DisplayName("유저 삭제 -> 유저가 등록한 댓글 삭제")
+    @Test
+    void delete_account_with_comment() throws Exception {
+        // user_1 등록
+        ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String accountAsString = accountActions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto accountResponseDto = objectMapper.readValue(accountAsString, AccountResponseDto.class);
+        String jwt = generateToken(accountActions);
+
+        // user_2 등록
+        ResultActions anotherAccountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAnotherAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String anotherJwt = generateToken(anotherAccountActions);
+
+        // user_2의 제품 등록
+        ResultActions productActions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createProductRequestDto()))
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String productAsString = productActions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto productResponseDto = objectMapper.readValue(productAsString, ProductResponseDto.class);
+
+        // user_2가 등록한 제품에 user_1이 댓글 등록
+        CommentRequestDto commentRequestDto = createCommentRequestDto(productResponseDto.getId());
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(commentRequestDto))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isCreated())
+        ;
+
+        // user_1 삭제
+        this.mockMvc.perform(delete(ACCOUNT_URL + accountResponseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+
+        // user_1이 등록한 댓글이 삭제되었는지 확인
+        List<Comment> commentList = this.commentRepository.findAll();
+        assertEquals(commentList.size(), 0);
+    }
+    // TODO 유저 삭제 -> 유저가 등록한 주문 삭제(보류)
+
+    @DisplayName("유저 삭제 -> 유저의 인증정보가 담긴 Verification 삭제")
+    @Test
+    void delete_account_with_verification() throws Exception    {
+        // user_1 등록
+        ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                ;
+
+        String accountAsString = accountActions.andReturn().getResponse().getContentAsString();
+        AccountResponseDto accountResponseDto = objectMapper.readValue(accountAsString, AccountResponseDto.class);
+        String jwt = generateToken(accountActions);
+
+        // user_1 삭제
+        this.mockMvc.perform(delete(ACCOUNT_URL + accountResponseDto.getId())
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isOk())
+        ;
+
+        Verification verification = verificationRepository.findByEmail(accountResponseDto.getEmail()).get();
+        assertFalse(verification.getIsVerified());
     }
 
     private static Stream<Arguments> validSaveAccount()   {

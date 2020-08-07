@@ -47,13 +47,13 @@ public class Product extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     private Set<Orders> orders;
 
     @ManyToOne
     private Account seller;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Comment> comment;
 
     public void reduceStock(OrdersRequestDto requestDto) {

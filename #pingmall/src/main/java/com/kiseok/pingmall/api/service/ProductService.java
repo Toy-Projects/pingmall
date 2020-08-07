@@ -61,7 +61,6 @@ public class ProductService {
         Product product = isProductExist(productId);
         isUserIdMatch(account, product);
         productRepository.delete(product);
-        account.getSellProducts().remove(product);
 
         return modelMapper.map(product, ProductResponseDto.class);
     }

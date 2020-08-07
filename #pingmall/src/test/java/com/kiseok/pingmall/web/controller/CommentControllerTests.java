@@ -903,6 +903,11 @@ public class CommentControllerTests extends BaseControllerTests {
         ;
     }
 
+    // TODO 댓글 삭제 시 -> 사용자가 등록한 댓글 삭제
+
+    // TODO 댓글 삭제 시 -> 제품에 등록된 댓글 삭제
+
+
     private String createAccountAndJwt(AccountRequestDto requestDto) throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)

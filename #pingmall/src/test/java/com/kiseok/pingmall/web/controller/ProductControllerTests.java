@@ -1,6 +1,7 @@
 package com.kiseok.pingmall.web.controller;
 
 import com.kiseok.pingmall.common.domain.account.AccountRole;
+import com.kiseok.pingmall.common.domain.comment.Comment;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
 import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
@@ -23,6 +24,7 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
@@ -933,53 +935,68 @@ class ProductControllerTests extends BaseControllerTests {
         ;
     }
 
-    @DisplayName("유저 삭제시 판매 제품과 함께 삭제 -> 200 OK")
-    @Test
-    void delete_account_cascade_product_200() throws Exception    {
-        String token = createAccountAndToken();
-        ProductRequestDto requestDto = createProductRequestDto();
+    // TODO 제품 삭제 시 -> 사용자가 등록한 제품 삭제
 
-        ResultActions actions = this.mockMvc.perform(post(PRODUCT_URL)
+    @DisplayName("제품 삭제 시 -> 제품에 등록된 모든 댓글 삭제")
+    @Test
+    void delete_product_with_comment() throws Exception {
+        // user_1생성
+        ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestDto))
-                .header(HttpHeaders.AUTHORIZATION, token))
+                .content(objectMapper.writeValueAsString(createAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String jwt = generateToken(accountActions);
+
+        // user_1의 제품 생성
+        ResultActions productActions = this.mockMvc.perform(post(PRODUCT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createProductRequestDto()))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String productAsString = productActions.andReturn().getResponse().getContentAsString();
+        ProductResponseDto productResponseDto = objectMapper.readValue(productAsString, ProductResponseDto.class);
+
+        // user_2생성
+        ResultActions anotherAccountActions = this.mockMvc.perform(post(ACCOUNT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAnotherAccountRequestDto())))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+        String anotherJwt = generateToken(anotherAccountActions);
+
+        // user_2가 user_1의 제품에 댓글 등록
+        this.mockMvc.perform(post(COMMENT_URL)
+                .accept(MediaTypes.HAL_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createCommentRequestDto(productResponseDto.getId())))
+                .header(HttpHeaders.AUTHORIZATION, anotherJwt))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("id").exists())
-                .andExpect(jsonPath("name").value(appProperties.getTestProductName()))
-                .andExpect(jsonPath("image").value(appProperties.getTestImage()))
-                .andExpect(jsonPath("size").value(appProperties.getTestSize()))
-                .andExpect(jsonPath("price").value(appProperties.getTestPrice()))
-                .andExpect(jsonPath("stock").value(appProperties.getTestStock()))
-                .andExpect(jsonPath("category").value(ProductCategory.ACCESSORY.name()))
-                .andExpect(jsonPath("seller").exists())
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.load-all-products").exists())
-                .andExpect(jsonPath("_links.load-product").exists())
-                .andExpect(jsonPath("_links.create-product-image").exists())
-                .andExpect(jsonPath("_links.modify-product").exists())
-                .andExpect(jsonPath("_links.delete-product").exists())
-                .andExpect(jsonPath("_links.create-orders").exists())
-                .andExpect(jsonPath("_links.profile").exists())
         ;
 
-        String contentAsString = actions.andReturn().getResponse().getContentAsString();
-        ProductResponseDto responseDto = objectMapper.readValue(contentAsString, ProductResponseDto.class);
-        Long accountId =  responseDto.getSeller().getId();
-
-        this.mockMvc.perform(delete(ACCOUNT_URL + accountId)
+        // user_1이 자신의 제품 삭제
+        this.mockMvc.perform(delete(PRODUCT_URL + productResponseDto.getId())
                 .accept(MediaTypes.HAL_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header(HttpHeaders.AUTHORIZATION, token))
+                .header(HttpHeaders.AUTHORIZATION, jwt))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("_links.self").exists())
-                .andExpect(jsonPath("_links.create-account").exists())
-                .andExpect(jsonPath("_links.login-account").exists())
-                .andExpect(jsonPath("_links.profile").exists())
         ;
+
+        // user_1에 등록된 댓글이 삭제 되었는지 확인
+        List<Comment> commentList = commentRepository.findAll();
+        assertEquals(commentList.size(), 0);
     }
+
+    // TODO 제품 삭제 시 -> 해당 제품이 포함된 주문 삭제(보류)
 
     private String createAccountAndToken() throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)

@@ -32,6 +32,6 @@ public class Verification extends BaseTimeEntity {
     private Boolean isVerified = false;
 
     public void verified() {
-        this.isVerified = true;
+        this.isVerified = !isVerified;
     }
 }
