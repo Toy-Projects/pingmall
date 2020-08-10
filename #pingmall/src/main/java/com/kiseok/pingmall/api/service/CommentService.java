@@ -40,7 +40,6 @@ public class CommentService {
         Product product = isExistProduct(requestDto.getProductId());
         Comment comment = commentRepository.save(requestDto.toEntity(currentUser, product));
         product.getComment().add(comment);
-        productRepository.save(product);
 
         return modelMapper.map(comment, CommentResponseDto.class);
     }
