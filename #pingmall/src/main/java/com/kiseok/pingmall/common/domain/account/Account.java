@@ -51,7 +51,7 @@ public class Account extends BaseTimeEntity {
     private AccountRole accountRole;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Orders> orders;
 
     @JsonIgnore

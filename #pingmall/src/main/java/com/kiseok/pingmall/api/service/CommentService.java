@@ -44,8 +44,11 @@ public class CommentService {
         Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
         Comment comment = requestDto.toEntity(currentUser, product);
         product.getComment().add(comment);
+<<<<<<< HEAD
         account.getComments().add(comment);
         comment = commentRepository.save(comment);
+=======
+>>>>>>> release/1.1
 
         return modelMapper.map(comment, CommentResponseDto.class);
     }

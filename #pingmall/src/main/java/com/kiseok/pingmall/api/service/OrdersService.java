@@ -31,16 +31,16 @@ public class OrdersService {
         Account account = accountRepository.findById(currentUser.getId()).orElseThrow(UserNotFoundException::new);
         isAvailableOrder(account, requestDtoList);
         requestDtoList.forEach(requestDto -> {
-            Product product = productRepository.findById(requestDto.getProductId()).get();
+            Product product = productRepository.findById(requestDto.getProductId()).orElseThrow(ProductNotFoundException::new);
             isEqualsToUserId(account, product);
             account.reduceBalance(requestDto, product.getPrice());
             product.reduceStock(requestDto);
             Orders orders = requestDto.toEntity(account, product);
+            orders = ordersRepository.save(orders);
             account.getOrders().add(orders);
             product.getOrders().add(orders);
             accountRepository.save(account);
             productRepository.save(product);
-            orders = ordersRepository.save(orders);
             OrdersResponseDto responseDto = modelMapper.map(orders, OrdersResponseDto.class);
             responseDtoList.add(responseDto);
         });
