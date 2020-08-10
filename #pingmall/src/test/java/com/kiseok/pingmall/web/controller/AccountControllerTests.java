@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
@@ -1222,6 +1221,7 @@ class AccountControllerTests extends BaseControllerTests {
         List<Comment> commentList = this.commentRepository.findAll();
         assertEquals(commentList.size(), 0);
     }
+
     // TODO 유저 삭제 -> 유저가 등록한 주문 삭제(보류)
 
     @DisplayName("유저 삭제 -> 유저의 인증정보가 담긴 Verification 삭제")

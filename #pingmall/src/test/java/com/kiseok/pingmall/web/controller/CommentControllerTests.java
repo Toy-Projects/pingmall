@@ -1,6 +1,8 @@
 package com.kiseok.pingmall.web.controller;
 
+import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.comment.CommentType;
+import com.kiseok.pingmall.common.domain.product.Product;
 import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.web.common.BaseControllerTests;
 import com.kiseok.pingmall.web.dto.account.AccountRequestDto;
@@ -27,6 +29,7 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
@@ -901,12 +904,13 @@ public class CommentControllerTests extends BaseControllerTests {
                         )
                 ))
         ;
+
+        Account account = accountRepository.findByEmail(createAccountRequestDto().getEmail()).get();
+        Product product = productRepository.findById(responseDto.getProduct().getId()).get();
+
+        assertTrue(account.getComments().isEmpty());
+        assertTrue(product.getComment().isEmpty());
     }
-
-    // TODO 댓글 삭제 시 -> 사용자가 등록한 댓글 삭제
-
-    // TODO 댓글 삭제 시 -> 제품에 등록된 댓글 삭제
-
 
     private String createAccountAndJwt(AccountRequestDto requestDto) throws Exception {
         ResultActions actions = this.mockMvc.perform(post(ACCOUNT_URL)

@@ -1,5 +1,6 @@
 package com.kiseok.pingmall.web.controller;
 
+import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountRole;
 import com.kiseok.pingmall.common.domain.comment.Comment;
 import com.kiseok.pingmall.common.domain.product.ProductCategory;
@@ -24,7 +25,7 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import static com.kiseok.pingmall.common.resources.RestDocsResource.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
@@ -933,9 +934,10 @@ class ProductControllerTests extends BaseControllerTests {
                         )
                 ))
         ;
-    }
 
-    // TODO 제품 삭제 시 -> 사용자가 등록한 제품 삭제
+        Account account = accountRepository.findByEmail(createAccountRequestDto().getEmail()).get();
+        assertTrue(account.getSellProducts().isEmpty());
+    }
 
     @DisplayName("제품 삭제 시 -> 제품에 등록된 모든 댓글 삭제")
     @Test

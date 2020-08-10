@@ -32,9 +32,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import java.util.UUID;
-
 import static com.kiseok.pingmall.common.config.jwt.JwtConstants.PREFIX;
 
 @ExtendWith(SpringExtension.class)
