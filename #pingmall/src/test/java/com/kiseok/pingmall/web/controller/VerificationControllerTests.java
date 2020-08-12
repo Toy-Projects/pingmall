@@ -7,6 +7,7 @@ import com.kiseok.pingmall.web.dto.verification.VerificationCodeRequestDto;
 import com.kiseok.pingmall.web.dto.verification.VerificationEmailRequestDto;
 import com.kiseok.pingmall.web.dto.verification.VerificationResponseDto;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
