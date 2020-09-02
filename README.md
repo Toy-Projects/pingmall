@@ -33,7 +33,7 @@
 spring:
   datasource:                           # DB 관련 설정
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/{DB_NAME}?characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/{DB_NAME}?characterEncoding=utf8&serverTimezone=UTC
     username: {DB_USER}
     password: {DB_PASSWORD}
   jpa:                                  # JPA 관련 설정
