@@ -68,7 +68,7 @@ class AccountControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("유저 생성 시 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, password={1}, name={2}, address={3}, balance={4}")
     @MethodSource("validSaveAccount")
     void save_account_invalid_400(String email, String password, String name, String address, Long balance) throws Exception    {
         AccountRequestDto requestDto = AccountRequestDto.builder()
@@ -325,7 +325,7 @@ class AccountControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("유저 잔액 추가 유효성 검사 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) balance={0}")
     @ValueSource(longs = {0L, 10000000L})
     void deposit_account_invalid_400(Long balance) throws Exception {
         AccountRequestDto requestDto = createAccountRequestDto();
@@ -616,7 +616,7 @@ class AccountControllerTests extends BaseControllerTests {
 
 
     @DisplayName("유저 수정 유효성 검사 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) password={0}, name={1}, address={2}")
     @MethodSource("validModifyAccount")
     void modify_account_invalid_400(String password, String name, String address) throws Exception  {
         AccountRequestDto requestDto = createAccountRequestDto();

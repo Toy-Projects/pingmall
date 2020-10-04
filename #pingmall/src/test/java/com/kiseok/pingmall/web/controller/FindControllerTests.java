@@ -79,7 +79,7 @@ public class FindControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("Email 찾기 유효성 검사 실패 -> 404 NOT_FOUND")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) name={0}")
     @ValueSource(strings = {"", " ", "yks"})
     void find_email_invalid_404(String name) throws Exception  {
         this.mockMvc.perform(get(FIND_EMAIL_URL)
@@ -139,7 +139,7 @@ public class FindControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("Password찾기 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, name={1}")
     @MethodSource("validFindPassword")
     void find_password_invalid_400(String email, String name) throws Exception  {
         FindPasswordRequestDto requestDto = createFindPasswordRequestDto(email, name);
@@ -164,7 +164,7 @@ public class FindControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("Password 찾을 때 DB에 없는 유저 찾을 시 -> 404 NOT_FOUND")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, name{1}")
     @MethodSource("noneExistFindPassword")
     void find_password_not_exist_404(String email, String name) throws Exception  {
         FindPasswordRequestDto requestDto = createFindPasswordRequestDto(email, name);

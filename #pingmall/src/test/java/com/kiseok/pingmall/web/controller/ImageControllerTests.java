@@ -327,7 +327,7 @@ class ImageControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("이미지가 아닌 파일 저장 시 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) extension={0}")
     @ValueSource(strings = {".txt", ".gif", ".hwp", ".ppt"})
     void save_image_not_support_400(String extension) throws Exception  {
         ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)
@@ -395,7 +395,7 @@ class ImageControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("정상적으로 이미지 저장 -> 201 CREATED")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) extension={0}")
     @ValueSource(strings = {".png", ".jpg", ".jpeg"})
     void save_image_201(String extension) throws Exception  {
         ResultActions accountActions = this.mockMvc.perform(post(ACCOUNT_URL)

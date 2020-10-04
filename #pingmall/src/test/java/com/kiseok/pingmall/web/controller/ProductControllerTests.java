@@ -67,7 +67,7 @@ class ProductControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("제품 등록 시 유효성 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) name={0}, size={1}, price={2}, stock={3}, category={4}")
     @MethodSource("validProduct")
     void save_product_invalid_400(String name, String size, Long price, Long stock, ProductCategory category) throws Exception  {
         String token = createAccountAndToken();
@@ -462,7 +462,7 @@ class ProductControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("제품 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) name={0}, size={1}, price={2}, stock={3}, category={4}")
     @MethodSource("validProduct")
     void modify_product_invalid_400(String name, String size, Long price, Long stock, ProductCategory category) throws Exception {
         String token = createAccountAndToken();

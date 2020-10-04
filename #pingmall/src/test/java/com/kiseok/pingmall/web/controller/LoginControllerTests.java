@@ -77,7 +77,7 @@ class LoginControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("로그인 시 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, password={1}")
     @MethodSource("validLoginAccount")
     void login_account_invalid_400(String email, String password) throws Exception   {
         LoginRequestDto requestDto = LoginRequestDto.builder()
@@ -105,7 +105,7 @@ class LoginControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("로그인 실패 -> 401 UNAUTHORIZED")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, password={1}")
     @MethodSource("failedLoginAccount")
     void login_account_failed_401(String email, String password) throws Exception   {
         LoginRequestDto requestDto = LoginRequestDto.builder()

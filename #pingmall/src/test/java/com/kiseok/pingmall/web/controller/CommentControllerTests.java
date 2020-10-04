@@ -71,7 +71,7 @@ public class CommentControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("댓글 저장시 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) content={0}, commentType={1}, productId={2}")
     @MethodSource("validSaveComment")
     void save_comment_invalid_400(String content, CommentType commentType, Long productId) throws Exception    {
         String jwt = createAccountAndJwt(createAnotherAccountRequestDto());
@@ -481,7 +481,7 @@ public class CommentControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("댓글 수정 시 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) content={0}, commentType={1}")
     @CsvSource({", EPILOGUE", " , EPILOGUE"})
     void modify_comment_invalid_400(String content, CommentType commentType) throws Exception  {
         String jwt = createAccountAndJwt(createAccountRequestDto());

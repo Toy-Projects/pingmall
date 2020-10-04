@@ -43,7 +43,7 @@ public class VerificationControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("이메일 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}")
     @ValueSource(strings = {"", " ", "test.com", "test", "test@", ".com"})
     void valid_email_invalid_400(String email) throws Exception {
         VerificationEmailRequestDto verificationEmailRequestDto = VerificationEmailRequestDto.builder()
@@ -201,7 +201,7 @@ public class VerificationControllerTests extends BaseControllerTests {
     }
 
     @DisplayName("인증번호 유효성 검사 실패 -> 400 BAD_REQUEST")
-    @ParameterizedTest(name = "{index} {displayName} message={0}")
+    @ParameterizedTest(name = "{index}) email={0}, verificationCode={1}")
     @MethodSource("validVerifyCode")
     void valid_code_invalid_400(String email, String verificationCode) throws Exception {
         VerificationEmailRequestDto verificationEmailRequestDto = createVerificationEmailRequestDto();
