@@ -1,7 +1,6 @@
 package com.kiseok.pingmall.web.dto.verification;
 
 import lombok.*;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 

@@ -7,8 +7,6 @@ import com.kiseok.pingmall.api.exception.account.UserNotVerifiedException;
 import com.kiseok.pingmall.common.domain.account.Account;
 import com.kiseok.pingmall.common.domain.account.AccountAdapter;
 import com.kiseok.pingmall.common.domain.account.AccountRepository;
-import com.kiseok.pingmall.common.domain.comment.Comment;
-import com.kiseok.pingmall.common.domain.comment.CommentRepository;
 import com.kiseok.pingmall.common.domain.verification.Verification;
 import com.kiseok.pingmall.common.domain.verification.VerificationRepository;
 import com.kiseok.pingmall.web.dto.account.AccountDepositRequestDto;
@@ -22,9 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
