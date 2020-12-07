@@ -20,8 +20,12 @@ jobs:
         java-version: 1.8
     - name: pwd
       run: pwd
-    - name: cd #pingmall
-      run: cd #pingmall
+    - name: list
+      run: ls -al
+    - name: before dir
+      run: cd..
+    - name: list2
+      run: ls -al
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
