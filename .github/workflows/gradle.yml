@@ -19,4 +19,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Move dir and Grant execute permission for gradlew and Build with Gradle
-      run: cd \#pingmall && pwd && ls -al && chmod +x gradlew && /gradlew build
+      run: cd \#pingmall && pwd && ls -al && chmod +x gradlew && ./gradlew clean build
