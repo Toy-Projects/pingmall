@@ -18,9 +18,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: move dir
-      run: pwd && ls -al && cd \#pingmall && pwd && ls -al
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: /gradlew build
+    - name: Move dir and Grant execute permission for gradlew and Build with Gradle
+      run: cd \#pingmall && pwd && ls -al && chmod +x gradlew && /gradlew build
