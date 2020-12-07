@@ -22,6 +22,12 @@ jobs:
       run: pwd
     - name: list
       run: ls -al
+    - name: move before dir
+      run: cd ..
+    - name: pwd
+      run: pwd
+    - name: list
+      run: ls -al
     - name: into project dir
       run: cd \#pingmall
     - name: pwd2
